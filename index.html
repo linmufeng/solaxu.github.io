@@ -285,7 +285,7 @@
 <li>类型、term（或者说symbol），两者在函数式编程中是分离的；而在C/C++ like的语言中，绝大部分时候两者之间是视为一体的。</li>
 <li>C++中，任何时候的操作都是在一个值上面，这使得很多时候人们会将值与过程分开看待；而在函数式编程中函数本身也被视为是一个值（其实可以换一个角度去理解：对值的操作其实是对一段内存的操作；代码本身就需要被放置在代码段，自然可以被视为是一个值。当然由于代码段是只读的，那么我们可以对它的一个副本进新操作，操作这个副本在计算机看来跟操作一个值并没有什么区别）。</li>
 </ul>
-<h1 id="u72B6_u6001_u673A"><a href="#u72B6_u6001_u673A" class="headerlink" title="状态机"></a><strong>状态机</strong></h1><hr>
+<h2 id="u72B6_u6001_u673A"><a href="#u72B6_u6001_u673A" class="headerlink" title="状态机"></a><strong>状态机</strong></h2><hr>
 <p>提到状态就不能不提状态机，我们最常听到的就是图形库以及词法/语法分析时候的状态机。实际上，前面的C++代码就是一个微型的状态机的例子。这里再举例简单的例子说明一个我个人入门时用的基于tire树的状态机，该结构可以用来解决多模板的字符串匹配问题（该问题可以在刘汝佳《算法竞赛入门经典——训练指南》中“实用数据结构——Aho-Corasick自动机”部分找到）。这里用它来说明词法分析的大致过程（嗯，我需要学习一下怎么制图了，用ASCII作画好低效劣质……）。</p>
 <p>假设我们有6个关键字[<code>if</code>, <code>ifel</code>, <code>int</code>, <code>for</code>, <code>foreach</code>, <code>float</code>]，那么我们的Token状态可以有[<code>TK_IF</code>, <code>TK_IFEL</code>, <code>TK_FOR</code>, <code>TK_FOREACH</code>, <code>TK_ID</code>, <code>TK_INT</code>, <code>TK_FLOAT</code>, <code>TK_START</code>, <code>TK_END</code>]。</p>
 <p>对于6个关键字我们可以首先将其组织为一个<code>tire</code>树：</p>
