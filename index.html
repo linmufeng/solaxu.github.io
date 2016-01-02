@@ -187,15 +187,6 @@
 
     
     
-      
-      
-        
-        
-        
-      
-
-      
-    
 
     
       
@@ -361,7 +352,7 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X’ = X*Width*<span class="number">0.5</span> + Width/<span class="number">2</span> + ViewPort.Left</span><br><span class="line">Y’ = (-<span class="number">1</span>)*Y*Height*<span class="number">0.5</span> - Height/<span class="number">2</span> + ViewPort.Top</span><br><span class="line"></span><br><span class="line">|      width*<span class="number">0.5</span>                <span class="number">0</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|              <span class="number">0</span>      -height*<span class="number">0.5</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|              <span class="number">0</span>                <span class="number">0</span>     <span class="number">1</span>   <span class="number">0</span> |</span><br><span class="line">| width*<span class="number">0.5</span>+left  -height*<span class="number">0.5</span>+top     <span class="number">0</span>   <span class="number">1</span> |</span><br></pre></td></tr></table></figure>
 <p>这便是最终的视口变换矩阵了。</p>
 <h1 id="u7ED3_u8BED"><a href="#u7ED3_u8BED" class="headerlink" title="结语"></a><strong>结语</strong></h1><p>矩阵推导的部分终于结束了，重新编码的Software Renderer的数学运算部分也基本完成，这些应该是足以支撑整个程序了。上面的推导过程比较长，但这些东西是图形学的入门基础。虽然直接跟着DX或者OpenGL的教程走能写出来东西，但如果不彻底搞明白这些的话，但后面学习肯定会遇到瓶颈，以至于不得不回过头来再过一遍（我自己就属于这种情况……）。虽然这些东西在很多书上都会提及到，但是相当一部分也只是列出结果，对于思考过程语焉不详，即便有心也不一定知道如何下手，从而导致图形学上手困难。这里把我自己在推导这些矩阵的思考过程集中记录下来，以便在以后需要的时候能够帮助自己复习，同时也希望能够帮助一些刚开始学习图形学的人。</p>
-<p>除了数学过程，Software Rednerer推翻了原定使用GDI的打算，与《3D大师编程技巧》一样，使用DDraw来实现了，原因么，我只是自己想做做看而已。目前已搭好了基本的框架，可以在屏幕上点亮一些像素了:D</p>
+<p>除了数学过程，Software Renderer推翻了原定使用GDI的打算，与《3D大师编程技巧》一样，使用DDraw来实现了，原因么，我只是自己想做做看而已。目前已搭好了基本的框架，可以在屏幕上点亮一些像素了:D</p>
 
             
           </span>
