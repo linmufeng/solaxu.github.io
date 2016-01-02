@@ -52,24 +52,24 @@
 
 
 <meta name="description" content="写在前面
-最近打算把之前写过的一个简易的仿DX固定管线的Software Rednerer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正">
+最近打算把之前写过的一个简易的仿DX固定管线的Software Renderer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图形管线中的矩阵运算">
 <meta property="og:url" content="http://solaxu.github.io/2015/12/31/图形管线中的矩阵运算/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
 <meta property="og:description" content="写在前面
-最近打算把之前写过的一个简易的仿DX固定管线的Software Rednerer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正">
+最近打算把之前写过的一个简易的仿DX固定管线的Software Renderer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttgw1eziydr1mv1j30jp0gbqgg.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw690/006lhMttgw1ezj8kxfu7gj30ki07k75z.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttgw1ezjx3y55cfj30cc090wfa.jpg">
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttgw1ezk2h1nzhyj30dw0dwq3b.jpg">
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttgw1ezk2j1ih2qj30dw0dwt99.jpg">
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttgw1ezk7f3xtcrj30bz0b1my5.jpg">
-<meta property="og:updated_time" content="2016-01-01T14:06:55.131Z">
+<meta property="og:updated_time" content="2016-01-02T08:27:15.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图形管线中的矩阵运算">
 <meta name="twitter:description" content="写在前面
-最近打算把之前写过的一个简易的仿DX固定管线的Software Rednerer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正">
+最近打算把之前写过的一个简易的仿DX固定管线的Software Renderer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正">
 
 
 
@@ -260,7 +260,7 @@
 
       
         <span itemprop="articleBody"><h1 id="u5199_u5728_u524D_u9762"><a href="#u5199_u5728_u524D_u9762" class="headerlink" title="写在前面"></a><strong>写在前面</strong></h1><hr>
-<p>最近打算把之前写过的一个简易的仿DX固定管线的Software Rednerer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正常工作）。</p>
+<p>最近打算把之前写过的一个简易的仿DX固定管线的Software Renderer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正常工作）。</p>
 <p>这次重新整理编码，打算给这个玩意儿再加上一些features，比如光照，Alpha混合之类。如果情况允许的话会想尝试把DX中可编程管线部分使用脚本来模拟一下，不过这个不属于核心部分，可能不会去做，不过至少作为一个想法，这里先记一下吧。</p>
 <p>这次重新编码的过程会被记录在一个文件中，这个文件也一并上传到了Git，通过这个记录可以大致知晓编码过程中自己是怎么思考的，另外在Blog上也会写一些东西来记录一些重点作为笔记，尽量写得易懂一些，以便帮助理解以及日后复习。</p>
 <p>就“把复杂的东西讲得容易接受”这个事情吐个槽吧：有时候好像不加一些数学公式跟证明就显得很Low，显得没下功夫一样……难道必须加一些晦涩的东西才能显出有深度？</p>
