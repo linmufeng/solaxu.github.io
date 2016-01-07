@@ -187,15 +187,6 @@
 
     
     
-      
-      
-        
-        
-        
-      
-
-      
-    
 
     
       
@@ -314,7 +305,7 @@
 <h4 id="u5165_u53E3_uFF08Portal_uFF09"><a href="#u5165_u53E3_uFF08Portal_uFF09" class="headerlink" title="入口（Portal）"></a><strong>入口（Portal）</strong></h4><p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1ezr5904yeyj30ab05q74e.jpg" alt="Portal"></p>
 <p>上图说明了Portal的工作过程：最初的视景体<code>F1</code>经过入口<code>P1</code>得到新的视景体<code>F2</code>，<code>F2</code>经过<code>P2和P3</code>得到<code>F3和F4</code>……这是一个递归的过程，该过程中最重要的部分是新的视景体的生成。</p>
 <p>入口需要每一帧都需要重新进行计算，最终使用生成的一系列的视景体来对场景进行剔除。</p>
-<h4 id="u906E_u6321_u5254_u9664"><a href="#u906E_u6321_u5254_u9664" class="headerlink" title="遮挡剔除"></a><strong>遮挡剔除</strong></h4><p>遮挡剔除主要是为了消除一部分的重复绘制——在标准的3D绘制流程中，我们是由远及近对多边形进行绘制。设想两个物体，A距离投影平面的距离大于B，也就是A距离视距较远；并且投影之后A会被B完全覆盖掉，也就是视野中只能看到B。</p>
+<h3 id="u906E_u6321_u5254_u9664"><a href="#u906E_u6321_u5254_u9664" class="headerlink" title="遮挡剔除"></a><strong>遮挡剔除</strong></h3><p>遮挡剔除主要是为了消除一部分的重复绘制——在标准的3D绘制流程中，我们是由远及近对多边形进行绘制。设想两个物体，A距离投影平面的距离大于B，也就是A距离视距较远；并且投影之后A会被B完全覆盖掉，也就是视野中只能看到B。</p>
 <p>在上面的情况下，采取由远及近的绘制方式会导致A一定被绘制一遍，而实际上我们只需要绘制B即可，此时便可以采用遮挡剔除来避免对A的绘制了。</p>
 <p>遮挡剔除的一个关键是要处理好物体相应的遮挡关系——一般是以一个内接体和一个外接体来实现，通过求出遮挡体在投影之后的相互遮挡关系就可以了，或者对此类情况直接采用从前到后的绘制方式绘制（这种方式只是在光栅化部分消除了像素的重绘，但是坐标变换还是要做的）。</p>
 <h1 id="u7ED3_u8BED"><a href="#u7ED3_u8BED" class="headerlink" title="结语"></a><strong>结语</strong></h1><hr>
