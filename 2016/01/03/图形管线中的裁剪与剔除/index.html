@@ -52,14 +52,14 @@
 
 
 <meta name="description" content="正文
-前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的韩式3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。
+前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的还是3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。
 3D空间下的三角形裁剪与剔除背面剔除（背面消隐）这个方法是最为简单有效的三角形剔除方法之一了：只需要知道三角形的法线朝向N以及相机的朝向L即可——只有当三角形是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图形管线中的裁剪与剔除">
 <meta property="og:url" content="http://solaxu.github.io/2016/01/03/图形管线中的裁剪与剔除/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
 <meta property="og:description" content="正文
-前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的韩式3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。
+前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的还是3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。
 3D空间下的三角形裁剪与剔除背面剔除（背面消隐）这个方法是最为简单有效的三角形剔除方法之一了：只需要知道三角形的法线朝向N以及相机的朝向L即可——只有当三角形是">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttgw1ezmkllplbhj307r0673yl.jpg">
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezqybw9snpj30er05ydg5.jpg">
@@ -68,11 +68,11 @@
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezr2ons06jj30cr0cfmy5.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttjw1ezr3vbbmyij30l10cw3zm.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttjw1ezr5904yeyj30ab05q74e.jpg">
-<meta property="og:updated_time" content="2016-01-07T12:00:28.049Z">
+<meta property="og:updated_time" content="2016-01-13T11:23:29.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图形管线中的裁剪与剔除">
 <meta name="twitter:description" content="正文
-前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的韩式3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。
+前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的还是3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。
 3D空间下的三角形裁剪与剔除背面剔除（背面消隐）这个方法是最为简单有效的三角形剔除方法之一了：只需要知道三角形的法线朝向N以及相机的朝向L即可——只有当三角形是">
 
 
@@ -264,7 +264,7 @@
 
       
         <span itemprop="articleBody"><h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<p>前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的韩式3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。</p>
+<p>前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的还是3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。</p>
 <h2 id="3D_u7A7A_u95F4_u4E0B_u7684_u4E09_u89D2_u5F62_u88C1_u526A_u4E0E_u5254_u9664"><a href="#3D_u7A7A_u95F4_u4E0B_u7684_u4E09_u89D2_u5F62_u88C1_u526A_u4E0E_u5254_u9664" class="headerlink" title="3D空间下的三角形裁剪与剔除"></a><strong>3D空间下的三角形裁剪与剔除</strong></h2><h3 id="u80CC_u9762_u5254_u9664_uFF08_u80CC_u9762_u6D88_u9690_uFF09"><a href="#u80CC_u9762_u5254_u9664_uFF08_u80CC_u9762_u6D88_u9690_uFF09" class="headerlink" title="背面剔除（背面消隐）"></a><strong>背面剔除（背面消隐）</strong></h3><p>这个方法是最为简单有效的三角形剔除方法之一了：只需要知道三角形的法线朝向<code>N</code>以及相机的朝向<code>L</code>即可——只有当三角形是朝向观察者的时候，观察者才能看到它，否则三角形是不可见的，也就不会被绘制。</p>
 <p>已知向量点乘结果的符号是向量投影的方向，那么点乘结果为负的两个向量，它们相互的投影必然是方向相反的。这个性质可以用来判定三角形可见与否：当<code>Dot(N, L)</code>的结果为负的时候，三角形朝向观察者，可以绘制；否则不予绘制。这样就完成了背面剔除。</p>
 <p>至于三角形的法线方向是如何得到的，一般而言，我们以坐标系的标准环绕方向来计算。在本Software Renderer中是按照左手系，也就是顺时针方向为准。</p>
