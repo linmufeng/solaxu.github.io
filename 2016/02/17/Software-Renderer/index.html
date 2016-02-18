@@ -54,7 +54,7 @@
 <meta name="description" content="正文
 过年把以前写的那个自娱自乐的破烂Software Renderer又写了一遍，加了一些新的Features。代码依旧稀烂，以至于拿出去给人看都嫌丢脸——虽然差不多算是明了设计模式到底是个什么玩意儿，但这跟能写出好的代码完全是两码事情——不过好在是代码虽然是一坨，但还是能跑起来的。
 这里对比一下，姑且称之为版本一和版本二吧。
-数学两次的数学运算基本一直，版本二由于添加了近裁剪面裁剪，因此增加了">
+数学两次的数学运算基本一致，版本二由于添加了近裁剪面裁剪，因此增加了">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Software Renderer">
 <meta property="og:url" content="http://solaxu.github.io/2016/02/17/Software-Renderer/index.html">
@@ -62,7 +62,7 @@
 <meta property="og:description" content="正文
 过年把以前写的那个自娱自乐的破烂Software Renderer又写了一遍，加了一些新的Features。代码依旧稀烂，以至于拿出去给人看都嫌丢脸——虽然差不多算是明了设计模式到底是个什么玩意儿，但这跟能写出好的代码完全是两码事情——不过好在是代码虽然是一坨，但还是能跑起来的。
 这里对比一下，姑且称之为版本一和版本二吧。
-数学两次的数学运算基本一直，版本二由于添加了近裁剪面裁剪，因此增加了">
+数学两次的数学运算基本一致，版本二由于添加了近裁剪面裁剪，因此增加了">
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttjw1f12opshh61j30i80ef0wb.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw690/006lhMttjw1f12optezsbj303k03kt92.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw690/006lhMttjw1f12opu9t2pj303k03k74j.jpg">
@@ -70,13 +70,13 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttjw1f12rb1wbgyj309h0ahabo.jpg">
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttjw1f12s0a9bh6j30820b50tm.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttjw1f13s67wsnfj30zq0fojt4.jpg">
-<meta property="og:updated_time" content="2016-02-18T12:54:39.747Z">
+<meta property="og:updated_time" content="2016-02-18T12:57:42.662Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Software Renderer">
 <meta name="twitter:description" content="正文
 过年把以前写的那个自娱自乐的破烂Software Renderer又写了一遍，加了一些新的Features。代码依旧稀烂，以至于拿出去给人看都嫌丢脸——虽然差不多算是明了设计模式到底是个什么玩意儿，但这跟能写出好的代码完全是两码事情——不过好在是代码虽然是一坨，但还是能跑起来的。
 这里对比一下，姑且称之为版本一和版本二吧。
-数学两次的数学运算基本一直，版本二由于添加了近裁剪面裁剪，因此增加了">
+数学两次的数学运算基本一致，版本二由于添加了近裁剪面裁剪，因此增加了">
 
 
 
@@ -269,7 +269,7 @@
         <span itemprop="articleBody"><h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
 <p>过年把以前写的那个自娱自乐的破烂Software Renderer又写了一遍，加了一些新的Features。代码依旧稀烂，以至于拿出去给人看都嫌丢脸——虽然差不多算是明了设计模式到底是个什么玩意儿，但这跟能写出好的代码完全是两码事情——不过好在是代码虽然是一坨，但还是能跑起来的。</p>
 <p>这里对比一下，姑且称之为版本一和版本二吧。</p>
-<h2 id="u6570_u5B66"><a href="#u6570_u5B66" class="headerlink" title="数学"></a><strong>数学</strong></h2><p>两次的数学运算基本一直，版本二由于添加了近裁剪面裁剪，因此增加了对三角形进行切割的方法。</p>
+<h2 id="u6570_u5B66"><a href="#u6570_u5B66" class="headerlink" title="数学"></a><strong>数学</strong></h2><p>两次的数学运算基本一致，版本二由于添加了近裁剪面裁剪，因此增加了对三角形进行切割的方法。</p>
 <p>数学的内容基本都在前面图形相关的文里面谈到了，当然碰撞检测以及物理相关都没有涉及（较早的时候有参考过《Real Time Collision Detection》写过一些碰撞检测的代码，但时间太久，换电脑把代码倒腾丢了，具体内容也忘得差不多了，基本上就是OBB，AABB，Capsule，Sphere，Plane，Triangle，Ray，Segment之间的各种关系判定，求解特定交点等等）。</p>
 <p>两个版本都不包含四元数相关运算。</p>
 <h2 id="u603B_u89C8"><a href="#u603B_u89C8" class="headerlink" title="总览"></a><strong>总览</strong></h2><p>我们先按下光栅化部分关于Z-Buffer的话题，把它稍微放后一些。</p>
