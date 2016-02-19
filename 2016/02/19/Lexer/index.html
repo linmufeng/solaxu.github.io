@@ -51,25 +51,31 @@
 
 
 
-<meta name="description" content="前面说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……
+<meta name="description" content="前面
+说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……
 总结一下之前在编译课程上学到的东西，能写多少写多少吧，能代码示例就用代码示例，理论大部分人不喜欢，我也不喜欢，况且前面文里也有提到学到的编译理论大部分都还给老师去了。其实我倒是觉得把个编译搞得让人觉得索然无味大部分时候都是理论太多，讲了也不知道能干嘛……
 就从词法分析开始吧。
-正文Lexe">
+正文
+Le">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lexer">
 <meta property="og:url" content="http://solaxu.github.io/2016/02/19/Lexer/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="前面说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……
+<meta property="og:description" content="前面
+说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……
 总结一下之前在编译课程上学到的东西，能写多少写多少吧，能代码示例就用代码示例，理论大部分人不喜欢，我也不喜欢，况且前面文里也有提到学到的编译理论大部分都还给老师去了。其实我倒是觉得把个编译搞得让人觉得索然无味大部分时候都是理论太多，讲了也不知道能干嘛……
 就从词法分析开始吧。
-正文Lexe">
-<meta property="og:updated_time" content="2016-02-19T16:13:00.348Z">
+正文
+Le">
+<meta property="og:updated_time" content="2016-02-19T16:14:21.316Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lexer">
-<meta name="twitter:description" content="前面说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……
+<meta name="twitter:description" content="前面
+说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……
 总结一下之前在编译课程上学到的东西，能写多少写多少吧，能代码示例就用代码示例，理论大部分人不喜欢，我也不喜欢，况且前面文里也有提到学到的编译理论大部分都还给老师去了。其实我倒是觉得把个编译搞得让人觉得索然无味大部分时候都是理论太多，讲了也不知道能干嘛……
 就从词法分析开始吧。
-正文Lexe">
+正文
+Le">
 
 
 
@@ -259,10 +265,12 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><p>说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……</p>
+        <span itemprop="articleBody"><h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
+<p>说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……</p>
 <p>总结一下之前在编译课程上学到的东西，能写多少写多少吧，能代码示例就用代码示例，理论大部分人不喜欢，我也不喜欢，况且前面文里也有提到学到的编译理论大部分都还给老师去了。其实我倒是觉得把个编译搞得让人觉得索然无味大部分时候都是理论太多，讲了也不知道能干嘛……</p>
 <p>就从词法分析开始吧。</p>
-<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><p>Lexer的主要目的是将源代码文件切割成一个个的词素（lexeme），然后这些词素与其代表的类型、所在行号、列号等一系列属性组成一个记号（Token），以得到一个Token Stream来供语法分析使用。相对来Lexer说还是比较容易理解与实现的，至少比LR分析要好理解。</p>
+<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<p>Lexer的主要目的是将源代码文件切割成一个个的词素（lexeme），然后这些词素与其代表的类型、所在行号、列号等一系列属性组成一个记号（Token），以得到一个Token Stream来供语法分析使用。相对来Lexer说还是比较容易理解与实现的，至少比LR分析要好理解。</p>
 <p>呃，概念性的东西就不多讲了，举个例子：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (result) &#123; print (<span class="string">"Hello"</span>); &#125;</span><br></pre></td></tr></table></figure></p>
 <p>上面的一句代码可以切分由下列Token组成：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>  -&gt; 关键字<span class="keyword">while</span>，第<span class="number">0</span>行，第<span class="number">0</span>列</span><br><span class="line">(      -&gt; 左小括号，第<span class="number">0</span>行，第<span class="number">6</span>列</span><br><span class="line">result -&gt; 标识符，第<span class="number">0</span>行，第<span class="number">7</span>列</span><br><span class="line">)      -&gt; 右小括号，第<span class="number">0</span>行，第<span class="number">13</span>列</span><br><span class="line">&#123;      -&gt; 左大括号，第<span class="number">0</span>行，第<span class="number">15</span>列</span><br><span class="line">print  -&gt; 函数名，实际上也是标识符，第<span class="number">0</span>行，第<span class="number">17</span>列</span><br><span class="line">(      -&gt; 左小括号，第<span class="number">0</span>行，第<span class="number">24</span>列</span><br><span class="line"><span class="string">"Hello"</span>-&gt; 字符串，第<span class="number">0</span>行，第<span class="number">25</span>列</span><br><span class="line">)      -&gt; 右小括号，第<span class="number">0</span>行，第<span class="number">32</span>列</span><br><span class="line">;      -&gt; 分号，第<span class="number">0</span>行，第<span class="number">33</span>列</span><br><span class="line">&#125;      -&gt; 右大括号，第<span class="number">0</span>行，第<span class="number">35</span>列</span><br></pre></td></tr></table></figure></p>
 <p>可以看到空格是被略去了的。事实上，词法分析在进行分析的时候是将空格以及Tab都过滤掉了，当然还有换行。</p>
