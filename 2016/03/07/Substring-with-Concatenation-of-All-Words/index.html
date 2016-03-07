@@ -51,31 +51,25 @@
 
 
 
-<meta name="description" content="LeetCode: Subsets II
+<meta name="description" content="__
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
+You are given a string, s, and a list of words, words, that are all of the same length.
+Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once an">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Subsets II">
-<meta property="og:url" content="http://solaxu.github.io/2016/03/06/Subsets-II/index.html">
+<meta property="og:title" content="Substring with Concatenation of All Words">
+<meta property="og:url" content="http://solaxu.github.io/2016/03/07/Substring-with-Concatenation-of-All-Words/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="LeetCode: Subsets II
+<meta property="og:description" content="__
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
-<meta property="og:updated_time" content="2016-03-06T13:57:53.634Z">
+You are given a string, s, and a list of words, words, that are all of the same length.
+Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once an">
+<meta property="og:updated_time" content="2016-03-07T12:49:21.031Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Subsets II">
-<meta name="twitter:description" content="LeetCode: Subsets II
+<meta name="twitter:title" content="Substring with Concatenation of All Words">
+<meta name="twitter:description" content="__
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
+You are given a string, s, and a list of words, words, that are all of the same length.
+Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once an">
 
 
 
@@ -87,7 +81,7 @@ The solution set must">
   };
 </script>
 
-  <title> Subsets II | CrystalMaidenRampage </title>
+  <title> Substring with Concatenation of All Words | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +211,7 @@ The solution set must">
             
             
               
-                Subsets II
+                Substring with Concatenation of All Words
               
             
           </h1>
@@ -226,8 +220,8 @@ The solution set must">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-06T21:48:15+08:00" content="2016-03-06">
-              2016-03-06
+            <time itemprop="dateCreated" datetime="2016-03-07T20:38:24+08:00" content="2016-03-07">
+              2016-03-07
             </time>
           </span>
 
@@ -265,18 +259,25 @@ The solution set must">
       
 
       
-        <span itemprop="articleBody"><h1 id="LeetCode_3A_Subsets_II"><a href="#LeetCode_3A_Subsets_II" class="headerlink" title="LeetCode: Subsets II"></a><strong>LeetCode: Subsets II</strong></h1><hr>
+        <span itemprop="articleBody"><h1 id=""><a href="#" class="headerlink" title="__"></a><em>__</em></h1><hr>
 <blockquote>
-<p>Given a collection of integers that might contain duplicates, nums, return all possible subsets.</p>
-<p>Note:</p>
-<p>Elements in a subset must be in non-descending order.</p>
-<p>The solution set must not contain duplicate subsets.</p>
-<p>For example,</p>
-<p>If nums = [1,2,2], a solution is:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>],</span><br><span class="line">  [<span class="number">2</span>,<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>You are given a string, s, and a list of words, words, that are all of the same length.</p>
+<p>Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.</p>
+<p>For example, given:</p>
+<p>s: “barfoothefoobarman”</p>
+<p>words: [“foo”, “bar”]</p>
+<p>You should return the indices: [0,9].</p>
+<p>(order does not matter).</p>
 </blockquote>
-<p>从一个集合生成它的子集，要求所有子集元素非递减排序，不能有重复的子集。</p>
-<p>使用增量法生成子集（增量法是一个回溯算法），在此过程中判断集合是否重复。</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; result;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isVectorEqual</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; l,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; r)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l.size() != r.size())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; l.size(); ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (l[i] != r[i])</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 增量生成子集</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">subsets</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> begin, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; v)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = begin; i &lt; nums.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            v.push_back(nums[i]);</span><br><span class="line">            <span class="keyword">bool</span> exist = <span class="literal">false</span>;</span><br><span class="line">            <span class="comment">// 判断是否有重复的</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span> ; j &lt; result.size(); ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (isVectorEqual(result[j],v))</span><br><span class="line">                &#123;</span><br><span class="line">                    exist = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!exist)</span><br><span class="line">            &#123;</span><br><span class="line">                result.push_back(v);</span><br><span class="line">            &#125;</span><br><span class="line">            subsets(nums,i+<span class="number">1</span>,v);</span><br><span class="line">        &#125;</span><br><span class="line">        v.pop_back(); <span class="comment">// 回溯</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; subsetsWithDup(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        sort(nums.begin(),nums.end());<span class="comment">// 不排序是无法得到正确输出的</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; prefix;</span><br><span class="line">        result.push_back(prefix);<span class="comment">// 空集显然放在首位</span></span><br><span class="line">        subsets(nums,<span class="number">0</span>,prefix);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>首先将word list制成一个map。</p>
+<p>然后逐个字符循环：</p>
+<ul>
+<li>每次取一个单词，判断在不在map中，不在的话直接可以进行下一次循环；</li>
+<li>取得的单词如果存在于map中，将这个单词加入到一个新的mapNew中；在这一过程中注意更新已有单词的计数，如果计数超过map中的对应值，进行下一次循环；</li>
+<li>如果取够足量的单词后依旧未触发两个中断循环的条件，那么可以认为取单词时的位置为正确位置。</li>
+</ul>
+<p>解这道题目的时候脑袋瓜子抽了……</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; wordset;</span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; test;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; findSubstring(<span class="built_in">string</span> s, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; result;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (words.size() == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> result;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> size = words[<span class="number">0</span>].size();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; words.size(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">auto</span> it = wordset.find(words[i]);</span><br><span class="line">			<span class="keyword">if</span> (it == wordset.end())</span><br><span class="line">			&#123;</span><br><span class="line">				pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p(words[i], <span class="number">1</span>);</span><br><span class="line">				wordset.insert(p);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				it-&gt;second++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">string</span> substr;</span><br><span class="line">		<span class="keyword">int</span> cont = words.size() * size; <span class="comment">//每一小段的长度</span></span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span> ((i + cont) &lt;= s.length())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span> (counter &lt; cont)</span><br><span class="line">			&#123;</span><br><span class="line">				substr.push_back(s[i]);</span><br><span class="line">				<span class="keyword">if</span> (substr.size() == size)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">auto</span> wit = wordset.find(substr);</span><br><span class="line">					<span class="keyword">if</span> (wit == wordset.end())</span><br><span class="line">					&#123;</span><br><span class="line">						substr.clear();</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">auto</span> it = test.find(substr);</span><br><span class="line">					<span class="keyword">if</span> (it != test.end())</span><br><span class="line">					&#123;</span><br><span class="line">						it-&gt;second++;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p(substr, <span class="number">1</span>);</span><br><span class="line">						test.insert(p);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">if</span> (wordset[substr] &lt; test[substr])</span><br><span class="line">					&#123;</span><br><span class="line">						substr.clear();</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					substr.clear();</span><br><span class="line">				&#125;</span><br><span class="line">				++counter;</span><br><span class="line">				++i;</span><br><span class="line">			&#125;</span><br><span class="line">			i -= counter;</span><br><span class="line">			<span class="keyword">if</span> (counter == cont)</span><br><span class="line">			&#123;</span><br><span class="line">				result.push_back(i);</span><br><span class="line">			&#125;</span><br><span class="line">			test.clear();</span><br><span class="line">			++i;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -294,17 +295,13 @@ The solution set must">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/06/Add-Two-Numbers/" rel="next" title="Add Two Numbers">
-                <i class="fa fa-chevron-left"></i> Add Two Numbers
+              <a href="/2016/03/07/Spiral-Matrix/" rel="next" title="Spiral Matrix">
+                <i class="fa fa-chevron-left"></i> Spiral Matrix
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/07/Spiral-Matrix/" rel="prev" title="Spiral Matrix">
-                Spiral Matrix <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -418,7 +415,7 @@ The solution set must">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode_3A_Subsets_II"><span class="nav-number">1.</span> <span class="nav-text">LeetCode: Subsets II</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">__</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
