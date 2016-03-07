@@ -210,6 +210,142 @@
             
               
                 
+                <a class="post-title-link" href="/2016/02/17/Software-Renderer/" itemprop="url">
+                  Software Renderer
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-02-17T20:29:11+08:00" content="2016-02-17">
+              2016-02-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Graphics/" itemprop="url" rel="index">
+                    <span itemprop="name">Graphics</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<p>过年把以前写的那个自娱自乐的破烂Software Renderer又写了一遍，加了一些新的Features。代码依旧稀烂，以至于拿出去给人看都嫌丢脸——虽然差不多算是明了设计模式到底是个什么玩意儿，但这跟能写出好的代码完全是两码事情——不过好在是代码虽然是一坨，但还是能跑起来的。</p>
+<p>这里对比一下，姑且称之为版本一和版本二吧。</p>
+<h2 id="u6570_u5B66"><a href="#u6570_u5B66" class="headerlink" title="数学"></a><strong>数学</strong></h2><p>两次的数学运算基本一致，版本二由于添加了近裁剪面裁剪，因此增加了对三角形进行切割的方法。</p>
+<p>数学的内容基本都在前面图形相关的文里面谈到了，当然碰撞检测以及物理相关都没有涉及（较早的时候有参考过《Real Time Collision Detection》写过一些碰撞检测的代码，但时间太久，换电脑把代码倒腾丢了，具体内容也忘得差不多了，基本上就是OBB，AABB，Capsule，Sphere，Plane，Triangle，Ray，Segment之间的各种关系判定，求解特定交点等等）。</p>
+<p>两个版本都不包含四元数相关运算。</p>
+<h2 id="u603B_u89C8"><a href="#u603B_u89C8" class="headerlink" title="总览"></a><strong>总览</strong></h2><p>我们先按下光栅化部分关于Z-Buffer的话题，把它稍微放后一些。</p>
+<p>版本一是真的写死了，只能贴一张纹理，也不支持光照，说白了整个Renderer就是靠一个光栅化函数撑起来的（drawTriangleWithTexture），当然不使用纹理也可以。不包含三角形裁剪与剔除，没有对每次提交的三角形列表进行任何修改，将三角形的顶点信息放进绘制列表之后直接就进行World-&gt;View-&gt;Perspective-&gt;ViewPort变换，然后交给光栅化函数进行绘制处理。由于不裁剪，因此穿过nearZ的坐标会被错误投影，必须保证要绘制的物体的顶点坐标都在nearZ之前。</p>
+<p>版本二比版本稍微强了一丁点，但是还不够好。第二个版本加了近裁剪平面裁剪的功能，穿过近裁剪平面的三角形会被裁剪，位于裁剪面前面的三角形会传递到后续的三角形列表中，这里使用了两个vector来完成这个工作，但不好，一个Queue就行。裁剪是在View-Space中进行的，意味着必须先将World-Sapce中的顶点进行一次View-Space变换；光照则是直接在World-Space中进行，计算出来光对顶点颜色产生的影响，添加到顶点颜色中（只是用了Diffuse，也就是Normal与LightDir的夹角的cos值，整个过程属于Vertex光照而非Phong光照）；裁剪后的三角形经过投影和视口变换，最后被光栅化。</p>
+<p>版本一的顶点缓冲处理只有一种方式，钉死的：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Vertex</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">float</span> x,y,z;</span><br><span class="line">  DWORD color;</span><br><span class="line">  <span class="keyword">float</span> u,v;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>版本二则稍微灵活了一点，模仿了GL，用了VertexArray、NormalArray、ColorArray、TexCoordArray*2来进行处理，至于过程，咱这写得自然比不上GL。但说老实话，现在觉得这不算是个好方案：至少我写的代码里面，每个绘制批次提交的数据最少两块（即便只有VertexArray的提交，但最终后台还是给加了个ColorArray，这个确实不好），多则四块，数据的局部性不能保证，而且不同属性的Array的Stride也不一样，写代码的时候一不注意就给了Bug……</p>
+<p>下次准备用VertexDeclaration，如果还写的话。</p>
+<p>从前面的描述中也能看出来版本二增加了一个Texture纹理，这样就可以对一个Surface使用两个2D纹理了，纹理之间的颜色运算是写死的Add，没有使用其他的。</p>
+<p>纹理采样没有什么好说的，版本一采用的是POINT和LINEAR。版本二是采用POINT 和 0.2 * (LEFT + RIGHT + UP + BOT) + 0.8 * POINT，这么写的理由……想到了拉普拉斯算子，算个理由么？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">关于POINT 与 LINEAR：</span><br><span class="line"></span><br><span class="line">例如算出来实际的u = <span class="number">78.4</span>, v = <span class="number">30.8</span>，</span><br><span class="line"></span><br><span class="line">那么最近的点POINT就是mc = [<span class="number">78</span>, <span class="number">31</span>]，</span><br><span class="line"></span><br><span class="line">取包含POINT的四个点mc0 = [<span class="number">78</span>, <span class="number">30</span>], mc1 = [<span class="number">79</span>, <span class="number">31</span>]，mc2 = [<span class="number">79</span>, <span class="number">30</span>]，</span><br><span class="line"></span><br><span class="line">rc1 = InterpColor(mc,  mc1, <span class="number">0.4</span>);</span><br><span class="line">rc2 = InterpColor(mc0, mc2, <span class="number">0.4</span>);</span><br><span class="line"></span><br><span class="line">双线性插值的结果：final = InterpColor(rc1, rc2, <span class="number">0.2</span>);</span><br><span class="line"></span><br><span class="line">追加：其实双线性过滤的百度百科讲得蛮好 :)</span><br></pre></td></tr></table></figure>
+<p>上几张图：</p>
+<p>这是两个纹理叠加的表面，可以看到纹理投影是正确的。<br><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1f12opshh61j30i80ef0wb.jpg" alt="SR-T2"></p>
+<p>上面的结果是下面两张纹理叠加的：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f12optezsbj303k03kt92.jpg" alt="SR-T2.1"><br><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f12opu9t2pj303k03k74j.jpg" alt="SR-T2.2"></p>
+<p>被近裁剪面裁剪之后的表面线框：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f12q779w9jj30d70dxt90.jpg" alt="ClippedFrame"></p>
+<p>方向光照，设置的不好，结果看起来像是FLAT模式的光照……</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f12rb1wbgyj309h0ahabo.jpg" alt="DirLighting"></p>
+<p>Alpha混合没做，实际上知道怎么混合不同的纹理，也就知道怎么处理Alpha混合了。</p>
+<p>1/Z-Buffer深度缓冲，基于Pixel的画家算法：</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1f12s0a9bh6j30820b50tm.jpg" alt="Z-Buffer"></p>
+<h2 id="u8FD8_u6709_u540E_u7EED_u7684_u5C0F_u7ED3"><a href="#u8FD8_u6709_u540E_u7EED_u7684_u5C0F_u7ED3" class="headerlink" title="还有后续的小结"></a><strong>还有后续的小结</strong></h2><p>不满意，瑕疵很多，是不能投入使用的一个Renderer：比如图中三角形相接部分的黑线，实际上是没有填充入颜色，原因应该在于颜色区块的填充没有设置好，导致Float-&gt;Int的时候有的大一点，有的小一点，不连贯；比如当表面充满整个视野的时候，视口右下角会有一部分无法得到光栅化结果…两个版本多多少少都有一点这个问题；比如3D坐标齐次化并没有得到很有效的处理；再比如光照效果，从上面就能看出来没有能注意到Ambient的影响；然后就是效率有点惨……</p>
+<p>哎，这个轮子造的甚是……</p>
+<p>后面把重心放到Shader上面吧，终归是要跟毕业课题挂钩的……</p>
+<h2 id="u6DF1_u5EA6_u7F13_u51B2_u3001_u900F_u89C6_u7EB9_u7406_u4E0E1/Z"><a href="#u6DF1_u5EA6_u7F13_u51B2_u3001_u900F_u89C6_u7EB9_u7406_u4E0E1/Z" class="headerlink" title="深度缓冲、透视纹理与1/Z"></a><strong>深度缓冲、透视纹理与1/Z</strong></h2><p>其实基于Pixel的画家算法就是对每一个Pixel都保存一个深度值，每次会执行的像素的时候是对比新像素的深度值与旧像素的深度值，如果通过比较，则可以绘制新像素，否则不会绘制新像素。对于Z缓存来讲，深度值小的在前面，需要绘制，对于1/Z缓存来讲，则是相反的。</p>
+<p>主要的问题是，光栅化插值是在2D空间中进行的线性插值，得到的深度数据并不符合3D中的实际情况，观察下图：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f13s67wsnfj30zq0fojt4.jpg" alt="1/Z"></p>
+<p>稍微有点乱……</p>
+<p>在投影平面上的线性插值是以Δx和Δy为基准的，图中可以看到，虽然沿着X进行了线性插值，但是反应到3D空间中的Z坐标上却并非是线性的结果（红色的点），实际的正确结果在投影平面的的插值如绿色点和线条所示，在X方向上并非线性的。</p>
+<p>前面的文章中我们有提到过投影矩阵的生成过程，<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X’ = (d*X0)/Z0</span><br><span class="line">Y’ = (d*Y0)/Z0</span><br></pre></td></tr></table></figure></p>
+<p>并且也知道线性插值是根据X’和Y’的Δx和Δy进行的，也就是说，屏幕插值是受到1/Z的影响的，只有在包含1/Z的时候线性插值才是正确的。</p>
+<p>事实上根本不用重新计算Z值，直接使用1/Z就可以了。</p>
+<p>1/Z的影响对于越接近于平行投影平面的表面影响越小，反之越大，这个情况只需要调整一下上图中的红色线段的位置就知道了（如果是垂直于Z轴的话，确实是一点影响都没有的）。</p>
+<p>理解了1/Z的作用之后，透视纹理也就不是一个大问题了：透视纹理的纹理坐标其实可以视作纹理在3D空间中的坐标位置——Z坐标一样，在屏幕坐标系中的插值计算同样受到1/Z的影响，因此需要对u/z和v/z进行线性插值，最后再将结果换算为正确的uv即可，当然在换算的过程中免不了使用到同步插值得到的1/Z。</p>
+<p>版本一中是在投影后，由[0~1.0]的Z重新计算了实际的Z，进而得到1/Z的，版本而则是在投影之前保存了实际的Z，省去了一些步骤。</p>
+<p>突然想到由于自己对于Shader并不是很熟练，以至于忽略的一个信息：在使用Shader来绘制深度信息到RTT的时候，大部分时间是在Pixel Shader中把插值得到的Z写入RTT的，这个时候需要注意一下写入的是实际的Z还是位于[0,1.0]的Z还是1/Z，这对重新计算实际的Z值有很大影响。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/23/HiHo一下——区间查询（RMQ）/" itemprop="url">
                   区间查询（RMQ）问题
                 </a>
@@ -1395,7 +1531,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
