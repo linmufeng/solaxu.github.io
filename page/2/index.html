@@ -210,6 +210,172 @@
             
               
                 
+                <a class="post-title-link" href="/2016/02/22/Parser/" itemprop="url">
+                  Parser
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-02-22T20:34:33+08:00" content="2016-02-22">
+              2016-02-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Compiler/" itemprop="url" rel="index">
+                    <span itemprop="name">Compiler</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<p>今次总结Paser相关的一些东西，主要说明Top-Down的LL(1)解析以及Down-Top的LR(1)解析，最后说明抽象语法树（AST）。</p>
+<h2 id="LL_281_29"><a href="#LL_281_29" class="headerlink" title="LL(1)"></a><strong>LL(1)</strong></h2><p>LL(1)的缩写表明了该方法的运作方式：左端移进，最左推导，也就是输入串中的字符（或者Token）从左至右逐个扫描，当遇到某一条规约的终结符的时候，从扫描部分的最左端开始进行规约。</p>
+<p>例如对于某文法有如下规约（名词）:</p>
+<blockquote>
+<p>r0: S -&gt; Expression</p>
+<p>r1: Expression -&gt; Expression + Expression</p>
+<p>r2: Expression -&gt; Expression - Expression</p>
+<p>r3: Expression -&gt; 1,2…N</p>
+</blockquote>
+<p>可有串： 2+3-4+1</p>
+<p>当扫描至<code>+</code>的时候，即为<code>r3</code>的终结符号，于是对已扫描到的<code>2</code>进行归约（动词），得到一个<code>Expression = 2</code>，同时移动到规约<code>r1</code>。</p>
+<p>接着扫描<code>3</code>，是为规约<code>r3</code>。</p>
+<p>然后是<code>-</code>，得到一个<code>Expression = 3</code>。</p>
+<p>此时已经扫描过的部分已有：<code>Expression = 2</code> + <code>Expression = 3</code>，从而可以按照<code>r1</code>进行归约，得到一个<code>Expression = (Expression = 2) + (Expression = 3)</code>。</p>
+<p>剩余部分以此而行，便可以得到整个串了。</p>
+<p>LL(1)中的1就是指：每次判定需要使用哪一条规约进行归约的时候，只需要多扫描一个符号即可，例如上面例子中的<code>+</code>和<code>-</code>。</p>
+<h3 id="u9012_u5F52_u5B50_u7A0B_u5E8F_u6CD5_u4E0E_u4F18_u5148_u7EA7"><a href="#u9012_u5F52_u5B50_u7A0B_u5E8F_u6CD5_u4E0E_u4F18_u5148_u7EA7" class="headerlink" title="递归子程序法与优先级"></a><strong>递归子程序法与优先级</strong></h3><p>优先级一个比较麻烦的地方，上面的例子中<code>+</code>和<code>-</code>是同优先级的，如果哪天有个奇葩规定要求当<code>-</code>和<code>+</code>同时出现时需要优先计算<code>-</code>，则当如何？</p>
+<p>先来看看前面两者优先级相同时的“语法图”：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f19ezx5jwij308j056mx4.jpg" alt="+ == -"></p>
+<p>再来看看<code>-</code>的优先级比较高的时候的“语法图”：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f19f7m694nj309k049aa0.jpg" alt="+ &lt; -"></p>
+<p>请忽略下面代码对于错误边界的处理，并且一下代码仅为说明过程，递归返回值等的细节也请暂时不要去追究……</p>
+<p>首先定义一个过程<code>parseAddExp()</code>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Expression* <span class="title">parseAddExp</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  Expression* result = <span class="keyword">new</span> Expression;</span><br><span class="line">  Expression* left = <span class="literal">NULL</span>;</span><br><span class="line">  Expression* right = <span class="literal">NULL</span>;</span><br><span class="line">  left = parseMinusExp(left);  </span><br><span class="line">  <span class="comment">// 注意这里！！！如果只是一个单独的数字，或者下一个符号不是`+`</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">NULL</span> == curToken || curToken-&gt;m_tkCode != TK_ADD)  </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(curToken-&gt;m_tkCode == TK_ADD)</span><br><span class="line">  &#123;</span><br><span class="line">    right = parseMinusExp(right);</span><br><span class="line">  &#125;</span><br><span class="line">  result-&gt;m_leftExp = left;</span><br><span class="line">  result-&gt;m_rightExp = right;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再定义一个过程<code>parseMinusExp()</code>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Expression* <span class="title">parseMinusExp</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  Expression* left = <span class="literal">NULL</span>;</span><br><span class="line">  Expression* right = <span class="literal">NULL</span>;</span><br><span class="line">  left = parseNumberExp();</span><br><span class="line">  <span class="comment">// 注意这里！！！如果只是一个单独的数字，或者下一个符号不是`-`</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">NULL</span> == curToken || curToken-&gt;m_tkCode != TK_MINUS)  </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">  &#125;</span><br><span class="line">  Expression* result = <span class="keyword">new</span> Expression;</span><br><span class="line">  <span class="keyword">if</span>(curToken-&gt;m_tkCode == TK_MINUS)</span><br><span class="line">  &#123;</span><br><span class="line">    right = parseNumberExp(right);</span><br><span class="line">  &#125;</span><br><span class="line">  result-&gt;m_leftExp = left;</span><br><span class="line">  result-&gt;m_rightExp = right;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后定义一个过程<code>parseNumberExp()</code>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Expression* <span class="title">parseNumberExp</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (curToken-&gt;m_tkCode == TK_INTNUM)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Expression(ToIntNumber(curToken-&gt;m_lexeme));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>仍旧以串<code>2+3-4+1</code>为例，下面我们将上述过程依次述略述为ADD，MINUS，NUM。</p>
+<p>那么对于<code>2</code>，ADD调用MINUS，MINUS解析它，并得知下一个符号是<code>+</code>，于是知道这是仅仅是一个<code>Expression = 2</code>，于是直接返回给<code>Expression Add</code>的左操作数为<code>Expression = 2</code>。</p>
+<p>接下来是ADD知晓下一个符号是<code>+</code>，然后<strong>将表达式的整个剩余部分</strong>送入MINUS中，以期望得到一个右操作数。</p>
+<p>串剩余部分是<code>3-4+1</code>。MINUS可以正确捕获到一个<code>Expression Minus = (Expression = 3) - (Expression = 4)</code>，从而将其作为<code>Expression Add</code>的右操作数返回。于是我们得到了一个完整的<code>Expression Add = (Expression = 2) + ( (Expression = 3) - (Expression = 4) )</code></p>
+<p>等等，解析怎么就停止了？后面还有一个<code>+1</code>呢？实际上，只需要对过程ADD进行一些修改，使它支持对连续的N个<code>+</code>进行解析就可以了，对于连续个<code>-</code>，同样可这么干。</p>
+<p>那么我们的最终解析过程就极有可能是这样的（视编码而定，但是优先级是肯定对的）：</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1f19nsunhj1j309l072wel.jpg" alt="AST"></p>
+<p>结果是一个二叉树是因为<code>+</code>和<code>-</code>都是二元运算符的原因；如果全是是一元运算符则是一个单链表，例如成员运算符；全是三元运算符，例如Exp?Exp:Exp，则是一个三叉树；混起来就看起来像是一个普通的树了。</p>
+<p>回顾一下前面的解析过程，发现在建立这棵树的时候，每次都是从一颗子树的根节点开始创建，然后递归进行创建它的子节点，所谓的Top-Bottom就是由此而来。</p>
+<h2 id="u62BD_u8C61_u8BED_u6CD5_u6811_28AST_29"><a href="#u62BD_u8C61_u8BED_u6CD5_u6811_28AST_29" class="headerlink" title="抽象语法树(AST)"></a><strong>抽象语法树(AST)</strong></h2><p>前面既然提到了树，那么就顺势说一下吧，很容易理解了。</p>
+<p>抽象语法树实际上就是语言无关的，代码的抽象表示，可以认为是代码的一种中间表示形式：单单从上面的那个串：<code>2+3-4+1</code>，根本无法断定它是用哪个语言的来写的。当然设计思想不同的语言，其对应的抽象语法树还是有差别的——比如函数式编程语言与C。</p>
+<p>抽象语法树带来的最大好处就是语法制导的翻译和中间代码生成，这个留待以后说明。</p>
+<p>顺带一提：上面的树想要恢复原有的表达式，只需要对其进行<code>后序遍历</code>即可（当然需要控制一下左右子节点先后顺序），不妨尝试把原来的数学表达式翻译为三地址码序列：<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">OP</span>  dest  op1  op2</span><br><span class="line"><span class="keyword">SUB </span><span class="literal">r1</span>    <span class="number">3</span>    <span class="number">4</span>,</span><br><span class="line"><span class="keyword">ADD </span><span class="literal">r1</span>    <span class="number">2</span>    <span class="literal">r1</span>,</span><br><span class="line"><span class="keyword">ADD </span><span class="literal">r1</span>    <span class="literal">r1</span>   <span class="number">1</span>,</span><br></pre></td></tr></table></figure></p>
+<h2 id="LR_281_29"><a href="#LR_281_29" class="headerlink" title="LR(1)"></a><strong>LR(1)</strong></h2><p>实际上，LR分析在《数据结构》课程上已经是接触过的，只不过那时的说法并非如此而已：基本上在学习Stack之后都会有一个处理四则混合运算的“计算器”作业，这个作业实际上就是LR分析的应用。</p>
+<p>这里就从四则混合运算入手来说明一下LR(1)解析。</p>
+<p>这里举例要用到的串：<code>4+2*3-6/3</code>。暂且不去考虑括号对运算的影响。</p>
+<blockquote>
+<p>r0: S -&gt; Expression</p>
+<p>r1: Expression -&gt; Expression + Expression</p>
+<p>r2: Expression -&gt; Expression - Expression</p>
+<p>r3: Expression -&gt; Expression * Expression</p>
+<p>r4: Expression -&gt; Expression / Expression</p>
+<p>r5: Expression -&gt; 1,2…N</p>
+</blockquote>
+<p>先对解析过程有个印象：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f19o4mvwuej30n1077gm7.jpg" alt="LR"></p>
+<p>下面LR(1)的Parser伪码来自《Engineering a Compiler, 2nd》，Figure 3.15：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">push $;</span><br><span class="line">push start state, s0;</span><br><span class="line">word ← NextWord( );</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) <span class="keyword">do</span>;</span><br><span class="line">  state ← top of <span class="built_in">stack</span>;</span><br><span class="line">  <span class="keyword">if</span> Action[state,word] = ‘‘reduceA→ β’’ then begin;</span><br><span class="line">    pop <span class="number">2</span> × | β | symbols;</span><br><span class="line">    state ← top of <span class="built_in">stack</span>;</span><br><span class="line">    push A;</span><br><span class="line">    push Goto[state, A];</span><br><span class="line">  end;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> Action[state,word] = ‘‘shift si’’ then begin;</span><br><span class="line">    push word;</span><br><span class="line">    push si ;</span><br><span class="line">    word ← NextWord( );</span><br><span class="line">  end;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> Action[state,word] = ‘‘accept’’</span><br><span class="line">    then <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    Fail( );</span><br><span class="line">end;</span><br><span class="line">report success; <span class="comment">/* executed break on ‘‘accept’’ case */</span></span><br></pre></td></tr></table></figure></p>
+<p>大致回忆一下“计算器”作业的过程：使用两个Stack，一个是装载运算符，一个装载读取到的数字；从左到右逐个读取字符，遇到数字就把数字放进数字栈，遇到运算符就把运算符放进运算符栈；如果将要入栈的运算符是<code>*</code>或者<code>\</code>，就从数字栈弹出两个数字，用将要入栈的运算符计算结果，并将结果入数字栈；如果将要入栈的运算符是<code>+</code>或者<code>-</code>，那么就从运算符栈中弹出一个运算符，数字栈中弹出两个数字，计算并将结果压入数字栈；迭代这一过程，直到运算符栈为空，此时数字栈中应该只剩下一个数字，便是最后结果。</p>
+<p>再看上面的伪代码：注意到<code>if</code>块中有一个“pop 2 × | β | symbols”。</p>
+<p>再注意：四则运算文法中的规约，对于<code>r1~r4</code>都能找出一个代表性的符号，而这个符号，恰好就是运算符。</p>
+<p>另外，在之前的<a href="http://solaxu.github.io/2015/12/25/%E8%A1%A8%E9%A9%B1%E5%8A%A8%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">表驱动编程</a>和<a href="http://solaxu.github.io/2015/12/26/%E5%9F%BA%E4%BA%8E%E7%8A%B6%E6%80%81%E7%9A%84%E7%BC%96%E7%A8%8B/">基于状态编程</a>中，曾经提到过：对于由于<code>if-else</code>分支过多而冗长的程序，可以使用状态与表来解决，而在计算器的程序中，需要经常判定读取到的符号的意义。回看上面的伪代码：state，Action[ ]，Goto[ ]。</p>
+<p>再有：LR的分析栈包含两个：状态栈以及文法符号栈，而“计算器”也有两个栈。</p>
+<p>先把四则运算文法的Action与Goto表填出来。GoTo表实际上就是一个状态转移表。</p>
+<p>补充：Action表中有些许错误：单一的number直接accept了，严格来讲应该reduce r5</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Action Table: 空白表项说明是遇到了错误。</span><br><span class="line"></span><br><span class="line">     |   number  |    +      |     -     |    *      |     /     |   EOF   |</span><br><span class="line">s0   |  shift s5 |           |           |           |           |  Accept | 初始状态</span><br><span class="line">s1   |  shift s6 |           |           |           |           |         | number +</span><br><span class="line">s2   |  shift s7 |           |           |           |           |         | number -</span><br><span class="line">s3   | reduce r3 |           |           |           |           |         | number * 或者 number + number * 或者 number - number *</span><br><span class="line">s4   | reduce r4 |           |           |           |           |         | number * 或者 number + number * 或者 number - number *</span><br><span class="line">s5   |           |  shift s1 |  shift s2 |  shift s3 |  shift s4 |  Accept | 在已经有了一个数字 number 之后读取到了运算符/EOF</span><br><span class="line">s6   |           | reduce r1 | reduce r1 |  shift r3 |  shift r4 |         | s6是指当前已经分析到 number+number的情况了</span><br><span class="line">s7   |           | reduce r2 | reduce r2 |  shift r3 |  shift r4 |         | s7是指当前已经分析到 number-number的情况了</span><br></pre></td></tr></table></figure>
+<p>之所以先填写Action表，是为了说明为何需要一个GoTo表：注意Action表中的<code>reduce ri</code>，如果只有一个Action表的话，一旦归约之后，就有可能会出现无法进行接下来的分析的情况——因为无法得知当前的状态了！</p>
+<p>例如：number + number * number，规约之后应当是 number + number，此时的状态应当为s6，但是在只有一个Action表的情况下无法获取。因此需要一个Goto表来协助。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Goto Table:</span><br><span class="line">     |   number  |    +      |     -     |    *      |     /     |   EOF   |</span><br><span class="line">s0   |           |           |           |           |           |         |</span><br><span class="line">s1   |           |           |           |           |           |         |</span><br><span class="line">s2   |           |           |           |           |           |         |</span><br><span class="line">s3   |    s5     |    s6     |    s7     |           |           |         | number * 或者 number + number * 或者 number - number *</span><br><span class="line">s4   |    s5     |    s6     |    s7     |           |           |         | number * 或者 number + number * 或者 number - number *</span><br><span class="line">s5   |           |           |           |           |           |         | 在已经有了一个数字 number 之后读取到了运算符/EOF</span><br><span class="line">s6   |           |    s5     |    s5     |           |           |         | s6是指当前已经分析到 number+number的情况了，一旦规约则只剩单个number</span><br><span class="line">s7   |           |    s5     |    s5     |           |           |         | s7是指当前已经分析到 number-number的情况了，一旦规约则只剩单个number</span><br></pre></td></tr></table></figure>
+<p>表填完了，接下来使用上面的伪码与这两张表对例串<code>4+2*3-6/3</code>进行分析：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f19qe4krsrj30h60cx0t5.jpg" alt="Table"></p>
+<p>最后一步可以根据需要来组成最后的语法树——C语言中，运算的结合方向为从右向左，应该与此有关。</p>
+<p>LR分析中的每一个reduce过程实际上都可以看作是一个语法树的结点的生成过程（如果对每一个number也加入一个reduce的话，这一事实将更加明显），很显然，整个过程自子节点开始，逐步生成整个语句的语法树，这即是Down-Top。</p>
+<h1 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a><strong>结束</strong></h1><hr>
+<p>需要注意的是，这里对于LR(1)分析的说明中，由于每个人对具体细节的不同，两个表的内容可能有一些出入；又，由于对LR分析的理解不是足够深刻，文中关于LR(1)的分析可能有错误的地方，还请诸位看官邮件至solaxu@outllook.com不吝指出。</p>
+<p>然而LR分析最重要的部分并非分析过程，而是Action表和Goto表的构建。例子因为比较简单，所以可以手工填写，但是对于一门实际语言这显然是不可能的。于此部分本人仅略知皮毛，不敢妄言，还请众位见谅则个。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/02/19/Lexer/" itemprop="url">
                   Lexer
                 </a>
@@ -1471,153 +1637,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/25/表驱动与面向对象编程/" itemprop="url">
-                  表驱动与面向对象编程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-25T16:53:29+08:00" content="2015-12-25">
-              2015-12-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Things-of-cpp/" itemprop="url" rel="index">
-                    <span itemprop="name">Things of cpp</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u5199_u5728_u524D_u9762"><a href="#u5199_u5728_u524D_u9762" class="headerlink" title="写在前面"></a><strong>写在前面</strong></h1><hr>
-<p>现在回顾起来，我对于CPP的偏爱应该是有那么点“斯德哥尔摩综合症”在里面的：我所在本科学校的编程语言教学是直接从CPP上手的，大概学校是考量到了CPP囊括了C的原因。于是我在并未体会到C的简洁优雅的情况下就被动去接触繁复浩杂的CPP（对，我也不是主动去接触CPP的）——在没有一点编程的认知下便开始了“所谓”的OO概念的灌输，结果可想而知：写CPP程序期间各种百思不解，特别是CPP里面资源管理的复杂性使我一败涂地，甚至用不了模板出手。我那可怜的在没有任何框架帮助下的本科小毕设大概也就那么3k行不到就使我有了那种“无力感”——我很清楚的记得最后程序跑起来时给我的那种无法言喻的 “WTF, It works?!” 的感觉。后面我又断断续续的写一些东西，然而无论怎么写，一旦没有了Framework的支撑，我对于代码掌控能力就降了不止一个档次。</p>
-<p>本科期间也不是没有去接触Java和C#（那时候大数据没有火起来，Python还不够普及），然而我比较死硬，死心眼子要跟CPP刚正面，也就没转去别的语言。当时有搞C#的大神说：“C#真是门好语言，能让你确实理解OO，理解设计模式”——当然现在看来大神之所以那样说极有可能大神本身就理解了OO，C#只是更容易表达他的OO思想。至于我么，说出来让大家见笑，设计模式这个东西我当时磕了一年，终究还是没弄明白这么个东西是到底怎么提出来的——“what, why, how”，三点一个都不明白。</p>
-<p>现在来写这篇东西（可能不止这一篇），也算是我最近一段时间的对编程的理解了吧，就从OO，设计模式以及C/CPP开始。</p>
-<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<h2 id="u591A_u6001"><a href="#u591A_u6001" class="headerlink" title="多态"></a><strong>多态</strong></h2><p>这是一个基础的不能在基础的概念了，之前去实习面试的时候不止一次被问到过，然而这又不是一个很容易就能答好的问题。我当时的在听到这个问题的时候思考了一会，可能我的肢体语言跟面部表情让面试官觉得我对多态的概念比较模糊，于是直接转去问语言层面是怎么表达了（比如该加哪些关键字之类的……）。</p>
-<p>对于这个问题我个人的看法是：多态是程序动态特性的集中体现。正如其字面意思：接口的不同实现形式即为多态，接口不同的实现方式即为“采取的策略”。在C/CPP中的多态其实是有两种形式的：静态和动态。</p>
-<h3 id="u9759_u6001_u591A_u6001"><a href="#u9759_u6001_u591A_u6001" class="headerlink" title="静态多态"></a><strong>静态多态</strong></h3><p>亦即是常说的编译期多态，最常见于CPP模板编程中。这个概念我第一次是见于《Modern Design C++》这本书，书内着重介绍了一种基于模板的策略编程，应用场景以及举例如下：</p>
-<ol>
-<li>场景：<br>假如有两个模块A和B，程序要求当A模块调用B模块中的接口时，需要先保存当前程序的状态，然后在调用返回的时候恢复为原来的状态。即使是模块A对模块B的同一个接口进行调用，也有可能根据不同的需要保存不同的状态。</li>
-<li>场景代码<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> StatePolicyA</span><br><span class="line">&#123;</span><br><span class="line">	StatePolicyA()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// do save policy A</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Save states with Policy A\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	~StatePolicyA()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// do restore</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Restore states with Policy A\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> StatePolicyB</span><br><span class="line">&#123;</span><br><span class="line">	StatePolicyB()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// do save policy B</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Save states with Policy B\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	~StatePolicyB()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// do restore</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Restore states with Policy B\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> ModuleB</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">interface1</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Module B interface 1\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">interface2</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Module B interface 2\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> ModuleA</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// other functions</span></span><br><span class="line">	ModuleB m_moduelB;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">template</span>&lt;<span class="keyword">typename</span> StatePolicy&gt;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">callModuleB_interface01</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		StatePolicy state;</span><br><span class="line">		m_moduelB.interface1();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">template</span>&lt;<span class="keyword">typename</span> StatePolicy&gt;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">callModuleB_interface02</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		StatePolicy state;</span><br><span class="line">		m_moduelB.interface2();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	ModuleA ma;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"With Policy A--&gt;\n"</span>);</span><br><span class="line">	ma.callModuleB_interface01&lt;StatePolicyA&gt;();</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\nWith Policy B--&gt;\n"</span>);</span><br><span class="line">	ma.callModuleB_interface01&lt;StatePolicyB&gt;();</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>如果有看过前文<a href="http://solaxu.github.io/2015/12/24/View-CPP-Template/">View CPP Template </a>的话，就会发现这个技巧其实就是利用模板向函数中传递了一个类型而，当模板被实例化的时候，类型将会被具现，从而完成任务。</p>
-<p>我们知道CPP中引入模板的初衷就是为了提供一个比C中的宏更有力和更安全的“代码生成机制”，也就是说模板的一部分功能可以由C的宏来实现，这个技巧最有代表性的应该就是<code>Linux</code>中的“<code>侵入式链表</code>”，这里不对其做详细介绍，只举一个简单的例子来说明这种技巧，下面的例子中，如果将宏展开来，就可以看到生成了包含有<code>int</code>以及<code>float</code>两个不同类型的链表节点结构：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">define</span> List(type) struct List##_##type &#123; type data; List##_##type * next;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">List</span><span class="params">(<span class="keyword">int</span>)</span> ListInt</span>;</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">List</span><span class="params">(<span class="keyword">float</span>)</span> ListFloat</span>;</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">List</span><span class="params">(ListInt)</span> ListListInt</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	ListInt ihead;</span><br><span class="line">	ihead.data = <span class="number">1</span>;</span><br><span class="line">	ihead.next = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Int Head: data = %i, next = %p\n"</span>,ihead.data, ihead.next);</span><br><span class="line"></span><br><span class="line">	ListFloat fhead;</span><br><span class="line">	fhead.data = <span class="number">3.5f</span>;</span><br><span class="line">	fhead.next = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Float Head: data = %f, next = %p\n"</span>, fhead.data, fhead.next);</span><br><span class="line"></span><br><span class="line">	ListListInt llhead;</span><br><span class="line">	llhead.data = ihead;</span><br><span class="line">	llhead.next = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ListListInt Head: data = %i, next = %p\n"</span>, llhead.data.data, llhead.next);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>事实上静态的多态比OO语言中动态的多态更容易看清楚问题的本质：实际上多态只是不同的“<strong>过程</strong>”而已，这个不同的过程被通过一个统一的接口进行描述，使得“外界”看起来一样而已。</p>
-<p>在这里我无意探讨宏于模板之间的异同以及模板的机理，原因很简单，我对语言理论的理解尚浅，还未有够格。在这里只引用一小段话来说明C++模板的特殊之处：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C++ templates are essentially language-aware macros.</span><br><span class="line">Each<span class="instruction"> instance </span>generates a different refinement of the same code.</span><br><span class="line">	—— from notes of 'Programming Languages<span class="instruction"> and </span>Translators', Fall 2012, Columbia University.</span><br></pre></td></tr></table></figure></p>
-<h3 id="u52A8_u6001_u591A_u6001"><a href="#u52A8_u6001_u591A_u6001" class="headerlink" title="动态多态"></a><strong>动态多态</strong></h3><p>动态多态就非常常见了，我们熟知的具有OO性质的语言都提供了这种特性，一般是通过函数覆盖来实现的，比如C++中提供了关键字virtual，而在Java中则是将所有的成员函数都视为是可以覆盖的虚函数。这里就不再赘述了，当然一同提供的还有“向上、向下”的类型转换机制。这里我们就不提供相关代码了，只大致说明一下单继承情况下的虚函数机制，多继承可以以此为根基进行拓展。</p>
-<p>在单继承情况下，每个类都包含了一个指向虚函数表<code>vtable</code>的指针，这个表中记录了当前类中那些成员函数是虚函数（在C++中，如果一个根基类没有声明<code>virtual</code>关键字，那么是不会包含这个<code>vtable</code>指针的）：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">BaseClass:</span><br><span class="line">+---------+</span><br><span class="line">| vtable -|-------+</span><br><span class="line">|         |       |</span><br><span class="line">|   ...   |       |</span><br><span class="line">+---------+       |</span><br><span class="line">                  |</span><br><span class="line">虚函数表：         |</span><br><span class="line">+-----------+ &lt;---+		</span><br><span class="line">| vb func <span class="number">1</span> |</span><br><span class="line">| vb func <span class="number">2</span> |</span><br><span class="line">|           |</span><br><span class="line">+-----------+</span><br></pre></td></tr></table></figure></p>
-<p>如果这个类有一个继承它的子类，并且它重写覆盖了基类的<code>virtual func 2</code>，那么它的情况将会是下面这样：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DeriverClass : BaseClass</span><br><span class="line">+---------+</span><br><span class="line">| vtable -|-------+</span><br><span class="line">|         |       |</span><br><span class="line">|   ...   |       |</span><br><span class="line">+---------+       |</span><br><span class="line">                  |</span><br><span class="line">虚函数表：         |</span><br><span class="line">+-----------+ &lt;---+		</span><br><span class="line">| vb func <span class="number">1</span> |	这里复制了基类的成员函数的地址</span><br><span class="line">| vd func <span class="number">2</span> |	这里更新了自己定义的成员函数的地址</span><br><span class="line">|           |</span><br><span class="line">+-----------+</span><br></pre></td></tr></table></figure></p>
-<p>这样继承类的实例对象就能够正确找到自己新定义的函数了。当然类的析构函数与普通的函数是不同的，析构函数会经过一个链式结构从根基类的析构函数开始，按照继承链执行每一个析构函数，直到这个类自己的析构函数执行完毕结束。<br>当然C++标准并没有规定虚函数表的指针应该放在类的哪个位置，这要视编译器的实现而定。</p>
-<h2 id="u8868_u9A71_u52A8"><a href="#u8868_u9A71_u52A8" class="headerlink" title="表驱动"></a><strong>表驱动</strong></h2><p>通过前面对多态的描述我们可以看到，OO的过程实际上就是对不同的“<code>process</code>”通过一个统一的<code>interface</code>进行调用的过程。<code>process</code>这个概念放到C里面就是C函数；放在C++里面可以是C风格的函数，也可以是用<code>class</code>封装而成的<code>Functor</code>，在C++11中更可以是一个<code>lamdba</code>；至于在Java和C#中就是<code>class</code>或者<code>lambda</code>，在函数式编程中就是一个<code>Closure</code>，或者一个<code>Continuation</code>。并且通过前面的论述，我们成功在动态多态中引入了表的话题。</p>
-<p>我们先来说结论：<strong>OO语言中的类，其实是一个大的函数转发表。</strong></p>
-<p>这个结论其实很好理解：除却上文提到的虚成员函数之外，对于类的非虚成员函数，我们知道它是类相关的。而在C语言中，是没有类这跟概念的，这一点我们可以通过一个小小的中间层的帮助来体会一下它们之间的异同：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func0</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"c style func 0\n"</span>); &#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"c style func 1\n"</span>); &#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"c style func 2\n"</span>); &#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func3</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"c style func 3\n"</span>); &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span><span class="params">(* vvfunc)</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line">vvfunc table[<span class="number">4</span>] = &#123;func0,func1,func2,func3&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printCfunc</span><span class="params">(vvfunc* tb, <span class="keyword">int</span> index)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt;= <span class="number">4</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Exception : index out of range!\n"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	tb[index]();  <span class="comment">// call func</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	printCfunc(table,<span class="number">0</span>);</span><br><span class="line">	printCfunc(table,<span class="number">1</span>);</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面是C代码，通过一个函数表，和一个索引来调用我们的函数。注意这里仅仅是为了简化说明使用了数组结构，事实上使用一个<code>map</code>，用函数名来索引将会更加贴近我们编写实际看到的情况（当然编译器很有可能性还是使用一个offset来索引）。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Funcs</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">func0</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"oo style func 0\n"</span>); &#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"oo style func 1\n"</span>); &#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"oo style func 2\n"</span>); &#125;;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">func3</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"oo style func 3\n"</span>); &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Funcs oo_tb;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	oo_tb.func0();</span><br><span class="line">	oo_tb.func1();</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面是C++代码，通过类直接调用了函数。对比一下前面C风格的代码，这里的<code>Funcs oo_tb</code>就相当于<code>vvfunc table[4]</code>；<code>main</code>函数中直接对成员函数的调用就相当于C代码部分由<code>printCfunc</code>通过一个函数表指针（C++中就是那个众所周知的<code>this</code>了）和一个索引（在C++中是无法看到的，这一步由编译器帮忙做了）来调用需要的函数。</p>
-<p>上面的例子还是比较简单的，如果加入函数重载的特性，那么就需要另外考虑到语义的问题了（函数类型），不适合用来做一个简单明了的说明。但无论加不加重载，最基本的道理是相同的，都是通过转发表来实现。如果想更加了解表驱动编程，推荐阅读《代码大全》相关章节。</p>
-<h1 id="u7ED3_u8BED"><a href="#u7ED3_u8BED" class="headerlink" title="结语"></a><strong>结语</strong></h1><hr>
-<p>这边文章的中心意思基本讲述完毕了，最后让我们以两个设计模式的例子来加深一下对文章的理解：</p>
-<h2 id="u7B56_u7565_u6A21_u5F0F"><a href="#u7B56_u7565_u6A21_u5F0F" class="headerlink" title="策略模式"></a><strong>策略模式</strong></h2><ul>
-<li><p>C++代码</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Plan</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">proc</span><span class="params">(<span class="keyword">void</span>)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Plan_A : <span class="keyword">public</span> Plan</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">proc</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"Plan A is choosed\n"</span>); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Plan_B : <span class="keyword">public</span> Plan</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">proc</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"Plan B is choosed\n"</span>); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> TheMan</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">choose</span><span class="params">(Plan&amp; plan)</span> </span>&#123; plan.proc(); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">	TheMan man;</span><br><span class="line">	Plan_A a;</span><br><span class="line">	Plan_B b;</span><br><span class="line">	man.choose(a);</span><br><span class="line">	man.choose(b);</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>对应的C代码</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">void PlanA(void) &#123; printf("Plan A is choosed\n"); &#125;</span><br><span class="line">void PlanB(void) &#123; printf("Plan B is choosed\n"); &#125;</span><br><span class="line"></span><br><span class="line">void man_choose(void(* pfun)(void))</span><br><span class="line">&#123;</span><br><span class="line">	pfun();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">	man_choose(PlanA);</span><br><span class="line">	man_choose(PlanB);</span><br><span class="line">	system("pause");</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>这个还是比较好理解的，只用了一次转发。</p>
-<h2 id="u8BBF_u95EE_u8005_u6A21_u5F0F"><a href="#u8BBF_u95EE_u8005_u6A21_u5F0F" class="headerlink" title="访问者模式"></a><strong>访问者模式</strong></h2><ul>
-<li><p>C++代码</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 写完才发现今天是12.25...</span></span><br><span class="line"><span class="keyword">struct</span> Accepter_A;</span><br><span class="line"><span class="keyword">struct</span> Accepter_B;</span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="comment">// visitor</span></span><br><span class="line"><span class="keyword">struct</span> Visitor</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Accepter_A&amp; accepter)</span> </span>= <span class="number">0</span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(Accepter_B&amp; accepter)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Visitor_SelfIntro : <span class="keyword">public</span> Visitor</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Accepter_A&amp; accepter)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"I am A\n"</span>); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Accepter_B&amp; accepter)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"I am B\n"</span>); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Visitor_Greetings : <span class="keyword">public</span> Visitor</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Accepter_A&amp; accepter)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"Hey~\n"</span>); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">(Accepter_B&amp; accepter)</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"Hi~\n"</span>); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="comment">// accepter</span></span><br><span class="line"><span class="keyword">struct</span> Accepter</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Visitor&amp; v)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Accepter_A</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Visitor&amp; v)</span> </span>&#123; v.visit( * <span class="keyword">this</span>); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Accepter_B</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Visitor&amp; v)</span> </span>&#123; v.visit( * <span class="keyword">this</span>); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">	Accepter_A a;</span><br><span class="line">	Accepter_B b;</span><br><span class="line">	Visitor_SelfIntro intro;</span><br><span class="line">	Visitor_Greetings greeting;</span><br><span class="line"></span><br><span class="line">	a.accept(greeting);</span><br><span class="line">	a.accept(intro);</span><br><span class="line"></span><br><span class="line">	b.accept(greeting);</span><br><span class="line">	b.accept(intro);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>visitor</code>模式被认为是<code>GoF</code>书中较为难以理解的模式，主要在于它使用了双重转发。我们先来梳理它是怎么工作的，然后将其换位对应的C代码：</p>
-</li>
-</ul>
-<ol>
-<li>过程：<br>每一个<code>accpter</code>接受一个<code>visitor</code>，并根据<code>visitor</code>的具体实例来做出对应的动作。<br>每个<code>visitor</code>定义所有的<code>accpeter</code>的具体动作，实际工作的时候只调用<code>accpter</code>来接受不同的<code>visitor</code>就可以达到目的了。所谓的双重转发是指：第一次转发在接受<code>visitor</code>时的动态转发，第二次转发在<code>visitor</code>根据接受它的<code>accpter</code>的类型进行一次静态转发（函数重载）。</li>
-<li>对应的C代码<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span><span class="params">(* vvfunc)</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">visitor_selfintro_A</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span> (<span class="string">"I am A\n"</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">visitor_selfintro_B</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span> (<span class="string">"I am B\n"</span>);&#125;</span><br><span class="line">vvfunc visitor_selfintro[<span class="number">2</span>] = &#123;visitor_selfintro_A,visitor_selfintro_B&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">visitor_greetings_A</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span> (<span class="string">"Hey~\n"</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">visitor_greetings_B</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span> (<span class="string">"Hi~\n"</span>);&#125;</span><br><span class="line">vvfunc visitor_greetings[<span class="number">2</span>] = &#123;visitor_greetings_A,visitor_greetings_B&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">accepter_A</span><span class="params">(vvfunc * vtb)</span> </span>&#123;vtb[<span class="number">0</span>]();&#125;<span class="comment">//注意，这里的转发过程直接写进去了</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">accepter_B</span><span class="params">(vvfunc * vtb)</span> </span>&#123;vtb[<span class="number">1</span>]();&#125;<span class="comment">//注意，这里的转发过程直接写进去了</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">	accepter_A(visitor_greetings);</span><br><span class="line">	accepter_A(visitor_selfintro);</span><br><span class="line">	accepter_B(visitor_greetings);</span><br><span class="line">	accepter_B(visitor_selfintro);</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>尝试把OO设计模式用C表述一下，结果发现蛮好玩的，后面应该还会继续做，争取把常用的几个模式给过一遍。</p>
-<p>收工，写篇文章真心花时间……</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1664,7 +1683,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
