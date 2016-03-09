@@ -51,31 +51,25 @@
 
 
 
-<meta name="description" content="LeetCode: Subsets II
+<meta name="description" content="Course Schedule
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
+There are a total of n courses you have to take, labeled from 0 to n - 1.
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is e">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Subsets II">
-<meta property="og:url" content="http://solaxu.github.io/2016/03/06/Subsets-II/index.html">
+<meta property="og:title" content="Course Schedule">
+<meta property="og:url" content="http://solaxu.github.io/2016/03/09/Course-Schedule/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="LeetCode: Subsets II
+<meta property="og:description" content="Course Schedule
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
-<meta property="og:updated_time" content="2016-03-06T13:57:53.634Z">
+There are a total of n courses you have to take, labeled from 0 to n - 1.
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is e">
+<meta property="og:updated_time" content="2016-03-09T10:34:12.188Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Subsets II">
-<meta name="twitter:description" content="LeetCode: Subsets II
+<meta name="twitter:title" content="Course Schedule">
+<meta name="twitter:description" content="Course Schedule
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
+There are a total of n courses you have to take, labeled from 0 to n - 1.
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is e">
 
 
 
@@ -87,7 +81,7 @@ The solution set must">
   };
 </script>
 
-  <title> Subsets II | CrystalMaidenRampage </title>
+  <title> Course Schedule | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +211,7 @@ The solution set must">
             
             
               
-                Subsets II
+                Course Schedule
               
             
           </h1>
@@ -226,8 +220,8 @@ The solution set must">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-06T21:48:15+08:00" content="2016-03-06">
-              2016-03-06
+            <time itemprop="dateCreated" datetime="2016-03-09T18:21:52+08:00" content="2016-03-09">
+              2016-03-09
             </time>
           </span>
 
@@ -265,18 +259,18 @@ The solution set must">
       
 
       
-        <span itemprop="articleBody"><h1 id="LeetCode_3A_Subsets_II"><a href="#LeetCode_3A_Subsets_II" class="headerlink" title="LeetCode: Subsets II"></a><strong>LeetCode: Subsets II</strong></h1><hr>
+        <span itemprop="articleBody"><h1 id="Course_Schedule"><a href="#Course_Schedule" class="headerlink" title="Course Schedule"></a><strong>Course Schedule</strong></h1><hr>
 <blockquote>
-<p>Given a collection of integers that might contain duplicates, nums, return all possible subsets.</p>
-<p>Note:</p>
-<p>Elements in a subset must be in non-descending order.</p>
-<p>The solution set must not contain duplicate subsets.</p>
-<p>For example,</p>
-<p>If nums = [1,2,2], a solution is:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>],</span><br><span class="line">  [<span class="number">2</span>,<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>There are a total of n courses you have to take, labeled from 0 to n - 1.</p>
+<p>Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]</p>
+<p>Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?</p>
+<p>For example:<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>, <span class="string">[[1,0]]</span></span><br></pre></td></tr></table></figure></p>
+<p>There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>, [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>]]</span><br></pre></td></tr></table></figure></p>
+<p>There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.</p>
 </blockquote>
-<p>从一个集合生成它的子集，要求所有子集元素非递减排序，不能有重复的子集。</p>
-<p>使用增量法生成子集（增量法是一个回溯算法），在此过程中判断集合是否重复。</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; result;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isVectorEqual</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; l,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; r)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l.size() != r.size())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; l.size(); ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (l[i] != r[i])</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 增量生成子集</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">subsets</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> begin, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; v)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = begin; i &lt; nums.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            v.push_back(nums[i]);</span><br><span class="line">            <span class="keyword">bool</span> exist = <span class="literal">false</span>;</span><br><span class="line">            <span class="comment">// 判断是否有重复的</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span> ; j &lt; result.size(); ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (isVectorEqual(result[j],v))</span><br><span class="line">                &#123;</span><br><span class="line">                    exist = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!exist)</span><br><span class="line">            &#123;</span><br><span class="line">                result.push_back(v);</span><br><span class="line">            &#125;</span><br><span class="line">            subsets(nums,i+<span class="number">1</span>,v);</span><br><span class="line">        &#125;</span><br><span class="line">        v.pop_back(); <span class="comment">// 回溯</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; subsetsWithDup(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        sort(nums.begin(),nums.end());<span class="comment">// 不排序是无法得到正确输出的</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; prefix;</span><br><span class="line">        result.push_back(prefix);<span class="comment">// 空集显然放在首位</span></span><br><span class="line">        subsets(nums,<span class="number">0</span>,prefix);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>依赖关系判定，实际上就是一个拓扑结构，层序遍历可解。BFS每下降一层，其对应后续节点的入度减一，入度为0的节点入队列，如果最后所有节点的入度都为0，则返回true，否则返回false。</p>
+<p>AC的C++代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; graphic(numCourses,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">0</span>));</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; indegrees(numCourses,<span class="number">0</span>);</span><br><span class="line">        <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> it = prerequisites.begin(); it != prerequisites.end(); ++it)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> succ = it-&gt;first;</span><br><span class="line">            <span class="keyword">int</span> pre = it-&gt;second;</span><br><span class="line">            indegrees[succ]++;</span><br><span class="line">            graphic[pre].push_back(succ);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; indegrees.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (indegrees[i] == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                q.push(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(q.size())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> n = q.front();</span><br><span class="line">            q.pop();<span class="comment">// 注意这里与C版本的顺序不一致。</span></span><br><span class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; v = graphic[n];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; v.size(); ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                --indegrees[v[i]];</span><br><span class="line">                <span class="keyword">if</span> (indegrees[v[i]] == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    q.push(v[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; indegrees.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (indegrees[i] != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>超过规定内存空间的C代码：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">bool canFinish(int numCourses, int** prerequisites, int prerequisitesRowSize, int prerequisitesColSize) &#123;</span><br><span class="line">    int* indegrees = (int*)malloc(numCourses*sizeof(int));</span><br><span class="line">    int** graphic = (int**)malloc(sizeof(int*) * numCourses);</span><br><span class="line">    int * queue = (int*)malloc(numCourses*sizeof(int));</span><br><span class="line">    int begin = 0;</span><br><span class="line">    int end = 0;</span><br><span class="line">    for (int i = 0 ; i &lt; numCourses; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        indegrees[i] = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i = 0 ; i &lt; numCourses; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        graphic[i] = (int*)malloc(sizeof(int*) * numCourses);</span><br><span class="line">        for (int j = 0 ; j &lt; numCourses; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            graphic[i][j] = -1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i = 0 ;i &lt; prerequisitesRowSize; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        int* row = prerequisites[i];</span><br><span class="line">        int succ = row[0];</span><br><span class="line">        int pre = row[1];</span><br><span class="line">        indegrees[succ]++;//后续课程入度加一</span><br><span class="line">        graphic[pre][succ] = 1;//设置前导课程的后续边</span><br><span class="line">    &#125;</span><br><span class="line">    //找出所有入度为0的点作为起始节点</span><br><span class="line">    for(int i = 0; i &lt; numCourses; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        if (indegrees[i] == 0)</span><br><span class="line">        &#123;</span><br><span class="line">            queue[end++] = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // BFS</span><br><span class="line">    while(begin != end)</span><br><span class="line">    &#123;</span><br><span class="line">        int n = queue[begin];</span><br><span class="line">        //查找所有n的后继节点，每处理一次，后续节点入度减一，如果后续节点入度为0，那么就加入队列</span><br><span class="line">        for (int i = 0 ; i &lt; numCourses; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            if (graphic[n][i] == 1)</span><br><span class="line">            &#123;</span><br><span class="line">                --indegrees[i];</span><br><span class="line">                if (indegrees[i] == 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    queue[end++] = i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ++begin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //如果最后还有入度不为0的节点，返回false</span><br><span class="line">    for (int i = 0 ; i &lt; numCourses; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        if (indegrees[i] != 0)</span><br><span class="line">        &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -294,17 +288,13 @@ The solution set must">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/06/Add-Two-Numbers/" rel="next" title="Add Two Numbers">
-                <i class="fa fa-chevron-left"></i> Add Two Numbers
+              <a href="/2016/03/09/Binary-Tree-Paths/" rel="next" title="Binary Tree Paths">
+                <i class="fa fa-chevron-left"></i> Binary Tree Paths
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/07/Spiral-Matrix/" rel="prev" title="Spiral Matrix">
-                Spiral Matrix <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -418,7 +408,7 @@ The solution set must">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode_3A_Subsets_II"><span class="nav-number">1.</span> <span class="nav-text">LeetCode: Subsets II</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Course_Schedule"><span class="nav-number">1.</span> <span class="nav-text">Course Schedule</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
