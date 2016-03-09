@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Editor,Shader," />
+  <meta name="keywords" content="LeetCode," />
 
 
 
@@ -51,31 +51,28 @@
 
 
 
-<meta name="description" content="正文
-至少，目前，工程论文想要做一个Shader Editor。
-当然，对于别人商用Engine的Editor只有膜拜的份，也不指望咱这小身板子能搞出一个那么厉害的东西，不过至少模仿一下吧。
-大概看了一下Robert L. Cook的那篇《Shade Tree》，结合曾经对RenderMonkey为数不多的使用以及“只见过猪跑”的Editor，大致有了一些认识，这里先记下来。
-暂且不说各种Shad">
+<meta name="description" content="Binary Tree Paths
+
+Given a binary tree, return all root-to-leaf paths.
+For example, given the following binary tree:12345   1 /   \2     3 \  5
+All root-to-leaf paths are:1[&quot;1-&amp;gt;2-&amp;gt;5&quot;, &quot;1-&amp;gt;3&quot;]">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shader Editor 01">
-<meta property="og:url" content="http://solaxu.github.io/2016/02/19/Shader-Editor-01/index.html">
+<meta property="og:title" content="Binary Tree Paths">
+<meta property="og:url" content="http://solaxu.github.io/2016/03/09/Binary-Tree-Paths/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="正文
-至少，目前，工程论文想要做一个Shader Editor。
-当然，对于别人商用Engine的Editor只有膜拜的份，也不指望咱这小身板子能搞出一个那么厉害的东西，不过至少模仿一下吧。
-大概看了一下Robert L. Cook的那篇《Shade Tree》，结合曾经对RenderMonkey为数不多的使用以及“只见过猪跑”的Editor，大致有了一些认识，这里先记下来。
-暂且不说各种Shad">
-<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttjw1f14ni9fpv7j30ha0epmyn.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttjw1f14rcw6pbhj30dq095dfu.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/006lhMttjw1f14rfw7k6dj30lq0c50tj.jpg">
-<meta property="og:updated_time" content="2016-02-19T10:20:29.720Z">
+<meta property="og:description" content="Binary Tree Paths
+
+Given a binary tree, return all root-to-leaf paths.
+For example, given the following binary tree:12345   1 /   \2     3 \  5
+All root-to-leaf paths are:1[&quot;1-&amp;gt;2-&amp;gt;5&quot;, &quot;1-&amp;gt;3&quot;]">
+<meta property="og:updated_time" content="2016-03-09T06:46:12.620Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shader Editor 01">
-<meta name="twitter:description" content="正文
-至少，目前，工程论文想要做一个Shader Editor。
-当然，对于别人商用Engine的Editor只有膜拜的份，也不指望咱这小身板子能搞出一个那么厉害的东西，不过至少模仿一下吧。
-大概看了一下Robert L. Cook的那篇《Shade Tree》，结合曾经对RenderMonkey为数不多的使用以及“只见过猪跑”的Editor，大致有了一些认识，这里先记下来。
-暂且不说各种Shad">
+<meta name="twitter:title" content="Binary Tree Paths">
+<meta name="twitter:description" content="Binary Tree Paths
+
+Given a binary tree, return all root-to-leaf paths.
+For example, given the following binary tree:12345   1 /   \2     3 \  5
+All root-to-leaf paths are:1[&quot;1-&amp;gt;2-&amp;gt;5&quot;, &quot;1-&amp;gt;3&quot;]">
 
 
 
@@ -87,7 +84,7 @@
   };
 </script>
 
-  <title> Shader Editor 01 | CrystalMaidenRampage </title>
+  <title> Binary Tree Paths | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +214,7 @@
             
             
               
-                Shader Editor 01
+                Binary Tree Paths
               
             
           </h1>
@@ -226,8 +223,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-02-19T14:13:57+08:00" content="2016-02-19">
-              2016-02-19
+            <time itemprop="dateCreated" datetime="2016-03-09T14:43:58+08:00" content="2016-03-09">
+              2016-03-09
             </time>
           </span>
 
@@ -236,8 +233,8 @@
               &nbsp; | &nbsp; 分类于
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Graphics/" itemprop="url" rel="index">
-                    <span itemprop="name">Graphics</span>
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
                   </a>
                 </span>
 
@@ -265,44 +262,14 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<p>至少，目前，工程论文想要做一个Shader Editor。</p>
-<p>当然，对于别人商用Engine的Editor只有膜拜的份，也不指望咱这小身板子能搞出一个那么厉害的东西，不过至少模仿一下吧。</p>
-<p>大概看了一下Robert L. Cook的那篇《Shade Tree》，结合曾经对RenderMonkey为数不多的使用以及“只见过猪跑”的Editor，大致有了一些认识，这里先记下来。</p>
-<p>暂且不说各种Shader效果，这些东西准备最终定下来之后逐步学习，大致浏览了一下相关资料，内容还是很多的，特大一壶，以至于我有点担心能否喝的完……</p>
-<p>这一篇不会很长，只说明一下Shade Tree到底是个什么东西。</p>
-<h2 id="Shade_Tree"><a href="#Shade_Tree" class="headerlink" title="Shade Tree"></a><strong>Shade Tree</strong></h2><p>还是先上一张图，看着图好说话，该图片展示的是U3D的Strumpy Shader Editor：</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f14ni9fpv7j30ha0epmyn.jpg" alt="U3D"></p>
-<p>先来说明一下图表示的意义：</p>
-<p>每一个方框框代表一个“过程”节点，框的右边是输入，左边是输出，例如图中的 TexCUBE 节点，这个过程接收一个名为 Sampler 与 Normal 的参数，输出两个颜色 RGBA 和 A。（这里的输入输出原来左右写反了，原谅一下左撇子）</p>
-<p>Master部分是最终结果，基本每个Shader都会有。</p>
-<p>其实我个人更倾向于 TexCUBE 接受了两个“过程”作为参数，而并非只是两个运算结果，因为Sampler可以有2D，3D，Cube等多种类型；而Normal，则根据情况可以有Reflection，Refraction等类型；而对于一个Surafec来讲，法线作为其自身属性，单独分离出去给其他的“过程”并非一个好的方案。</p>
-<p>我对上面的整个过程的理解如下（当然有可能是错误的，因为图片是随意找的……）：</p>
-<p>使用一个 SimpleWorldReflection 来计算反射（个人感觉应该是折射），纹理采样使用Cube采样来对Surface进行处理，得到Cube纹理的运算结果，然后这个运算结果呗传入到Master中，与Albedo和Alpha量来得到最终的结果。</p>
-<p>追加：我找到了与这张图片相关的描述：<a href="http://forum.unity3d.com/threads/strumpy-shader-editor-now-open-source.56180/page-20" target="_blank" rel="external">第966楼</a>。不想点链接的可以看下面，我始终以为Reflection有点不太合适，不过CG上要达到一个看起来一样或者差别很小的效果可以有多种手段，所以不必在此钻牛角，当然，我自己Shader玩的不好也有很大原因。</p>
+        <span itemprop="articleBody"><h1 id="Binary_Tree_Paths"><a href="#Binary_Tree_Paths" class="headerlink" title="Binary Tree Paths"></a><strong>Binary Tree Paths</strong></h1><hr>
 <blockquote>
-<p>What you want to do (to start with) is sample the cube from the reflection vector of the<br>surface using the ‘Vertex Reflection’ node. In this example I have also made the alpha be<br>based on an alpha from a texture and set the blend mode to be srcalpha /<br>oneminussourcealpha (so you can configure the alpha from the texture), and also given the<br>windows a ‘blue’ hint in the albedo. It’s nothing amazing, but it’s a decent start for<br>some glass. You will need to set the queue to transparent if you want to use this shader<br>also.</p>
+<p>Given a binary tree, return all root-to-leaf paths.</p>
+<p>For example, given the following binary tree:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">1</span></span><br><span class="line"> /   \</span><br><span class="line"><span class="number">2</span>     <span class="number">3</span></span><br><span class="line"> \</span><br><span class="line">  <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p>All root-to-leaf paths are:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">"1-&gt;2-&gt;5"</span>, <span class="string">"1-&gt;3"</span>]</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<p>如果把上面图中的Flow换个方式：</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f14rcw6pbhj30dq095dfu.jpg" alt="U3D Simple"></p>
-<p>再来看看《Shade Tree》中的图：</p>
-<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f14rfw7k6dj30lq0c50tj.jpg" alt="Shade tree for copper"></p>
-<p>是不是很相似？</p>
-<p>Cook文中的图看起来更像是编译原理中的语法树，但其实是无妨的：一个的N元operation本身就可以抽象为一个接受N个参数的processor。</p>
-<p>万幸自己最终还是选修了编译，虽然学的不算好，理论的东西终究没剩下多少，都还回去了。本科专业没这门课导致我很长时间对很多东西理解困难，包括这里的Shade Tree。</p>
-<p>求解final color的过程实际上就是一个bottom-up的过程，这就不用多做解释了。</p>
-<p>基本上Shade Tree的本质就是这些了，当然对于具体的效果，比如光照，大气，雾，阴影等效果需要具体的工程实现，这些会随着自己的逐渐深入慢慢写出来。</p>
-<h2 id="u5B9E_u73B0_uFF1F"><a href="#u5B9E_u73B0_uFF1F" class="headerlink" title="实现？"></a><strong>实现？</strong></h2><p>实现倒是有那么一点点的小想法，但总感觉不太对，后面要找点相关资料才行，先说说想法吧：</p>
-<p>首先都要将一些基本的过程给拆开，成为比如前面的Reflection等一个个单独的单元，对于这些单独的单元有两种方式组合起来：</p>
-<ul>
-<li><p>shade编译之后有链接的步骤，那么可以首先将需要的各个单元编译好，然后在编辑结束后将对应的单元连接起来。但是分的太细可能会导致片元过多，不太好。</p>
-</li>
-<li><p>直接在编辑结束的时候生成一个大的Shader进行编译链接。不过这种方式可能会出现指令条数的超出限制。新的硬件不太清楚，但旧硬件是一定会出问题的。</p>
-</li>
-</ul>
-<p>或者将两者折中一下？比如所有的Sampler可以放到一个文件中编译，最后作为一个库连接过去。</p>
-<h1 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a><strong>结束</strong></h1><hr>
-<p>话说最近的一次写Shader代码都快一年了，况且本来就一般般……不过还是先笔记想法慢慢记：不怕慢差，就怕不干嘛。</p>
+<p>DFS。</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sk;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; result;</span><br><span class="line">	<span class="built_in">string</span> str;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(TreeNode* root)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (root)</span><br><span class="line">		&#123;</span><br><span class="line">			sk.push_back(root-&gt;val);</span><br><span class="line">			solve(root-&gt;left);</span><br><span class="line">			solve(root-&gt;right);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (root-&gt;left == <span class="literal">NULL</span> &amp;&amp; root-&gt;right == <span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				str.clear();</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; sk.size(); ++i)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="built_in">string</span> number = to_string(sk[i]);</span><br><span class="line">					str += number;</span><br><span class="line">					<span class="keyword">if</span> (i &lt; sk.size() - <span class="number">1</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						str += <span class="string">"-&gt;"</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				result.push_back(str);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			sk.pop_back();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; binaryTreePaths(TreeNode* root) &#123;</span><br><span class="line">		<span class="keyword">if</span> (root)</span><br><span class="line">		&#123;</span><br><span class="line">			solve(root);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -311,9 +278,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Editor/" rel="tag">#Editor</a>
-          
-            <a href="/tags/Shader/" rel="tag">#Shader</a>
+            <a href="/tags/LeetCode/" rel="tag">#LeetCode</a>
           
         </div>
       
@@ -322,17 +287,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/17/Software-Renderer/" rel="next" title="Software Renderer">
-                <i class="fa fa-chevron-left"></i> Software Renderer
+              <a href="/2016/03/09/N-Queens-II/" rel="next" title="N-Queens II">
+                <i class="fa fa-chevron-left"></i> N-Queens II
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/02/19/Lexer/" rel="prev" title="Lexer">
-                Lexer <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -446,7 +407,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u6B63_u6587"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shade_Tree"><span class="nav-number">1.1.</span> <span class="nav-text">Shade Tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5B9E_u73B0_uFF1F"><span class="nav-number">1.2.</span> <span class="nav-text">实现？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u7ED3_u675F"><span class="nav-number">2.</span> <span class="nav-text">结束</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Binary_Tree_Paths"><span class="nav-number">1.</span> <span class="nav-text">Binary Tree Paths</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
