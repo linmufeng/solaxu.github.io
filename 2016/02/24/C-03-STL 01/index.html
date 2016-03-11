@@ -54,14 +54,14 @@
 <meta name="description" content="前面
 说了一大堆杂七杂八的东西，今天换一换，简单总结一下STL——但是不考虑新的C++11标准，无它，用的不多，不熟。虽然多少知道一些新标准里面的东西是怎么一回事：比如左值右值，λ表达式，类型推导等，也不是不会用，但怎么用好则又是一回事情。就像OS与网络，虽然并非对其一无所知，且并不忌惮，但一直没有进行太多投入。因为我个人觉得这些都是属于系统编程的，相较之下工程意味更重，去公司锻炼事半功倍，不似图">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++ 03 STL">
+<meta property="og:title" content="C++ 03 STL 01">
 <meta property="og:url" content="http://solaxu.github.io/2016/02/24/C-03-STL 01/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
 <meta property="og:description" content="前面
 说了一大堆杂七杂八的东西，今天换一换，简单总结一下STL——但是不考虑新的C++11标准，无它，用的不多，不熟。虽然多少知道一些新标准里面的东西是怎么一回事：比如左值右值，λ表达式，类型推导等，也不是不会用，但怎么用好则又是一回事情。就像OS与网络，虽然并非对其一无所知，且并不忌惮，但一直没有进行太多投入。因为我个人觉得这些都是属于系统编程的，相较之下工程意味更重，去公司锻炼事半功倍，不似图">
-<meta property="og:updated_time" content="2016-02-26T09:45:44.361Z">
+<meta property="og:updated_time" content="2016-03-11T12:24:54.125Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++ 03 STL">
+<meta name="twitter:title" content="C++ 03 STL 01">
 <meta name="twitter:description" content="前面
 说了一大堆杂七杂八的东西，今天换一换，简单总结一下STL——但是不考虑新的C++11标准，无它，用的不多，不熟。虽然多少知道一些新标准里面的东西是怎么一回事：比如左值右值，λ表达式，类型推导等，也不是不会用，但怎么用好则又是一回事情。就像OS与网络，虽然并非对其一无所知，且并不忌惮，但一直没有进行太多投入。因为我个人觉得这些都是属于系统编程的，相较之下工程意味更重，去公司锻炼事半功倍，不似图">
 
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title> C++ 03 STL | CrystalMaidenRampage </title>
+  <title> C++ 03 STL 01 | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -205,7 +205,7 @@
             
             
               
-                C++ 03 STL
+                C++ 03 STL 01
               
             
           </h1>
@@ -270,7 +270,7 @@
 <p>最后定义一个只与Iterator相关的遍历算法：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printAll</span><span class="params">(Iterator&amp; it)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (; it.iterator() != it.end(); ++it)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; * (* it) &lt;&lt; <span class="built_in">std</span>::endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>至此，我们可以这样来输出数组和链表中的内容：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ArrayIterator <span class="title">arrayIt</span><span class="params">(myArray)</span></span>;</span><br><span class="line"><span class="function">ListIterator <span class="title">listIt</span><span class="params">(&amp;n5)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Array:"</span> &lt;&lt; <span class="built_in">std</span>::endl;</span><br><span class="line">	printAll(arrayIt);</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"List:"</span> &lt;&lt; <span class="built_in">std</span>::endl;</span><br><span class="line">	printAll(listIt);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再次重申，上述代码很差，仅为说明思想，切勿引入实际使用！</p>
+<p>再次重申，上述代码很差，仅为说明思想。</p>
 <p>其实加一层实际上是为了能够为上层统一接口，这一思想在实际应用十分常见。例子中，对于存储方式迥异的数组和链表加了一个迭代器层之后就可以使用同一个方法对其进行遍历了。</p>
 <p>那么，STL中的迭代器模式有是如何的呢？</p>
 <h2 id="STL_Iterator"><a href="#STL_Iterator" class="headerlink" title="STL Iterator"></a><strong>STL Iterator</strong></h2><p>其实理解了迭代器模式，再加上前面博文中对C++ Template的讲述，STL中的迭代器已经很好理解了。</p>
