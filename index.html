@@ -210,6 +210,122 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/11/优化延迟/" itemprop="url">
+                  优化延迟
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-11T20:02:53+08:00" content="2016-03-11">
+              2016-03-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u4F18_u5316_u5EF6_u8FDF"><a href="#u4F18_u5316_u5EF6_u8FDF" class="headerlink" title="优化延迟"></a><strong>优化延迟</strong></h1><hr>
+<p>From：<a href="http://hihocoder.com/contest/hihointerview3" target="_blank" rel="external">[Offer收割]编程练习赛1</a></p>
+<blockquote>
+<p>描述<br>小Ho编写了一个处理数据包的程序。程序的输入是一个包含N个数据包的序列。每个数据包根据其重要程度不同，具有不同的”延迟惩罚值”。序列中的第i个数据包的”延迟惩罚值”是Pi。如果N个数据包按照<pi1, pi2,="" ...="" pin="">的顺序被处理，那么总延迟惩罚</pi1,></p>
+<p>SP=1<em>Pi1+2</em>Pi2+3<em>Pi3+…+N</em>PiN（其中i1, i2, … iN是1, 2, 3, … N的一个排列)。</p>
+<p>小Ho的程序会依次处理每一个数据包，这时N个数据包的总延迟惩罚值SP为</p>
+<p>1<em>P1+2</em>P2+3<em>P3+…+i</em>Pi+…+N*PN。  </p>
+<p>小Hi希望可以降低总延迟惩罚值。他的做法是在小Ho的程序中增加一个大小为K的缓冲区。N个数据包在被处理前会依次进入缓冲区。当缓冲区满的时候会将当前缓冲区内”延迟惩罚值”最大的数据包移出缓冲区并进行处理。直到没有新的数据包进入缓冲区时，缓冲区内剩余的数据包会按照”延迟惩罚值”从大到小的顺序被依次移出并进行处理。</p>
+<p>例如，当数据包的”延迟惩罚值”依次是<5, 4="" 3,="" 1,="" 2,="">，缓冲区大小K=2时，数据包被处理的顺序是：<5, 1="" 3,="" 2,="" 4,="">。这时SP=1<em>5+2</em>3+3<em>2+4</em>4+5*1=38。</5,></5,></p>
+<p>现在给定输入的数据包序列，以及一个总延迟惩罚阈值Q。小Hi想知道如果要SP&lt;=Q，缓冲区的大小最小是多少？</p>
+<p>输入<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Line</span> 1: <span class="keyword">N</span> <span class="literal">Q</span></span><br><span class="line"><span class="keyword">Line</span> 2: P1 P2 ... PN</span><br></pre></td></tr></table></figure></p>
+<p>对于50%的数据： 1 &lt;= N &lt;= 1000</p>
+<p>对于100%的数据： 1 &lt;= N &lt;= 100000, 0 &lt;= Pi &lt;= 1000, 1 &lt;= Q &lt;= 1013</p>
+<p>输出<br>输出最小的正整数K值能满足SP&lt;=Q。如果没有符合条件的K，输出-1。</p>
+<p>样例输入<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> <span class="number">38</span></span><br><span class="line"><span class="number">5</span> <span class="number">3</span> <span class="number">1</span> <span class="number">2</span> <span class="number">4</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>样例输出<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>优先队列的问题。</p>
+<p>然而只用优先队列是会超时的，应该使用二分查找——原因在于：对于缓冲区的大小K，随着K值的增大，延迟惩罚是个非递增序列（只可能不变或者下降，而不会递增）。</p>
+<p>想到了优先队列但是没有想到二分……</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> LL long long</span></span><br><span class="line">priority_queue&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">LL Q,N,SP,K;</span><br><span class="line">LL nums[<span class="number">1000001</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">cal</span><span class="params">(<span class="keyword">int</span> m)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	LL result = <span class="number">0</span>;</span><br><span class="line">	LL j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (LL i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		q.push(nums[i]);</span><br><span class="line">		<span class="keyword">if</span> (q.size() == m)</span><br><span class="line">		&#123;</span><br><span class="line">			++j;</span><br><span class="line">			result += j * q.top();</span><br><span class="line">			q.pop();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (q.size())</span><br><span class="line">	&#123;</span><br><span class="line">		++j;</span><br><span class="line">		result += j * q.top();</span><br><span class="line">		q.pop();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bin</span><span class="params">(LL s, LL e)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (s &lt;= e)</span><br><span class="line">	&#123;</span><br><span class="line">		LL mid = (s + e) / <span class="number">2</span>;</span><br><span class="line">		SP = cal(mid);</span><br><span class="line">		<span class="keyword">if</span> (SP &gt; Q)</span><br><span class="line">		&#123;</span><br><span class="line">			s = mid + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (mid &lt; K)</span><br><span class="line">			&#123;</span><br><span class="line">				K = mid;</span><br><span class="line">			&#125;</span><br><span class="line">			e = mid - <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; N &gt;&gt; Q;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="built_in">cin</span> &gt;&gt; nums[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    K = N + <span class="number">1</span>;</span><br><span class="line">	bin(<span class="number">1</span>,N);</span><br><span class="line">	<span class="keyword">if</span> (K &lt;= N)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; K &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="built_in">cout</span> &lt;&lt; <span class="string">"-1"</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/09/九宫/" itemprop="url">
                   九宫
                 </a>
@@ -1164,110 +1280,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/07/Spiral-Matrix/" itemprop="url">
-                  Spiral Matrix
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-03-07T13:17:38+08:00" content="2016-03-07">
-              2016-03-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OJs/" itemprop="url" rel="index">
-                    <span itemprop="name">OJs</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="Spiral_Matrix"><a href="#Spiral_Matrix" class="headerlink" title="Spiral Matrix"></a><strong>Spiral Matrix</strong></h1><hr>
-<blockquote>
-<p>Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.</p>
-<p>For example,</p>
-<p>Given the following matrix:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line"> [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> ],</span><br><span class="line"> [ <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span> ],</span><br><span class="line"> [ <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span> ]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>You should return [1,2,3,6,9,8,7,4,5].</p>
-</blockquote>
-<p>定义运动方向，使用状态来解决这个问题，注意坐标的计算即可。</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; spiralOrder(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix) &#123;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; result;</span><br><span class="line">		<span class="keyword">int</span> row = matrix.size();</span><br><span class="line">		<span class="keyword">int</span> col = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (row != <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			col = matrix[<span class="number">0</span>].size();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (col * row == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> result;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> ri = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> ci = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">bool</span> left = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">bool</span> right = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">bool</span> up = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">bool</span> down = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">int</span> br = <span class="number">0</span>, er = row - <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> bc = <span class="number">0</span>, ec = col - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (result.size() != col * row)</span><br><span class="line">		&#123;</span><br><span class="line">			result.push_back(matrix[ri][ci]);</span><br><span class="line">			<span class="keyword">if</span> (!left &amp;&amp; right &amp;&amp; !up &amp;&amp; !down)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (ci == ec)</span><br><span class="line">				&#123;</span><br><span class="line">					ci = ec;</span><br><span class="line">					right = <span class="literal">false</span>;</span><br><span class="line">					down = <span class="literal">true</span>;</span><br><span class="line">					br++;</span><br><span class="line">					ri++;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					ci++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (left &amp;&amp; !right &amp;&amp; !down &amp;&amp; !up)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (ci == bc)</span><br><span class="line">				&#123;</span><br><span class="line">					ci = bc;</span><br><span class="line">					left = <span class="literal">false</span>;</span><br><span class="line">					up = <span class="literal">true</span>;</span><br><span class="line">					er--;</span><br><span class="line">					ri--;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					ci--;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (!left &amp;&amp; !right &amp;&amp; down &amp;&amp; !up)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (ri &gt;= er)</span><br><span class="line">				&#123;</span><br><span class="line">					ri = er;</span><br><span class="line">					down = <span class="literal">false</span>;</span><br><span class="line">					left = <span class="literal">true</span>;</span><br><span class="line">					ec--;</span><br><span class="line">					ci--;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					ri++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (ri &lt;= br)</span><br><span class="line">				&#123;</span><br><span class="line">					ri = br;</span><br><span class="line">					up = <span class="literal">false</span>;</span><br><span class="line">					right = <span class="literal">true</span>;</span><br><span class="line">					bc++;</span><br><span class="line">					ci++;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					ri--;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1314,7 +1326,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

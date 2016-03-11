@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="LeetCode," />
+  <meta name="keywords" content="Algorithm,Data Structure,HiHo," />
 
 
 
@@ -51,25 +51,31 @@
 
 
 
-<meta name="description" content="Substring with Concatenation of All Words
+<meta name="description" content="优化延迟
+From：[Offer收割]编程练习赛1
 
-You are given a string, s, and a list of words, words, that are all of the same length.
-Find all starting indices of substring(s) in s that is a concatenatio">
+描述小Ho编写了一个处理数据包的程序。程序的输入是一个包含N个数据包的序列。每个数据包根据其重要程度不同，具有不同的”延迟惩罚值”。序列中的第i个数据包的”延迟惩罚值”是Pi。如果N个数据包按照的顺序被处理，那么总延迟惩罚
+SP=1Pi1+2Pi2+3Pi3+…+NPiN（其中i1, i2, … iN是1, 2, 3, … N的一个排列)。
+小">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Substring with Concatenation of All Words">
-<meta property="og:url" content="http://solaxu.github.io/2016/03/07/Substring-with-Concatenation-of-All-Words/index.html">
+<meta property="og:title" content="优化延迟">
+<meta property="og:url" content="http://solaxu.github.io/2016/03/11/优化延迟/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="Substring with Concatenation of All Words
+<meta property="og:description" content="优化延迟
+From：[Offer收割]编程练习赛1
 
-You are given a string, s, and a list of words, words, that are all of the same length.
-Find all starting indices of substring(s) in s that is a concatenatio">
-<meta property="og:updated_time" content="2016-03-08T05:51:15.556Z">
+描述小Ho编写了一个处理数据包的程序。程序的输入是一个包含N个数据包的序列。每个数据包根据其重要程度不同，具有不同的”延迟惩罚值”。序列中的第i个数据包的”延迟惩罚值”是Pi。如果N个数据包按照的顺序被处理，那么总延迟惩罚
+SP=1Pi1+2Pi2+3Pi3+…+NPiN（其中i1, i2, … iN是1, 2, 3, … N的一个排列)。
+小">
+<meta property="og:updated_time" content="2016-03-11T12:11:24.930Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Substring with Concatenation of All Words">
-<meta name="twitter:description" content="Substring with Concatenation of All Words
+<meta name="twitter:title" content="优化延迟">
+<meta name="twitter:description" content="优化延迟
+From：[Offer收割]编程练习赛1
 
-You are given a string, s, and a list of words, words, that are all of the same length.
-Find all starting indices of substring(s) in s that is a concatenatio">
+描述小Ho编写了一个处理数据包的程序。程序的输入是一个包含N个数据包的序列。每个数据包根据其重要程度不同，具有不同的”延迟惩罚值”。序列中的第i个数据包的”延迟惩罚值”是Pi。如果N个数据包按照的顺序被处理，那么总延迟惩罚
+SP=1Pi1+2Pi2+3Pi3+…+NPiN（其中i1, i2, … iN是1, 2, 3, … N的一个排列)。
+小">
 
 
 
@@ -81,7 +87,7 @@ Find all starting indices of substring(s) in s that is a concatenatio">
   };
 </script>
 
-  <title> Substring with Concatenation of All Words | CrystalMaidenRampage </title>
+  <title> 优化延迟 | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -211,7 +217,7 @@ Find all starting indices of substring(s) in s that is a concatenatio">
             
             
               
-                Substring with Concatenation of All Words
+                优化延迟
               
             
           </h1>
@@ -220,8 +226,8 @@ Find all starting indices of substring(s) in s that is a concatenatio">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-07T20:38:24+08:00" content="2016-03-07">
-              2016-03-07
+            <time itemprop="dateCreated" datetime="2016-03-11T20:02:53+08:00" content="2016-03-11">
+              2016-03-11
             </time>
           </span>
 
@@ -259,25 +265,27 @@ Find all starting indices of substring(s) in s that is a concatenatio">
       
 
       
-        <span itemprop="articleBody"><h1 id="Substring_with_Concatenation_of_All_Words"><a href="#Substring_with_Concatenation_of_All_Words" class="headerlink" title="Substring with Concatenation of All Words"></a><strong>Substring with Concatenation of All Words</strong></h1><hr>
+        <span itemprop="articleBody"><h1 id="u4F18_u5316_u5EF6_u8FDF"><a href="#u4F18_u5316_u5EF6_u8FDF" class="headerlink" title="优化延迟"></a><strong>优化延迟</strong></h1><hr>
+<p>From：<a href="http://hihocoder.com/contest/hihointerview3" target="_blank" rel="external">[Offer收割]编程练习赛1</a></p>
 <blockquote>
-<p>You are given a string, s, and a list of words, words, that are all of the same length.</p>
-<p>Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.</p>
-<p>For example, given:</p>
-<p>s: “barfoothefoobarman”</p>
-<p>words: [“foo”, “bar”]</p>
-<p>You should return the indices: [0,9].</p>
-<p>(order does not matter).</p>
+<p>描述<br>小Ho编写了一个处理数据包的程序。程序的输入是一个包含N个数据包的序列。每个数据包根据其重要程度不同，具有不同的”延迟惩罚值”。序列中的第i个数据包的”延迟惩罚值”是Pi。如果N个数据包按照<pi1, pi2,="" ...="" pin="">的顺序被处理，那么总延迟惩罚</pi1,></p>
+<p>SP=1<em>Pi1+2</em>Pi2+3<em>Pi3+…+N</em>PiN（其中i1, i2, … iN是1, 2, 3, … N的一个排列)。</p>
+<p>小Ho的程序会依次处理每一个数据包，这时N个数据包的总延迟惩罚值SP为</p>
+<p>1<em>P1+2</em>P2+3<em>P3+…+i</em>Pi+…+N*PN。  </p>
+<p>小Hi希望可以降低总延迟惩罚值。他的做法是在小Ho的程序中增加一个大小为K的缓冲区。N个数据包在被处理前会依次进入缓冲区。当缓冲区满的时候会将当前缓冲区内”延迟惩罚值”最大的数据包移出缓冲区并进行处理。直到没有新的数据包进入缓冲区时，缓冲区内剩余的数据包会按照”延迟惩罚值”从大到小的顺序被依次移出并进行处理。</p>
+<p>例如，当数据包的”延迟惩罚值”依次是<5, 4="" 3,="" 1,="" 2,="">，缓冲区大小K=2时，数据包被处理的顺序是：<5, 1="" 3,="" 2,="" 4,="">。这时SP=1<em>5+2</em>3+3<em>2+4</em>4+5*1=38。</5,></5,></p>
+<p>现在给定输入的数据包序列，以及一个总延迟惩罚阈值Q。小Hi想知道如果要SP&lt;=Q，缓冲区的大小最小是多少？</p>
+<p>输入<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Line</span> 1: <span class="keyword">N</span> <span class="literal">Q</span></span><br><span class="line"><span class="keyword">Line</span> 2: P1 P2 ... PN</span><br></pre></td></tr></table></figure></p>
+<p>对于50%的数据： 1 &lt;= N &lt;= 1000</p>
+<p>对于100%的数据： 1 &lt;= N &lt;= 100000, 0 &lt;= Pi &lt;= 1000, 1 &lt;= Q &lt;= 1013</p>
+<p>输出<br>输出最小的正整数K值能满足SP&lt;=Q。如果没有符合条件的K，输出-1。</p>
+<p>样例输入<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> <span class="number">38</span></span><br><span class="line"><span class="number">5</span> <span class="number">3</span> <span class="number">1</span> <span class="number">2</span> <span class="number">4</span></span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<p>首先将word list制成一个map。</p>
-<p>然后逐个字符循环：</p>
-<ul>
-<li>每次取一个单词，判断在不在map中，不在的话直接可以进行下一次循环；</li>
-<li>取得的单词如果存在于map中，将这个单词加入到一个新的mapNew中；在这一过程中注意更新已有单词的计数，如果计数超过map中的对应值，进行下一次循环；</li>
-<li>如果取够足量的单词后依旧未触发两个中断循环的条件，那么可以认为取单词时的位置为正确位置。</li>
-</ul>
-<p>解这道题目的时候脑袋瓜子抽了……</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; wordset;</span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; test;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; findSubstring(<span class="built_in">string</span> s, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; words) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; result;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (words.size() == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> result;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> size = words[<span class="number">0</span>].size();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; words.size(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">auto</span> it = wordset.find(words[i]);</span><br><span class="line">			<span class="keyword">if</span> (it == wordset.end())</span><br><span class="line">			&#123;</span><br><span class="line">				pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p(words[i], <span class="number">1</span>);</span><br><span class="line">				wordset.insert(p);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				it-&gt;second++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">string</span> substr;</span><br><span class="line">		<span class="keyword">int</span> cont = words.size() * size; <span class="comment">//每一小段的长度</span></span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span> ((i + cont) &lt;= s.length())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span> (counter &lt; cont)</span><br><span class="line">			&#123;</span><br><span class="line">				substr.push_back(s[i]);</span><br><span class="line">				<span class="keyword">if</span> (substr.size() == size)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">auto</span> wit = wordset.find(substr);</span><br><span class="line">					<span class="keyword">if</span> (wit == wordset.end())</span><br><span class="line">					&#123;</span><br><span class="line">						substr.clear();</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">auto</span> it = test.find(substr);</span><br><span class="line">					<span class="keyword">if</span> (it != test.end())</span><br><span class="line">					&#123;</span><br><span class="line">						it-&gt;second++;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p(substr, <span class="number">1</span>);</span><br><span class="line">						test.insert(p);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">if</span> (wordset[substr] &lt; test[substr])</span><br><span class="line">					&#123;</span><br><span class="line">						substr.clear();</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					substr.clear();</span><br><span class="line">				&#125;</span><br><span class="line">				++counter;</span><br><span class="line">				++i;</span><br><span class="line">			&#125;</span><br><span class="line">			i -= counter;</span><br><span class="line">			<span class="keyword">if</span> (counter == cont)</span><br><span class="line">			&#123;</span><br><span class="line">				result.push_back(i);</span><br><span class="line">			&#125;</span><br><span class="line">			test.clear();</span><br><span class="line">			++i;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>样例输出<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>优先队列的问题。</p>
+<p>然而只用优先队列是会超时的，应该使用二分查找——原因在于：对于缓冲区的大小K，随着K值的增大，延迟惩罚是个非递增序列（只可能不变或者下降，而不会递增）。</p>
+<p>想到了优先队列但是没有想到二分……</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> LL long long</span></span><br><span class="line">priority_queue&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">LL Q,N,SP,K;</span><br><span class="line">LL nums[<span class="number">1000001</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">cal</span><span class="params">(<span class="keyword">int</span> m)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	LL result = <span class="number">0</span>;</span><br><span class="line">	LL j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (LL i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		q.push(nums[i]);</span><br><span class="line">		<span class="keyword">if</span> (q.size() == m)</span><br><span class="line">		&#123;</span><br><span class="line">			++j;</span><br><span class="line">			result += j * q.top();</span><br><span class="line">			q.pop();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (q.size())</span><br><span class="line">	&#123;</span><br><span class="line">		++j;</span><br><span class="line">		result += j * q.top();</span><br><span class="line">		q.pop();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bin</span><span class="params">(LL s, LL e)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (s &lt;= e)</span><br><span class="line">	&#123;</span><br><span class="line">		LL mid = (s + e) / <span class="number">2</span>;</span><br><span class="line">		SP = cal(mid);</span><br><span class="line">		<span class="keyword">if</span> (SP &gt; Q)</span><br><span class="line">		&#123;</span><br><span class="line">			s = mid + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (mid &lt; K)</span><br><span class="line">			&#123;</span><br><span class="line">				K = mid;</span><br><span class="line">			&#125;</span><br><span class="line">			e = mid - <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; N &gt;&gt; Q;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="built_in">cin</span> &gt;&gt; nums[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    K = N + <span class="number">1</span>;</span><br><span class="line">	bin(<span class="number">1</span>,N);</span><br><span class="line">	<span class="keyword">if</span> (K &lt;= N)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; K &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="built_in">cout</span> &lt;&lt; <span class="string">"-1"</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -286,7 +294,11 @@ Find all starting indices of substring(s) in s that is a concatenatio">
       
         <div class="post-tags">
           
-            <a href="/tags/LeetCode/" rel="tag">#LeetCode</a>
+            <a href="/tags/Algorithm/" rel="tag">#Algorithm</a>
+          
+            <a href="/tags/Data-Structure/" rel="tag">#Data Structure</a>
+          
+            <a href="/tags/HiHo/" rel="tag">#HiHo</a>
           
         </div>
       
@@ -295,17 +307,13 @@ Find all starting indices of substring(s) in s that is a concatenatio">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/07/Spiral-Matrix/" rel="next" title="Spiral Matrix">
-                <i class="fa fa-chevron-left"></i> Spiral Matrix
+              <a href="/2016/03/09/九宫/" rel="next" title="九宫">
+                <i class="fa fa-chevron-left"></i> 九宫
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/08/蚍蜉撼树/" rel="prev" title="蚍蜉撼树">
-                蚍蜉撼树 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -419,7 +427,7 @@ Find all starting indices of substring(s) in s that is a concatenatio">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Substring_with_Concatenation_of_All_Words"><span class="nav-number">1.</span> <span class="nav-text">Substring with Concatenation of All Words</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u4F18_u5316_u5EF6_u8FDF"><span class="nav-number">1.</span> <span class="nav-text">优化延迟</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
