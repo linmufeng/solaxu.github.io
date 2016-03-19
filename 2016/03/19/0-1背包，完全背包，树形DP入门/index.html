@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="HiHo一下," />
 
 
 
@@ -51,15 +51,23 @@
 
 
 
-<meta name="description" content="希望以后心情不好的时候可以全世界遛遛弯">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CrystalMaidenRampage">
-<meta property="og:url" content="http://solaxu.github.io/index.html">
+<meta name="description" content="前面
+关于算法这一块，怎么说呢，目前为止我还是比较盲目的在OJ上面A水题，但即便如此AC率也很低——这到底还是不行的，不过终究是给自己探了个底子——在仅有基础概念的RAW状态下能走多远。
+就目前来看，很多时候问题出在自己见得少，给不出思路。对于抽象思维要求不高的题目，知道怎么去做之后多数情况还下是能够拿到TLE（并非纯暴搜导致）或者AC的——当然TLE也不是算过，终究还是代码技巧不足；而对于需要有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0-1背包，完全背包，树形DP入门">
+<meta property="og:url" content="http://solaxu.github.io/2016/03/19/0-1背包，完全背包，树形DP入门/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta property="og:description" content="前面
+关于算法这一块，怎么说呢，目前为止我还是比较盲目的在OJ上面A水题，但即便如此AC率也很低——这到底还是不行的，不过终究是给自己探了个底子——在仅有基础概念的RAW状态下能走多远。
+就目前来看，很多时候问题出在自己见得少，给不出思路。对于抽象思维要求不高的题目，知道怎么去做之后多数情况还下是能够拿到TLE（并非纯暴搜导致）或者AC的——当然TLE也不是算过，终究还是代码技巧不足；而对于需要有">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/006lhMttgw1f22ahu9lvtj30ej0cgq3j.jpg">
+<meta property="og:updated_time" content="2016-03-19T13:27:34.630Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CrystalMaidenRampage">
-<meta name="twitter:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta name="twitter:title" content="0-1背包，完全背包，树形DP入门">
+<meta name="twitter:description" content="前面
+关于算法这一块，怎么说呢，目前为止我还是比较盲目的在OJ上面A水题，但即便如此AC率也很低——这到底还是不行的，不过终究是给自己探了个底子——在仅有基础概念的RAW状态下能走多远。
+就目前来看，很多时候问题出在自己见得少，给不出思路。对于抽象思维要求不高的题目，知道怎么去做之后多数情况还下是能够拿到TLE（并非纯暴搜导致）或者AC的——当然TLE也不是算过，终究还是代码技巧不足；而对于需要有">
 
 
 
@@ -71,7 +79,7 @@
   };
 </script>
 
-  <title> CrystalMaidenRampage </title>
+  <title> 0-1背包，完全背包，树形DP入门 | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -92,9 +100,7 @@
 
 
 
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -181,24 +187,9 @@
       <div class="main-inner">
         <div id="content" class="content">
           
-  <section id="posts" class="posts-expand">
 
+  <div id="posts" class="posts-expand">
     
-
-    
-    
-      
-      
-        
-        
-        
-      
-
-      
-    
-
-    
-      
 
   
   
@@ -218,10 +209,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/03/19/0-1背包，完全背包，树形DP入门/" itemprop="url">
-                  0-1背包，完全背包，树形DP入门
-                </a>
+                0-1背包，完全背包，树形DP入门
               
             
           </h1>
@@ -269,10 +257,7 @@
       
 
       
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
+        <span itemprop="articleBody"><h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
 <p>关于算法这一块，怎么说呢，目前为止我还是比较盲目的在OJ上面A水题，但即便如此AC率也很低——这到底还是不行的，不过终究是给自己探了个底子——在仅有基础概念的RAW状态下能走多远。</p>
 <p>就目前来看，很多时候问题出在自己见得少，给不出思路。对于抽象思维要求不高的题目，知道怎么去做之后多数情况还下是能够拿到TLE（并非纯暴搜导致）或者AC的——当然TLE也不是算过，终究还是代码技巧不足；而对于需要有较高抽象能力的题目，或是比较Tricky的题目，则力有不逮——一个是因为见得少而不知道怎么下手，再就是抽象思维能力不过关。</p>
 <p>因此，就算法这块，现在开始进行专项练习吧。咱对自己的要求不高，也不指望能有ACM的程度，但至少买的那三本书：《算法竞赛入门经典》、《算法竞赛入门经典训练指南》以及《挑战程序设计竞赛》不能白瞎了。</p>
@@ -321,35 +306,46 @@
 <p>下面是我的AC代码：</p>
 <p>另：如果在HiHo一下的比赛排名中查找AC代码的话，会发现有关于edge、vis数组这样的东西，这是因为那些代码是基于无向图的，需要使用vis数组来标记节点以防止出现环的问题。大部分ACM相关的博客上也是此类型的代码，此类代码更具普适性。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span><span class="string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> N, M;</span><br><span class="line"><span class="keyword">int</span> V[<span class="number">101</span>];</span><br><span class="line"><span class="keyword">int</span> vis[<span class="number">101</span>];</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> INT_MAX <span class="number">2147483647</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> INT_MIN (-INT_MAX - <span class="number">1</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; Tree[<span class="number">101</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> DP[<span class="number">101</span>][<span class="number">101</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; children = Tree[n];</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> ci = <span class="number">0</span>; ci &lt; children.size(); ++ci)</span><br><span class="line">	&#123;</span><br><span class="line">		solve(children[ci], m - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = m; j &gt;= <span class="number">2</span>; --j)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; j; ++k)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> r = DP[n][j - k] + DP[children[ci]][k];</span><br><span class="line">				<span class="keyword">if</span> (r &gt; DP[n][j]) DP[n][j] = r;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="comment">// 注意下面的不要删除，重定向io流</span></span><br><span class="line">	<span class="comment">// std::ifstream in("in.txt");</span></span><br><span class="line">	<span class="comment">// std::streambuf* cinbuf = std::cin.rdbuf(); //save old buf</span></span><br><span class="line">	<span class="comment">// std::cin.rdbuf(in.rdbuf()); //redirect std::cin to in.txt!</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; N &gt;&gt; M;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) <span class="built_in">cin</span> &gt;&gt; V[i];</span><br><span class="line">	<span class="keyword">int</span> a, b;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;</span><br><span class="line">		Tree[a].push_back(b);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		DP[i][<span class="number">1</span>] = V[i];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	solve(<span class="number">1</span>, M);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; DP[<span class="number">1</span>][M] &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-            
-          </span>
-        
+</span>
       
     </div>
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/HiHo一下/" rel="tag">#HiHo一下</a>
+          
+        </div>
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/11/优化延迟/" rel="next" title="优化延迟">
+                <i class="fa fa-chevron-left"></i> 优化延迟
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </article>
 
 
-    
 
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
         </div>
@@ -358,6 +354,10 @@
 
 
         
+  <div class="comments" id="comments">
+    
+  </div>
+
 
       </div>
 
@@ -378,8 +378,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
           <p class="site-author-name" itemprop="name">SsCM</p>
@@ -424,6 +433,23 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u524D_u9762"><span class="nav-number">1.</span> <span class="nav-text">前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u6B63_u6587"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-1_u80CC_u5305_u95EE_u9898"><span class="nav-number">2.1.</span> <span class="nav-text">0-1背包问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5B8C_u5168_u80CC_u5305_u95EE_u9898"><span class="nav-number">2.2.</span> <span class="nav-text">完全背包问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5237_u6CB9_u6F06_uFF08_u6811_u5F62DP_uFF09"><span class="nav-number">2.3.</span> <span class="nav-text">刷油漆（树形DP）</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
       
 
     </div>
@@ -494,6 +520,167 @@
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
 
   <script type="text/javascript" src="/js/bootstrap.js"></script>
 
