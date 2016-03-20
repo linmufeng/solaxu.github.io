@@ -51,28 +51,25 @@
 
 
 
-<meta name="description" content="LeetCode: Add Two Numbers
+<meta name="description" content="Coin Change
 
-You are given two linked lists representing two non-negative numbers.
-The digits are stored in reverse order and each of their nodes contain a single digit.
-Add the two numb">
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount.
+If that amo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Add Two Numbers">
-<meta property="og:url" content="http://solaxu.github.io/2016/03/06/Add-Two-Numbers/index.html">
+<meta property="og:title" content="Coin Change">
+<meta property="og:url" content="http://solaxu.github.io/2016/03/20/Coin-Change/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="LeetCode: Add Two Numbers
+<meta property="og:description" content="Coin Change
 
-You are given two linked lists representing two non-negative numbers.
-The digits are stored in reverse order and each of their nodes contain a single digit.
-Add the two numb">
-<meta property="og:updated_time" content="2016-03-06T12:56:43.834Z">
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount.
+If that amo">
+<meta property="og:updated_time" content="2016-03-20T10:19:47.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Add Two Numbers">
-<meta name="twitter:description" content="LeetCode: Add Two Numbers
+<meta name="twitter:title" content="Coin Change">
+<meta name="twitter:description" content="Coin Change
 
-You are given two linked lists representing two non-negative numbers.
-The digits are stored in reverse order and each of their nodes contain a single digit.
-Add the two numb">
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount.
+If that amo">
 
 
 
@@ -84,7 +81,7 @@ Add the two numb">
   };
 </script>
 
-  <title> Add Two Numbers | CrystalMaidenRampage </title>
+  <title> Coin Change | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +211,7 @@ Add the two numb">
             
             
               
-                Add Two Numbers
+                Coin Change
               
             
           </h1>
@@ -223,8 +220,8 @@ Add the two numb">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-06T20:51:08+08:00" content="2016-03-06">
-              2016-03-06
+            <time itemprop="dateCreated" datetime="2016-03-20T17:05:47+08:00" content="2016-03-20">
+              2016-03-20
             </time>
           </span>
 
@@ -262,16 +259,19 @@ Add the two numb">
       
 
       
-        <span itemprop="articleBody"><h1 id="LeetCode_3A_Add_Two_Numbers"><a href="#LeetCode_3A_Add_Two_Numbers" class="headerlink" title="LeetCode: Add Two Numbers"></a><strong>LeetCode: Add Two Numbers</strong></h1><hr>
+        <span itemprop="articleBody"><h1 id="Coin_Change"><a href="#Coin_Change" class="headerlink" title="Coin Change"></a><strong>Coin Change</strong></h1><hr>
 <blockquote>
-<p>You are given two linked lists representing two non-negative numbers.</p>
-<p>The digits are stored in reverse order and each of their nodes contain a single digit.</p>
-<p>Add the two numbers and return it as a linked list.</p>
-<p>Input: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)</p>
-<p>Output: 7 -&gt; 0 -&gt; 8</p>
+<p>You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount.</p>
+<p>If that amount of money cannot be made up by any combination of the coins, return -1.</p>
+<p>Example 1:</p>
+<p>coins = [1, 2, 5], amount = 11<br>return 3 (11 = 5 + 5 + 1)</p>
+<p>Example 2:</p>
+<p>coins = [2], amount = 3<br>return -1.</p>
+<p>Note:<br>You may assume that you have an infinite number of each kind of coin.</p>
 </blockquote>
-<p>模拟两个非负整数相加。注意进位，以及对应位之和为0时的情况即可。</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Definition for singly-linked list.</span><br><span class="line"> * struct ListNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     ListNode *next;</span><br><span class="line"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">addTwoNumbers</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">bool</span> l1ended = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">bool</span> l2ended = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">int</span> i1 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i2 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> t = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">bool</span> carry = <span class="literal">false</span>;</span><br><span class="line">        <span class="function">ListNode <span class="title">head</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">        ListNode* ptail = &amp;head;</span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (l1)</span><br><span class="line">            &#123;</span><br><span class="line">                i1 = l1-&gt;val;</span><br><span class="line">                l1 = l1-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                i1 = <span class="number">0</span>;</span><br><span class="line">                l1ended = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (l2)</span><br><span class="line">            &#123;</span><br><span class="line">                i2 = l2-&gt;val;</span><br><span class="line">                l2 = l2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                i2 = <span class="number">0</span>;</span><br><span class="line">                l2ended = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (carry)</span><br><span class="line">            &#123;</span><br><span class="line">                t = i1 + i2 + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                t = i1 + i2;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (t != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (t &gt; <span class="number">9</span>) <span class="comment">// 进位</span></span><br><span class="line">                &#123;</span><br><span class="line">                    t %= <span class="number">10</span>;</span><br><span class="line">                    carry = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    carry = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ListNode* n = <span class="keyword">new</span> ListNode(t);</span><br><span class="line">                ptail-&gt;next = n;</span><br><span class="line">                ptail = n;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (l1ended &amp;&amp; l2ended)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    ListNode* n = <span class="keyword">new</span> ListNode(<span class="number">0</span>); <span class="comment">// 有可能为0</span></span><br><span class="line">                    ptail-&gt;next = n;</span><br><span class="line">                    ptail = n;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>有向无环图上的最短路问题：给定一个出发点，求它到所有叶子节点的路径中最短的那条路径的长度。</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> rest,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; coins, <span class="keyword">int</span> amount, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; DP)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (rest == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span> (rest &lt; <span class="number">0</span>) <span class="keyword">return</span> amount+<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (DP[rest] &gt;= <span class="number">0</span>) <span class="keyword">return</span> DP[rest];</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> r = amount + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; coins.size(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> s = solve(rest - coins[i], coins, amount, DP) + <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span> (s &lt; r) r = s;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		DP[rest] = r;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (<span class="number">0</span> == amount) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span> (<span class="number">0</span> == coins.size()) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; DP(amount+<span class="number">1</span>,-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> r = solve(amount,coins,amount,DP);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (r &gt; amount) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> r;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>非递归形式：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="number">0</span> == amount) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span> (<span class="number">0</span> == coins.size()) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; DP(amount + <span class="number">1</span>, INT_MAX);</span><br><span class="line">		DP[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; coins.size(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= amount ; ++j)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (j &gt;= coins[i] &amp;&amp; DP[j - coins[i]] != INT_MAX)</span><br><span class="line">				&#123;</span><br><span class="line">					DP[j] = min(DP[j], DP[j-coins[i]]+<span class="number">1</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (DP[amount] &gt; amount) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> DP[amount];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -289,17 +289,13 @@ Add the two numb">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/06/Reverse-Nodes-in-k-Group/" rel="next" title="Reverse Nodes in k-Group">
-                <i class="fa fa-chevron-left"></i> Reverse Nodes in k-Group
+              <a href="/2016/03/19/0-1背包，完全背包，树形DP入门/" rel="next" title="0-1背包，完全背包，树形DP入门">
+                <i class="fa fa-chevron-left"></i> 0-1背包，完全背包，树形DP入门
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/06/Subsets-II/" rel="prev" title="Subsets II">
-                Subsets II <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -413,7 +409,7 @@ Add the two numb">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode_3A_Add_Two_Numbers"><span class="nav-number">1.</span> <span class="nav-text">LeetCode: Add Two Numbers</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Coin_Change"><span class="nav-number">1.</span> <span class="nav-text">Coin Change</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
