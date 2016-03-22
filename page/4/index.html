@@ -210,6 +210,206 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/23/HiHo一下——区间查询（RMQ）/" itemprop="url">
+                  区间查询（RMQ）问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-23T17:09:51+08:00" content="2016-01-23">
+              2016-01-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<p>本次问题主要集中在HiHo一下第16~21周，从Tarjan的Sparse-Table（ST）算法开始到线段树的使用主要讲述RMQ问题的解决方案以及离散化思想。RMQ问题在《算法竞赛入门经典——训练指南》一书中第三章也有专门讨论，并包含了这里不会讨论的树状数组。</p>
+<h2 id="HiHo_u4E00_u4E0B_u7B2C16_u5468"><a href="#HiHo_u4E00_u4E0B_u7B2C16_u5468" class="headerlink" title="HiHo一下第16周"></a><strong><a href="http://hihocoder.com/contest/hiho16/problem/1" target="_blank" rel="external">HiHo一下第16周</a></strong></h2><p>与前面的一样，题目不再详述。解决这个问题使用了Tarjan的Sparse-Table方法，并且在题目的提示中已经讲解了，但是并没有给出图示，只给出了递推关系式，这里补充给出题目给出的case的解决过程来具体说明ST方法的工作原理。</p>
+<p>首先需要明确的是ST方法实际上依旧是分治法的一种，并且需要一个表来保存计算结果以备查询（看起来与动态规划很像哈）。</p>
+<p>来看看使用ST方法对已知case的解决过程吧：</p>
+<p>先上主要工作，也就是构建Table的过程图：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f09mxx0zs1j30ml0d2tau.jpg" alt="RMQ_ST"></p>
+<p>图中的第<code>i</code>行第<code>j</code>列的数据记录<code>以j开始，长度为2^i的区间内的最小值</code>。很显然，我们的第0行就是原数据了。</p>
+<p>第1行则是<code>两个元素</code>中的最小值，注意这个结果可以保存下来用来计算第2行的数据。</p>
+<p>第2行则是<code>四个元素</code>中的最小值，同样可以用来计算第3行的数据。</p>
+<p>第三行则是<code>八个元素</code>中的最小值。</p>
+<p>由于case中的数据量为10，所以我们没有第4行了（注意我们是从0开始计数的，HiHo中的数据则是从1开始计数的）。</p>
+<p>计算每一行的最大耗费为<code>O(N)</code>，总共需要计算<code>log(N)</code>行，因此ST算法总的时间复杂度上界为<code>O(N*logN)</code>。</p>
+<p>既然已经计算出了查询表，那么接下来就应该使用个这表来处理查询了，处理查询的思想是这样的：</p>
+<p>假定想知道从下标为<code>1</code>的元素开始，长度为<code>7</code>的区间内数据的最小值，那么我们可以将这个区间表示为这样的连个区间的并：</p>
+<ul>
+<li>下标为<code>1</code>的元素开始，长度为<code>4</code>的区间；</li>
+<li>下标为<code>4</code>的元素开始，长度为<code>4</code>的区间；</li>
+</ul>
+<p>如图示：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f09mwlwdebj30ml0ewacd.jpg" alt="Query1"></p>
+<p>由于区间长度为4 = 2^2，我们去找第2行中下表为<code>1</code>和<code>4</code>的数据：1556和981，两者的最小值981就是想要的结果。</p>
+<p>再来一个例子：</p>
+<p>假定想知道从下标为<code>1</code>的元素开始，长度为<code>9</code>的区间内数据的最小值，那么我们可以将这个区间表示为这样的连个区间的并：</p>
+<ul>
+<li>下标为<code>1</code>的元素开始，长度为<code>8</code>的区间；</li>
+<li>下标为<code>2</code>的元素开始，长度为<code>8</code>的区间；</li>
+</ul>
+<p>如图示：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f09muonorvj30mo0evjtr.jpg" alt="Query2"></p>
+<p>由于区间长度为8 = 2^3，我们去找第3行中下表为<code>1</code>和<code>2</code>的数据：981和981，两者的最小值981就是想要的结果。</p>
+<p>case中的查询按照上面的思想就可以求解了，很显然经过预处理之后，查询操作的时间复杂度是<code>O(1)</code>。</p>
+<p>接下来给出我的TLE代码……</p>
+<p>真是够了，跟《训练指南》中的代码比较过，除了内循环那部分，别的没出入，依旧TLE，然而改成书中的格式之后反而更慢（sad face）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> MAX_N <span class="number">1000000</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> MAX_WEIGHT <span class="number">10001</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> MIN(a,b) ((a)&gt;(b))?(b):(a)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> d[<span class="number">20</span>][MAX_N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RMQ_ST_INIT</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; n; ++p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; d[<span class="number">0</span>][p];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; (<span class="number">1</span> &lt;&lt; j) &lt;= n; ++j)</span><br><span class="line">    &#123;</span><br><span class="line">		<span class="keyword">int</span> stride = <span class="number">1</span> &lt;&lt; (j - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span> ; k &lt; n; ++k)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(k + stride &gt;= n)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            d[j][k] = MIN(d[j-<span class="number">1</span>][k],d[j-<span class="number">1</span>][ k + stride]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> lb, <span class="keyword">int</span> rb)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	lb--;</span><br><span class="line">	rb--;</span><br><span class="line">    <span class="keyword">int</span> len = rb - lb + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>((<span class="number">1</span> &lt;&lt; k) &lt;= len)&#123;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">	k--;</span><br><span class="line">    <span class="keyword">return</span> MIN(d[k][lb],d[k][lb + len - (<span class="number">1</span> &lt;&lt; k)]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    RMQ_ST_INIT();</span><br><span class="line">    <span class="keyword">int</span> qn = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; qn;</span><br><span class="line">    <span class="keyword">while</span>(qn &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; l &gt;&gt; r;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; query(l,r) &lt;&lt; endl;</span><br><span class="line">        --qn;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="HiHO_u4E00_u4E0B_u7B2C17_u5468"><a href="#HiHO_u4E00_u4E0B_u7B2C17_u5468" class="headerlink" title="HiHO一下第17周"></a><strong><a href="http://hihocoder.com/contest/hiho17/problem/1" target="_blank" rel="external">HiHO一下第17周</a></strong></h2><p>前面讨论了RMQ问题的ST算法，这次就是它在LCA问题上的具体应用了，其中的一个关键思想就是：<code>将树转化为数组</code>。</p>
+<p>具体方法是这样的：我们知道DFS在工作的时候将会进入一个节点一次，退出一个节点一次（实际上就是该节点的Environment入栈和出栈啦），在这个过程中我们可以得到节点的深度信息，那么我们可以根据DFS的路径将每次遇到的深度信息放到一个数组中：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Node* n, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; v)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  foreach( node in n-&gt;children)</span><br><span class="line">  &#123;</span><br><span class="line">    v.push_back(n-&gt;depth);</span><br><span class="line">    dfs(node,v);</span><br><span class="line">    v.push_back(n-&gt;depth);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>于是对于树：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f09orlv684j30hu07ngm6.jpg" alt="tree"></p>
+<p>上图说明了DFS的路径。</p>
+<p>有下面的数组：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DFS路径：</span><br><span class="line">[A, B, D, D, B, E, I, I, E, B, A, C, F, J, J, F, C, G, G, C, H, H, C, A]</span><br><span class="line">得到的对应数组：</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br></pre></td></tr></table></figure></p>
+<p>回顾LCA问题，实际上就是求两个节点在树中深度最低的那个公共祖先，结社我们要求<code>D（深度2）</code>和<code>I（深度3）</code>的LCA，已知结果为<code>B</code>，的对应深度为<code>1</code>。</p>
+<p>记下<code>D</code>和<code>I</code> <strong>最后一次</strong> 出现的位置下标：<code>3</code>和<code>7</code>，在这段区间中的最小值为<code>1</code>对于节点为<code>B</code>，正是所求的结果。<br>d<br>同理，对于节点<code>I</code>和<code>J</code>的LCA，下标<code>7</code>和<code>14</code>之间的区间内，最小值为<code>0</code>，对应节点为<code>A</code>，同样为所求结果。</p>
+<p>再有，对于节点<code>C</code>和<code>J</code>的LCA，下标<code>22</code>和<code>14</code>之间的区间内，最小值为<code>1</code>，对应节点为<code>C</code>，同样为所求结果。</p>
+<p>事实上，上面的DFS路径其实是将树的无向边变为双向边得到的。</p>
+<h2 id="u7EBF_u6BB5_u6811"><a href="#u7EBF_u6BB5_u6811" class="headerlink" title="线段树"></a><strong>线段树</strong></h2><p>很显然，ST算法在原数组中的数据不会发生改动的时候工作的很好，而且代码也不难写，然而当原数组中的数据发生改变的时候，即便是只改变一个数据，就会导致表中数据大量的更新（看一下上面构建表过程图中的关系表示就知道了），这是不可接受的。</p>
+<p>本想用《算法导论》上面的线段树例子，不过对比之后感觉不太合适进行应用方面的说明。还是按照《训练指南》上的说法来吧。</p>
+<p>事实上，线段树跟前面图形方面的文中的<code>Quad Tree</code>很像的：子树的并集“覆盖”（之所以用引号是因为多少还是不同的，不过这种类比可以更好的理解线段树，或者反之理解<code>Quad Tree</code>）了父节点所代表的空间；这种类似甚至包含了对于树的查询过程：满足要求的节点直接得到结果，而完全不满足要求的则拒绝向下求解，部分满足要求的则继续向下细分。</p>
+<p>直接借用HiHo上面的图来说明这一点：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f09syc8bxsj30wj0gywf2.jpg" alt="线段树"></p>
+<p>一图胜千言，说白了就是<code>Quad Tree</code>的一维形式，然后标准的<code>Quad Tree</code>是二维的，三位的则是<code>Oct Tree</code>。</p>
+<p>下面我们想要查询区间<code>[3, 9]</code>:</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f09t2pw8zpj30w60h73z4.jpg" alt="查询"></p>
+<p>橘黄色的节点就是我们想要询问的节点了，这里的每个节点都保存着与该节点相关的区间的“目标数据”比如：最大值，最小值，和等等。查询最坏情况也只对两个边界来一个深度查询，因此也是<code>O(logN)</code>的耗费。</p>
+<p>回想一下我们讨论的<code>Quad/Oct Tree</code>的工作方式，是不是几乎一样的？将空间中的物体集合换成其他信息了而已，思路都是一样的。</p>
+<p>既然知道了查询，那么修改怎么办呢？区间修改是一个down-top的过程，我们对每个节点维护一个指向父节点的指针，自下而上修改相关区间的“目标数据”就可以了，非相关区间很明显是不受影响的，于是修改的时间耗费就成了树的高度，线段树很明显是一个二叉树，那么修改操作的时间耗费就是<code>O(logN)</code>。</p>
+<p>关于修改，还有一个 <strong>比较重要</strong> 的方法就是“懒惰标识”，这个思想跟“懒惰求值”是一样的，也就是不到万不得已不去修改，只做一个标记说明此处在下一次“问询”的时候需要重新计算。这种情况一般多见于对于未知问询的保守策略，不问的东西永远不会去求解，从而能提高效率（不需要每次修改把所有的点都计算一遍，只计算参与问询的点）。</p>
+<p>线段树基本上介绍完毕了，接下来是与线段树相关的一个思想，在解决“区间相关”问题上非常有帮助（再比如2/3D空间的包含、重叠之类的问题）。</p>
+<h2 id="u79BB_u6563_u5316"><a href="#u79BB_u6563_u5316" class="headerlink" title="离散化"></a><strong>离散化</strong></h2><p>离散化思想的应用在<a href="http://hihocoder.com/contest/hiho21/problem/1" target="_blank" rel="external">HiHo一下第21周</a>。下面根据题目跟出的case来说明一下离散化思想的应用。</p>
+<h3 id="u5143_u6570_u636E"><a href="#u5143_u6570_u636E" class="headerlink" title="元数据"></a><strong>元数据</strong></h3><p>首先是最基本的“元数据”离散化解法：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f0bza2av6jj30ib0c2dgv.jpg" alt="meta"></p>
+<p>将长度为<code>N</code>的区间分成<code>N</code>个单位元，这个样我们可以得到一个如下所示的线段树：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f0bz4c37apj30uz0bomyh.jpg" alt="tree"></p>
+<p>绿色的叶子结点完全覆盖了整个区间，接下来我们按照顺序将给出的区间覆盖上去，这里用颜色来标注每一条线段覆盖上去之后的变化：</p>
+<p>首先是区间<code>[4, 10]</code>的线段。注意，严格来讲，代表区间<code>[5, 10]</code>的节点以及它下属的所有节点都应该被标注为红色，但是我们这里不这样做，只是加上一个<code>懒惰标识</code>，在接下来的过程中会看到<code>懒惰标识</code>是如何发挥作用的。</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1f0bzbwtdekj30uz0bomxp.jpg" alt="4,10"></p>
+<p>接下来是区间<code>[0, 2]</code>。</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1f0bzirp1yqj30uz0bot99.jpg" alt="0, 2"></p>
+<p>区间<code>[1, 6]</code>。这个过程需要注意的是：一旦出现包含<code>懒惰标识</code>但依旧需要细分的节点，那么它必须先向下给自己的子节点染色，例如代表区间<code>[5, 10]</code>的节点。</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f0bznqfp83j30uz0bo74u.jpg" alt="1, 6"></p>
+<p>区间<code>[5, 9]</code>。</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f0bzuukpgij30uz0boq3i.jpg" alt="5, 9"></p>
+<p>区间<code>[3, 4]</code>。</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f0bzyjjf56j30uz0bowf2.jpg" alt="3, 4"></p>
+<p>最后，我们深度遍历整棵树，遇到有颜色的节点就终止深度递归，记录这个过程中遇到的不同的颜色数，就可以得到结果了。结果是5，正应了case的正确结果。</p>
+<p>然而上面这个过程需要首先对整个区间建树，其耗费与区间长度<code>N</code>正相关，是一个<code>O(NlogN)</code>的过程，如果区间很大而实际出现的线段数量很少，那么就得不偿失了。事实上，我们只需要根据线段来建树，这样可以使得问题的求解只与线段数目相关，而这只要对线段做一个预处理就可以了。</p>
+<h3 id="u8D85_u5143_u6570_u636E"><a href="#u8D85_u5143_u6570_u636E" class="headerlink" title="超元数据"></a><strong>超元数据</strong></h3><p>“超元数据”离散化解法：</p>
+<p>先上图，注意与原来的划分方法比较，并注意缺失的3条垂直虚线与结果的联系：</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1f0c0en67eyj30hh0d5q30.jpg" alt="hyper-meta"></p>
+<p>首先根据线段的左右端点来对整个区间进行划分：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>, <span class="number">1</span>] [<span class="number">1</span>, <span class="number">2</span>] [<span class="number">2</span>, <span class="number">3</span>] [<span class="number">3</span>, <span class="number">4</span>] [<span class="number">4</span>, <span class="number">5</span>] [<span class="number">5</span>, <span class="number">6</span>] [<span class="number">6</span>, <span class="number">9</span>] [<span class="number">9</span>, <span class="number">10</span>]</span><br></pre></td></tr></table></figure></p>
+<p>按照<code>[0, 1, 2, 3, 4, 5, 6, 9, 10]</code>划分，对应的线段树：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f0c0vq0ivjj30ti09hwev.jpg" alt="tree"></p>
+<p>是不是比前面的少了一些节点呢？注意虽然少了一些节点，但是绿色的叶子节点一样覆盖了整个区间。</p>
+<p>然后就是跟前面一样按顺序覆盖线段了：</p>
+<p>区间<code>[4, 10]</code>。</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f0c10tiarej30ti09hwev.jpg" alt="4 10"></p>
+<p>区间<code>[0, 2]</code>。</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1f0c126cybpj30ti09h74o.jpg" alt="0 2"></p>
+<p>区间<code>[1, 6]</code>。</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f0c15m6t8kj30ti09hgm0.jpg" alt="1 6"></p>
+<p>区间<code>[5, 9]</code>。</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1f0c19p30daj30ti09ht94.jpg" alt="5 9"></p>
+<p>区间<code>[3, 4]</code>。</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttjw1f0c1beckitj30ti09ht94.jpg" alt="3 4"></p>
+<p>完毕，比前面按照“元数据”划分要来的省心多了。</p>
+<p>最后统计的时候依旧按照前面的方法就可以了。</p>
+<p><code>超元数据</code>与<code>元数据</code>的概念借鉴自：陈宏《数据结构的选择与算法效率——从IOI98试题PICTURE谈起》，1999.</p>
+<p>至于代码……我的代码一直WA，讨论区的测试用例都过了（sad…），程序用的是链表，没用数组，必定TLE了（实际上通过的那些case都已经超时了）……</p>
+<p>给出其他人的AC代码：<a href="http://blog.csdn.net/kk303/article/details/41446435" target="_blank" rel="external">点击这里</a></p>
+<h3 id="u79BB_u6563_u7B56_u7565"><a href="#u79BB_u6563_u7B56_u7565" class="headerlink" title="离散策略"></a><strong>离散策略</strong></h3><p>在上面的题目对离散区间采用按照端点连续划分的，也就是相邻区间以<code>[m,n] [n, k] [k, l]...</code>这样的区间划分（我自己的代码就是这样的）</p>
+<p>还有一种划分方法是按区间编号划分：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1f0crdhmbzbj30fu02t0sl.jpg" alt="离散"></p>
+<p>那么对于线段<code>[5, 9]</code>，它所对应的区间编号应为<code>{6, 7, 8, 9}</code>，除了划分区间不同之外，其他方法一致，上面链接中的AC代码就是按照这种方式进行区间划分的。</p>
+<h1 id="u7ED3"><a href="#u7ED3" class="headerlink" title="结"></a><strong>结</strong></h1><hr>
+<p>题目没有AC感觉真是不好……自己功夫不到家，拿不到HiHo的测试数据，代码TLE了还好，WA了真是找不到错在哪里了，唉……</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/17/HiHo一下——LCA/" itemprop="url">
                   HiHo一下第13~15周
                 </a>
@@ -1194,7 +1394,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-count">38</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
