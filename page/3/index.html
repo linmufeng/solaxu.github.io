@@ -210,6 +210,190 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/04/GC初步/" itemprop="url">
+                  GC初步
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-04T17:15:59+08:00" content="2016-03-04">
+              2016-03-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Compiler/" itemprop="url" rel="index">
+                    <span itemprop="name">Compiler</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
+<p>本来是想在CPP相关的文里面讨论一下内存管理的事情，不过想了一想，还是放到编译相关的文章里面谈会更合适一些。</p>
+<p>这次关于CG的讨论只关注一些基本原理以及算法，不涉及到并行GC等高级话题（水平不够Hold不住）。</p>
+<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<h2 id="u4F5C_u7528_u57DF_28RAII_u7684_u4E00_u4E2A_u5E94_u7528_29"><a href="#u4F5C_u7528_u57DF_28RAII_u7684_u4E00_u4E2A_u5E94_u7528_29" class="headerlink" title="作用域(RAII的一个应用)"></a><strong>作用域(RAII的一个应用)</strong></h2><p>在C++中，我们知道一个对象的生存周期是与它的作用域有关的。例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> Info</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function">Info <span class="title">info</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="function">Info <span class="title">i</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这就在一定程度上给我们一个方案：用一个对象包裹分配的内存地址，当该对象出了它作用域之后自动调用free/delete，如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> Info</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">struct</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line">	T* ptr;</span><br><span class="line">	SmartPtr(T* p) :ptr(p) &#123;&#125;</span><br><span class="line">	~SmartPtr() &#123; <span class="keyword">delete</span> ptr; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			i2.ptr-&gt;say();</span><br><span class="line">      <span class="comment">// 注意赋值操作符带来的错误！！！</span></span><br><span class="line">      <span class="comment">// 如果i2是从i1而来： SmartPtr&lt;Info&gt; i2 = i1;</span></span><br><span class="line">      <span class="comment">// 那么，i2一旦出了作用域，就会连带将i1的内存释放掉，而这显然是不正确的！</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这当然是不足以解决问题的——如果分配的内存希望能够在出了作用域之后继续存在怎么办？况且依旧无法对上面的代码注释中提到的情况作出应对。</p>
+<h2 id="u5F15_u7528_u8BA1_u6570"><a href="#u5F15_u7528_u8BA1_u6570" class="headerlink" title="引用计数"></a><strong>引用计数</strong></h2><p>引用计数其实是很常见的，比如在操作系统中需要记录某内核对象的引用次数，只有当该对象的计数为0的时候才能销毁该对象；再比如COM对象的引用计数。示例：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> Info</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">struct</span> refStruct</span><br><span class="line">	&#123;</span><br><span class="line">		T* ptr;</span><br><span class="line">		<span class="keyword">int</span> refc;</span><br><span class="line"></span><br><span class="line">	&#125;* sptr; <span class="comment">// 注意这里并非是直接将计数放在Smartprt中，而是加了一层。</span></span><br><span class="line">	SmartPtr() :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr(T* p) :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			sptr = <span class="keyword">new</span> refStruct;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"new refStruct here\n"</span>);</span><br><span class="line">			sptr-&gt;ptr = p;</span><br><span class="line">			sptr-&gt;refc = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	~SmartPtr()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			--sptr-&gt;refc; <span class="comment">// 析构的时候减少计数</span></span><br><span class="line">			<span class="keyword">if</span> (sptr-&gt;refc &lt;= <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr-&gt;ptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr-&gt;ptr = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"dead refStruct here\n"</span>);</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr = <span class="literal">NULL</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr&lt;T&gt;&amp; <span class="keyword">operator</span>=(SmartPtr&lt;T&gt;&amp; sp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span> != &amp;sp)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr = sp.sptr;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr-&gt;refc++; <span class="comment">// 赋值的时候增加计数</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> * <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">refCount</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;sptr)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>-&gt;sptr-&gt;refc;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>,i1.refCount());</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			SmartPtr&lt;Info&gt; i3;</span><br><span class="line">			i3 = i1;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i3 ref count: %d\n"</span>, i3.refCount());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实上面的例子也就是shared_ptr的原理了。注意到引用计数字段并没有直接放在Smartptr对象中——因为计数只与原始指针有关，一旦直接放入Smartptr对象中，赋值的时候就会产生副本，计数递减就只是对副本的操作，从而使得内存泄漏。</p>
+<p>附上面代码的结果：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttgw1f1l4r7ecjvj305h070745.jpg" alt="result"></p>
+<h2 id="u50F5_u5C40_uFF1A_u5FAA_u73AF_u5F15_u7528"><a href="#u50F5_u5C40_uFF1A_u5FAA_u73AF_u5F15_u7528" class="headerlink" title="僵局：循环引用"></a><strong>僵局：循环引用</strong></h2><p>仅从结果来看，引用计数工作的很好。</p>
+<p>然而确实如此么？请注意这样一个事实：上面的对象是没有包含其他对象的指针的！</p>
+<p>我们将代码改动一下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">struct</span> refStruct</span><br><span class="line">	&#123;</span><br><span class="line">		T* ptr;</span><br><span class="line">		<span class="keyword">int</span> refc;</span><br><span class="line"></span><br><span class="line">	&#125;* sptr;</span><br><span class="line">	SmartPtr() :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr(T* p) :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			sptr = <span class="keyword">new</span> refStruct;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"new refStruct here\n"</span>);</span><br><span class="line">			sptr-&gt;ptr = p;</span><br><span class="line">			sptr-&gt;refc = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	~SmartPtr()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			--sptr-&gt;refc; <span class="comment">// 析构的时候减少计数</span></span><br><span class="line">			<span class="keyword">if</span> (sptr-&gt;refc &lt;= <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr-&gt;ptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr-&gt;ptr = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"dead refStruct here\n"</span>);</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr = <span class="literal">NULL</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr&lt;T&gt;&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> SmartPtr&lt;T&gt;&amp; sp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span> != &amp;sp)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr = sp.sptr;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr-&gt;refc++; <span class="comment">// 赋值的时候增加计数</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> * <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">refCount</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;sptr)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>-&gt;sptr-&gt;refc;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Info</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	SmartPtr&lt;Info&gt; link; <span class="comment">// 注意这里的link！！！</span></span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">LinkTo</span><span class="params">(<span class="keyword">const</span> SmartPtr&lt;Info&gt;&amp; link)</span> </span>&#123; <span class="keyword">this</span>-&gt;link = link; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>* r1 = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">int</span>* r2 = <span class="literal">NULL</span>;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		r1 = &amp;i1.sptr-&gt;refc; <span class="comment">// 取地址</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>,i1.refCount());</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			r2 = &amp;i2.sptr-&gt;refc; <span class="comment">// 取地址</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i2.refCount());</span><br><span class="line">			<span class="comment">// 令其发生循环引用</span></span><br><span class="line">			i1.sptr-&gt;ptr-&gt;LinkTo(i2);</span><br><span class="line">			i2.sptr-&gt;ptr-&gt;LinkTo(i1);</span><br><span class="line">			<span class="comment">// 打印计数值</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i2.refCount());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Final: ref i1 = %d, ref i2 = %d\n"</span>, * r1, * r2);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>附上上面的代码执行结果：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1l5e943uwj308505fjr7.jpg" alt="result"></p>
+<p>发现引用计数不再发挥效用了！！</p>
+<p>图示会更加清楚：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1l67b52gwj30dz0cgjrq.jpg" alt="eg"></p>
+<p>注意，这里在Info对象中添加的link字段。实际上，该字段可以认为是与Java/C#/Python中的引用一致的东西。前面的文章里面有提到过引用和指针之间是不同的，在这里将会有实际的体会：引用的概念比指针要更加高级与抽象。</p>
+<p>如何破解这个僵局呢？</p>
+<h2 id="u7834_u5C40"><a href="#u7834_u5C40" class="headerlink" title="破局"></a><strong>破局</strong></h2><p>破局的要点还是在上面那张图中：link-&gt;连线-&gt;方向+节点-&gt;有向图！</p>
+<p>如果我们能够在GC之前把回边砍掉，从而恢复正确的引用计数，那么就可以正确完成垃圾回收了！</p>
+<p>这里说明一下，上面的那张图实际上不是很正确：为了与计数对应而删掉了有向边——事实上有向边是没有删掉的（因为计数的减少并非有向边去掉导致的）。</p>
+<p>在图中找出一个回边并不是个难事——遍历扫描一下就可以了。发现回边之后更改边两端的节点的引用计数即可。</p>
+<p>然而在对一个图进行扫描的时候需要知道起点，而很多时候，分配的内存相互引用形成的图并非是一个连通图，于是这就引出了另外一个概念：Root集合。</p>
+<h2 id="Root_u96C6_u5408_u4E0EMark-Sweep"><a href="#Root_u96C6_u5408_u4E0EMark-Sweep" class="headerlink" title="Root集合与Mark-Sweep"></a><strong>Root集合与Mark-Sweep</strong></h2><p>所谓Root集合，其实就是GC回收时，扫描开始的“点”。例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">SmartPtr&lt;Info&gt; g_i1(<span class="keyword">new</span> Info(<span class="number">123</span>));</span><br><span class="line">SmartPtr&lt;Info&gt; g_i2(<span class="keyword">new</span> Info(<span class="number">456</span>));   <span class="comment">// ----&gt; ①</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addLinkTo</span><span class="params">(SmartPtr&lt;Info&gt;&amp; ptr, <span class="keyword">int</span> num)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	ptr.sptr-&gt;ptr-&gt;link = SmartPtr&lt;Info&gt;(<span class="keyword">new</span> Info(num));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		addLinkTo(g_i1,<span class="number">789</span>);						<span class="comment">// ----&gt; ②</span></span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>)); <span class="comment">// ----&gt; ③</span></span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>)); <span class="comment">// ----&gt; ④</span></span><br><span class="line">			addLinkTo(i1,<span class="number">11</span>);			<span class="comment">// ----&gt; ⑤</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// ----&gt; ⑥</span></span><br><span class="line">	addLinkTo(g_i1,<span class="number">1234</span>); <span class="comment">// 这里把以前的789那个对象给顶替了。如果不对其进行回收的话，将会产生内存泄漏。</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不难发现，Root集合一般而言，是由全局变量，静态变量，寄存器值，方法参数，或者是由程序入口所在域及其子域中的变量等构成的。</p>
+<p>前面我们已经知道每次加一个Link，就可以在相应的节点上加上一条有向边，那么上面的代码可以对应下面的图，表号对应代码中的注释：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1lw89sg3uj30j40hvdh2.jpg" alt="."></p>
+<p>注意内容为<code>789</code>的那个节点。这个节点是可以确定属于垃圾的。通过以上的描述，也不难发现Root集合应当包含的节点。</p>
+<p>当我们根据Root集合进行扫描的时候，把可达节点做上标记（Mark）并收集起来，然后将不可达节点删除（Sweep）掉，就可以完成GC过程了——这就是Mark-Sweep算法的原理。</p>
+<p>至于Root节点们，当它们出了自己的作用域之后必然将会被删除，到那时，剩下的所有节点都不再是可达节点，从而会被全部回收（当然对于全局变量，程序一旦结束，OS也会回收这些内存的）。</p>
+<h2 id="u66F4_u8FDB_u4E00_u6B65_uFF1A_u4E09_u8272_u6807_u8BB0_u6A21_u578B"><a href="#u66F4_u8FDB_u4E00_u6B65_uFF1A_u4E09_u8272_u6807_u8BB0_u6A21_u578B" class="headerlink" title="更进一步：三色标记模型"></a><strong>更进一步：三色标记模型</strong></h2><p>注意，截至到上一个部分，我们都是在对图的结构稳定情况下进行处理的，也就是要求当GC进行的时候，整个程序都应当停下来，不再对内存进行分配，直到GC过程处理完毕，也就是通常所说的“Stop The World”。</p>
+<p>对于实时性要求不高的场合，这不失为一种有效的解决方法，然而对于交互式系统和实时系统这是无法接受的——至少，对于一个自动驾驶系统，如果该减速停车的时候来了一次GC，后果不堪设想。</p>
+<p>这就需要另外一系列行之有效的办法来将这个时间碎片化，分散出去。引用计数可以在一定程度上做到这些，但还不够，于是，增量收集登场了。</p>
+<p>在这个过程中，增量/并行算法将“无用垃圾信息收集穿插于程序执行过程中，避免对程序的长时间打断”。通常，由于应用程序本身总是在改变图的结构，因此将程序视为“改变器”；而GC模块，则视为“回收器”。</p>
+<p>三色标记模型作为对Mark-Sweep的拓展补充，在增量标记中发挥了重要的作用。</p>
+<p>在前面介绍<a href="http://solaxu.github.io/2016/01/17/HiHo%E4%B8%80%E4%B8%8B%E2%80%94%E2%80%94LCA/">LCA的文章</a>中已经对染色法有过一定的介绍了，这里依旧是分阶段进行染色的，不过略有不同。</p>
+<ul>
+<li>对于未访问过的对象，标记为白色；</li>
+<li>对于已经访问过，但是其子对象还没有访问过的对象，标记为灰色；</li>
+<li>对于连子对象也访问过的对象，标记为黑色。</li>
+</ul>
+<p>显然Sweep阶段完成之后，白色节点是属于不可达节点的，应当删除。但就上面描述而言，似乎没有什么特别的地方。而三色标记模型则明确了两个要点：</p>
+<ul>
+<li>黑色节点是不能够直接指向白色节点的。</li>
+<li>所有的灰色节点都处于一个待处理的数据结构中，也就是说，灰色节点属于一个中间态。</li>
+</ul>
+<p>应该明确这样的一点：标记颜色的目的，是为了保留当前结点的<strong>状态</strong>。</p>
+<p>很显然，当改变器对图中的一个黑色结点进行更改的时候（注意，出现了黑色节点也就说明了Mark过程是正在进行（或者已经Sweep了）），例如进行了一个LinkTo的操作，这个操作使得黑色节点变成了灰色节点。这个更改必须被及时、高效地的通知给收集器，通常情况下，这需要使用到“写障碍”或者是“读障碍”，他们基本都是利用OS，对相应的内存加上“读/写”锁来完成的。</p>
+<h2 id="u53E6_u4E00_u79CD_u6D41_u6D3E_uFF0C_u590D_u5236_u6536_u96C6_uFF08Copying_GC_uFF09"><a href="#u53E6_u4E00_u79CD_u6D41_u6D3E_uFF0C_u590D_u5236_u6536_u96C6_uFF08Copying_GC_uFF09" class="headerlink" title="另一种流派，复制收集（Copying GC）"></a><strong>另一种流派，复制收集（Copying GC）</strong></h2><p>相对于Mark-Sweep而言，复制收集更加易于理解，但一样要进行一次扫描阶段。</p>
+<p>复制收集的主要做法是首先为应用程序分配一个大内存，然后将其一分为两个Pool。</p>
+<ul>
+<li><p>初始化阶段任选一块内存作为Pool，命名为SrcPool，另一个命名为DestPool，应用程序的所有内存申请均从SrcPool中划分。</p>
+</li>
+<li><p>当SrcPool中没有足够的可用空间时，触发GC。</p>
+</li>
+<li><p>GC的扫描阶段标记完毕可达节点。</p>
+</li>
+<li><p>GC的复制阶段将SrcPool中所有标记的可达节点复制到DestPool，复制完毕之后，交换两个Pool的引用。</p>
+</li>
+</ul>
+<p>剩下的就是以上过程的迭代了。很显然，两个Pool起到了内存池的作用，并且内存经过了整理压缩，一定程度上解决了内存碎片的问题，并提高内存页的命中率；但这种方式的一个不好的地方在于它至少要浪费一半的内存空间；更有甚者，如果采用DFS（无论是否显式栈），还是基于额外队列的BFS，都需要另外的空间。</p>
+<p>由于Copying GC也是有着扫描这一过程，因此三色标记模型实际也是可以在这上面采用的。</p>
+<h3 id="Cheney_u7B97_u6CD5"><a href="#Cheney_u7B97_u6CD5" class="headerlink" title="Cheney算法"></a><strong>Cheney算法</strong></h3><p>为了解决额外空间的问题，Cheney算法利用复制对象过程中的特点（对象复制过后是紧凑的），采用destPool中的scan到next中间部分的记录作为BFS的队列（scan与next是两个指针），从而解决了这一问题。</p>
+<p>现在使用四个对象来简单说明一下这个算法：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1f1m0cifsj9j31090jmaa9.jpg" alt="Cheney"></p>
+<p>首先是R对象作为Root被首先复制到DestPool中。R中保存了对象C与D的引用，这两个引用依旧指向SrcPool。</p>
+<p>于是复制C和D到DestPool中，同时更改R中两个引用的指向，使其正确。</p>
+<p>此时D中的引用仍旧指向SrcPool。</p>
+<p>复制对象E到DestPool中，更改对象D中对E的引用的指向。</p>
+<p>图中的S与N代表了scan指针与next指针。当scan最终等于next的时候，对该Root的处理结束。</p>
+<p>引用与指针的区别再一次体现了出来：这里的引用包含了指向SrcPool的指针，被以此为标识来说明引用的对象是否还处于SrcPool中。</p>
+<p>在编译课程中的GC就使用了该算法，当然实际过程会相对麻烦一些。</p>
+<h2 id="u4E16_u4EE3_u6536_u96C6"><a href="#u4E16_u4EE3_u6536_u96C6" class="headerlink" title="世代收集"></a><strong>世代收集</strong></h2><p>分代的思想是基于这样的事实的：</p>
+<ul>
+<li>总是有那么一部分内存是变化不大的；</li>
+<li>当一块内存在一次或者多次GC中存活下来，那么它继续存活的几率会比较高；</li>
+<li>新分配的对象总是会马上死亡，无法经过第二次GC。</li>
+</ul>
+<p>于是可以按照“代”将堆划分出来，比如将堆为老中青三代：</p>
+<ul>
+<li>新分配的对象总是从青年堆中分配，GC总是首先在青年堆中进行；</li>
+<li>将青年堆中存活的对象复制到中年堆中；</li>
+<li>当中年堆满的时候进行一次在中年堆上的GC，存活下来的对象复制到老年堆中；</li>
+<li>当老年堆满的时候，进行一次老年队上的GC，此时可以用Mark-Sweep或者Copy-Compact（这是在当前堆上进行的，该方法类似于内存碎片整理）等方法进行回收，一般来讲，尽量还是在回收后将对象紧凑放置。</li>
+</ul>
+<p>上面只是世代收集的思想，当然也可以分成更多世代，视设计而定。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/02/27/Semantic/" itemprop="url">
                   Semantic
                 </a>
@@ -1443,148 +1627,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/03/图形管线中的裁剪与剔除/" itemprop="url">
-                  图形管线中的裁剪与剔除
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-03T17:21:09+08:00" content="2016-01-03">
-              2016-01-03
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Graphics/" itemprop="url" rel="index">
-                    <span itemprop="name">Graphics</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<p>前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的还是3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。</p>
-<h2 id="3D_u7A7A_u95F4_u4E0B_u7684_u4E09_u89D2_u5F62_u88C1_u526A_u4E0E_u5254_u9664"><a href="#3D_u7A7A_u95F4_u4E0B_u7684_u4E09_u89D2_u5F62_u88C1_u526A_u4E0E_u5254_u9664" class="headerlink" title="3D空间下的三角形裁剪与剔除"></a><strong>3D空间下的三角形裁剪与剔除</strong></h2><h3 id="u80CC_u9762_u5254_u9664_uFF08_u80CC_u9762_u6D88_u9690_uFF09"><a href="#u80CC_u9762_u5254_u9664_uFF08_u80CC_u9762_u6D88_u9690_uFF09" class="headerlink" title="背面剔除（背面消隐）"></a><strong>背面剔除（背面消隐）</strong></h3><p>这个方法是最为简单有效的三角形剔除方法之一了：只需要知道三角形的法线朝向<code>N</code>以及相机的朝向<code>L</code>即可——只有当三角形是朝向观察者的时候，观察者才能看到它，否则三角形是不可见的，也就不会被绘制。</p>
-<p>已知向量点乘结果的符号是向量投影的方向，那么点乘结果为负的两个向量，它们相互的投影必然是方向相反的。这个性质可以用来判定三角形可见与否：当<code>Dot(N, L)</code>的结果为负的时候，三角形朝向观察者，可以绘制；否则不予绘制。这样就完成了背面剔除。</p>
-<p>至于三角形的法线方向是如何得到的，一般而言，我们以坐标系的标准环绕方向来计算。在本Software Renderer中是按照左手系，也就是顺时针方向为准。</p>
-<h3 id="u89C6_u9525_u4F53_u88C1_u526A/_u5254_u9664"><a href="#u89C6_u9525_u4F53_u88C1_u526A/_u5254_u9664" class="headerlink" title="视锥体裁剪/剔除"></a><strong>视锥体裁剪/剔除</strong></h3><p>在前面介绍图形管线中的矩阵的时候有提到透视变换，透视变换实际上就是将一个3D空间中的视锥体规整为一个方体的过程。在这个过程中我们可以看到实际上我们最终在投影平面上看到场景的就是视锥体中包含的场景，那么很自然地，我们希望能够通过这个视锥体对3D空间中的物体进行剔除以及裁剪，以减小对管线的压力。</p>
-<p>除上述目的外，视锥体裁剪的一个很重要的作用就是对穿过近裁剪平面的三角形进行裁剪，否则，这下在裁剪平面后端的点将会在投影之后产生一个小于0的深度值，从而影响深度排序的结果，造成错误的绘制（绘制一些不应该看到的东西）；远裁剪平面则可以选择不去裁剪，这并不影响投影结果，对于超过远裁剪平面的点，将会在投影后得到一个大于1.0的深度值。</p>
-<p>这里简单提一下基于画家算法的深度排序：光栅化的过程中我们需要对投影屏幕上的每一个像素进行深度值的排序，以便距离视平面近的点能够覆盖掉视平面较远的的点。这可以采用两种方法来解决问题：第一：直接使用像素的<code>Z</code>值，很显然，<code>Z</code>值越大，表示距离越远；第二，使用像素的<code>1/Z</code>值，那么<code>1/Z</code>越小，表示越远。当前我们不去深究这个问题，只需要保有这个概念即可，后面的文章会谈到。</p>
-<h4 id="u5E73_u9762_u4E0E_u4E09_u89D2_u5F62"><a href="#u5E73_u9762_u4E0E_u4E09_u89D2_u5F62" class="headerlink" title="平面与三角形"></a><strong>平面与三角形</strong></h4><p>平面在本Software Renderer中是采用的法线——距离的形式定义的，法线自然指平面的单位法向量，而距离则是指平面距离远点的距离，从而我们可以通过一个点乘计算来判断空间中一个点与平面之间的关系：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3D Plane ==&gt; &#123; N = [Px, Py, Pz] , d &#125;</span></span><br><span class="line"><span class="comment">// 3D vertex ==&gt; &#123; [ V = (Vx, Vy, Vz) ] &#125;</span></span><br><span class="line"><span class="keyword">float</span> result = Dot(N, V) + d</span><br></pre></td></tr></table></figure></p>
-<p>通过判断上面result与0之间的关系可以得到：result = 0，则说明点在平面上，result &gt; 0，则说明点在平面前面，否则点在平面后面。</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1ezmkllplbhj307r0673yl.jpg" alt="TriangleClip"></p>
-<p>上面的的图片可以用来说明三角形裁剪的过程，这张图片的视角是贴着3D平面看过去的。让我们从点A开始，沿着顺时针方向来说明裁剪过程。</p>
-<p>三角形的边AB与平面相交，这可以得到一个交点E；边BC不与平面相交，无交点；边CA与平面相交，得到另一个交点D；回到点A完成交点的计算过程。</p>
-<p>几乎没什么难度是不是么？稍微麻烦一点的也就是要计算交点的纹理坐标、法向量、颜色之类的属性，但这都可以通过线性插值来完成——由于这是在3D空间中线性插值，因此不会产生任何不良影响（2D空间中插值产生的影响将会在后面透视纹理以及深度缓存部分说明）。</p>
-<p>上面的过程推广到普通多边形就是Weiler-Atherton算法。经过上面的过程，我们可以讲一个三角形分为两个部分：ADE和CDEB。注意图中的虚线CE，如此将三角形分为三个新的三角形：DAE，CDE和EBC。</p>
-<h4 id="BSP_28Binary_Space_Partition_2C__u4E8C_u5143_u7A7A_u95F4_u5212_u5206_29"><a href="#BSP_28Binary_Space_Partition_2C__u4E8C_u5143_u7A7A_u95F4_u5212_u5206_29" class="headerlink" title="BSP(Binary Space Partition, 二元空间划分)"></a><strong>BSP(Binary Space Partition, 二元空间划分)</strong></h4><p>有了上面的平面与三角形的剪切过程，接下来我们就可以进入到另外一种绘制方式的介绍了——虽然这个方式只限于在静态场景之中使用，然而它的效益则是十分巨大的——它可以让我们抛弃Z缓存，但是同样能够得到正确的完美的绘制结果。这便是大名鼎鼎的BSP，二元空间划分。虽然在本Software Renderer中不准备去实现BSP，但是为了以后考虑，还是介绍一下吧。</p>
-<p>至于Z缓存的具体情形将会在下一篇文章中进行介绍，届时将会看到Z缓存带来的好处以及相应的代价，这个代价说大不大说小不小，足以让DX与OpenGL的管线将其与Alpha混合、光照以及纹理采样平级，并设置一个状态开关来控制是否需要启用它。</p>
-<p>借用<a href="http://downloads.gamedev.net/pdf/gpbb/gpbb59.pdf" target="_blank" rel="external">《Michael Abrash’s Graphics Programming Black Book trees》, Chapter 59: The idea of BSP</a>中的几张图，这些图是在2D情况下的BSP模拟，3D下的过程与之一致，以此为基础可以较为容易地理解3D情况。</p>
-<h5 id="u521B_u5EFA"><a href="#u521B_u5EFA" class="headerlink" title="创建"></a><strong>创建</strong></h5><p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezqybw9snpj30er05ydg5.jpg" alt="FinalBSP"></p>
-<p>图中的实线段代表实际的多边形，虚线代表多边形所在的平面，箭头指向代表平面的法向量方向。途中左边是一个场景实例，右边就是该场景对应的BSP树。</p>
-<p>可以看到BSP树实际上就是一个二叉树。一个节点的左右子树分别代表了它前后空间的多边形集合。回忆画家算法，它实际上要求我们在绘制场景的时候先绘制较远的多边形，然后绘制近处的多边形，使用了深度缓冲的画家算法实际上是将绘制的粒度细化到一个像素——而在多边形没有相交的情形下，以多边形为粒度的画家算法同样能正常工作，BSP就是利用了这一事实。</p>
-<p>BSP树的创建过程实际上就是利用静态场景中的多边形来对场景进行自我划分的。例如图中的A和E是被B所在的平面分割后的结果。</p>
-<p>在创建BSP的时候，一个要点就是尽量使得每次分割的节点将自己所在的“子空间”中的多边形平分两堆，使得最后得到的的BSP树尽量保持平衡（Balanced Binary Tree），以提高效率。由于BSP树适用于静态场景，那么也就意味着这个步骤可以离线进行，从而不至影响实时渲染的速率。常用的方式是对当前划分步骤中的所有多变形进行遍历并进行评估，最后选取评估结果最好的多边形所在的平面做划分平面进行场景分割。</p>
-<h5 id="u904D_u5386"><a href="#u904D_u5386" class="headerlink" title="遍历"></a><strong>遍历</strong></h5><p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1ezqzqf55rwj30ea064q35.jpg" alt="BSPViewTraverseOrder"><br>假定相机位置位于图中的眼睛位置。</p>
-<p>通过观察我们可以知道正确的多边形绘制顺序应为：<code>A, E-&gt; B -&gt; C -&gt; D</code>，回顾上面的BSP树的形态，我们会发现这这个顺序正好与二叉树的<code>“先右子树再左子树最后父节点”</code>的后序遍历顺序相同。</p>
-<p>当然这并不能完全避免像素重绘，事实上只要是以多边形为单位的绘制过程都不能完全避免像素重绘——绘制粒度太大了。BSP+扫描线渲染则可以完全避免重绘，这里不予介绍，详细情形可参见《3D游戏编程大师技巧》第13章。</p>
-<p>由于BSP属于空间划分算法，而空间划分算法的一个重要作用就是将当前无用大部分多边形信息从流水线中剔除，因此BSP树结合视锥体剔除可以极大改善对静态场景的绘制效率。<br>一个简单的策略就是对于视点之后的空间直接完全剔除：注意这里的“视点之后”意指：划分平面与视向量垂直，该策略完全不考虑空间包围体，如图：</p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezr1y09g9ej30fm09wwf3.jpg" alt="BSPReject"></p>
-<p>上面的策略不够完整，完整的剔除策略应当引入包围体：当一个子树的包围体完全被视锥体检测拒绝的时候，该子树可被完全剔除。</p>
-<p>BSP的介绍就先到这里，不过既然开了剔除这个话题，那么下面再介绍几种常用方法来说明可见性集合的选择策略。BSP策略是针对静态场景，那么接下来将要介绍的策略不但适用于静态场景，也适用于动态场景。</p>
-<h4 id="u56DB_u53C9_u6811_uFF08Quad-Tree_uFF09_u4E0E_u516B_u53C9_u6811_uFF08Oct-Tree_uFF09"><a href="#u56DB_u53C9_u6811_uFF08Quad-Tree_uFF09_u4E0E_u516B_u53C9_u6811_uFF08Oct-Tree_uFF09" class="headerlink" title="四叉树（Quad-Tree）与八叉树（Oct-Tree）"></a><strong>四叉树（Quad-Tree）与八叉树（Oct-Tree）</strong></h4><p>四叉树与八叉树可以放在一起进行说明，他们只是维度数目上不不同而已——八叉树比四叉树多了一个维度。这里只对四叉树进行说明，八叉树可以由四叉树扩展得到。</p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezr2ons06jj30cr0cfmy5.jpg" alt="QuadTree"></p>
-<p>上图中的黑色边框为第一层的子节点，红色划分得到的是第二层子节点，紫色划分的为第三层子节点；蓝色的两条线是视景范围，点A是视点位置。图中没有标识出远近裁剪面，不过这不影响我们的理解。</p>
-<p>我们在创建四叉树的时候，每创建一个层级的节点，就要对应创建该节点对应的包围体（AABB或者OBB），每一个层级都将上一个层级分为四个子部分，这四个子部分的并集应当完全“覆盖”它对应的上层节点（图中是均分的，实际应用可用采用其他策略）；递归进行这一过程，直到达到一个预定的阈值结束递归。</p>
-<p>在进行剔除的时候，我们需要遍历整个树，对每个节点的包围体进行视锥体检测。完全在视景体外部的节点及其对应的子树将会被剔除，例如图中的白色部分；完全在视景体内部的节点则可以直接将其包含的渲染对象组织给渲染列表；相交的节点进一步递归进行上面的过程（图中棕色的部分）。</p>
-<p>八叉树的剔除过程与四叉树极为类似，不再赘述。</p>
-<h4 id="K-D_u6811"><a href="#K-D_u6811" class="headerlink" title="K-D树"></a><strong>K-D树</strong></h4><p>K-D树，也就是多维树（K-dimension tree）。一般作为数据库数据的一种组织方式，实际上它是二叉树的一种形式，只不过在树的层次上附加了根据属性剔除的意义。在某种程度上，BSP树也可以视作K-D树的一种形式（非轴对齐，而是平面对齐）。我们这里说明的是轴对齐的K-D树。</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1ezr3vbbmyij30l10cw3zm.jpg" alt="K-D树"></p>
-<p>图中所示就是轴对齐K-D树的结构——每一层都是上面一层在另一个轴上的划分，于是每次剔除都可以完全剔除当前的半个空间。</p>
-<h4 id="u5165_u53E3_uFF08Portal_uFF09"><a href="#u5165_u53E3_uFF08Portal_uFF09" class="headerlink" title="入口（Portal）"></a><strong>入口（Portal）</strong></h4><p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1ezr5904yeyj30ab05q74e.jpg" alt="Portal"></p>
-<p>上图说明了Portal的工作过程：最初的视景体<code>F1</code>经过入口<code>P1</code>得到新的视景体<code>F2</code>，<code>F2</code>经过<code>P2和P3</code>得到<code>F3和F4</code>……这是一个递归的过程，该过程中最重要的部分是新的视景体的生成。</p>
-<p>入口需要每一帧都需要重新进行计算，最终使用生成的一系列的视景体来对场景进行剔除。</p>
-<h3 id="u906E_u6321_u5254_u9664"><a href="#u906E_u6321_u5254_u9664" class="headerlink" title="遮挡剔除"></a><strong>遮挡剔除</strong></h3><p>遮挡剔除主要是为了消除一部分的重复绘制——在标准的3D绘制流程中，我们是由远及近对多边形进行绘制。设想两个物体，A距离投影平面的距离大于B，也就是A距离视距较远；并且投影之后A会被B完全覆盖掉，也就是视野中只能看到B。</p>
-<p>在上面的情况下，采取由远及近的绘制方式会导致A一定被绘制一遍，而实际上我们只需要绘制B即可，此时便可以采用遮挡剔除来避免对A的绘制了。</p>
-<p>遮挡剔除的一个关键是要处理好物体相应的遮挡关系——一般是以一个内接体和一个外接体来实现，通过求出遮挡体在投影之后的相互遮挡关系就可以了，或者对此类情况直接采用从前到后的绘制方式绘制（这种方式只是在光栅化部分消除了像素的重绘，但是坐标变换还是要做的）。</p>
-<h1 id="u7ED3_u8BED"><a href="#u7ED3_u8BED" class="headerlink" title="结语"></a><strong>结语</strong></h1><hr>
-<p>3D空间中常用的剔除方式基本算是介绍完毕了，上面那些策略的理论基础都还是比较容易的，然而实际处理中就要考虑诸多情况了。由于个人经历以及能力所限，本人不能对这些策略结合实际应用做进一步的介绍，不能不说是一个遗憾（只是实现过松散OctTree）。这篇文章先将这些方法简要整理一下，以后有机会的话会对其中某一个话题进行进一步的探讨。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1631,7 +1673,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
