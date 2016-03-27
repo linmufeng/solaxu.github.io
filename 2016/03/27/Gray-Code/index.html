@@ -51,28 +51,25 @@
 
 
 
-<meta name="description" content="Unique Binary Search Trees
+<meta name="description" content="Gray Code
 
-Given n, how many structurally unique BST’s (binary search trees) that store values 1…n?
-For example,
-Given n = 3, there are a total of 5 unique BST’s.123451         3">
+The gray code is a binary numeral system where two successive values differ in only one bit.
+Given a non-negative integer n representing the total number of bits in the code, print the sequ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Unique Binary Search Trees">
-<meta property="og:url" content="http://solaxu.github.io/2016/03/21/Unique-Binary-Search-Trees/index.html">
+<meta property="og:title" content="Gray Code">
+<meta property="og:url" content="http://solaxu.github.io/2016/03/27/Gray-Code/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="Unique Binary Search Trees
+<meta property="og:description" content="Gray Code
 
-Given n, how many structurally unique BST’s (binary search trees) that store values 1…n?
-For example,
-Given n = 3, there are a total of 5 unique BST’s.123451         3">
-<meta property="og:updated_time" content="2016-03-21T06:19:35.859Z">
+The gray code is a binary numeral system where two successive values differ in only one bit.
+Given a non-negative integer n representing the total number of bits in the code, print the sequ">
+<meta property="og:updated_time" content="2016-03-27T07:24:34.891Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unique Binary Search Trees">
-<meta name="twitter:description" content="Unique Binary Search Trees
+<meta name="twitter:title" content="Gray Code">
+<meta name="twitter:description" content="Gray Code
 
-Given n, how many structurally unique BST’s (binary search trees) that store values 1…n?
-For example,
-Given n = 3, there are a total of 5 unique BST’s.123451         3">
+The gray code is a binary numeral system where two successive values differ in only one bit.
+Given a non-negative integer n representing the total number of bits in the code, print the sequ">
 
 
 
@@ -84,7 +81,7 @@ Given n = 3, there are a total of 5 unique BST’s.123451         3">
   };
 </script>
 
-  <title> Unique Binary Search Trees | CrystalMaidenRampage </title>
+  <title> Gray Code | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +211,7 @@ Given n = 3, there are a total of 5 unique BST’s.123451         3">
             
             
               
-                Unique Binary Search Trees
+                Gray Code
               
             
           </h1>
@@ -223,8 +220,8 @@ Given n = 3, there are a total of 5 unique BST’s.123451         3">
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-03-21T13:39:11+08:00" content="2016-03-21">
-              2016-03-21
+            <time itemprop="dateCreated" datetime="2016-03-27T15:21:06+08:00" content="2016-03-27">
+              2016-03-27
             </time>
           </span>
 
@@ -262,15 +259,20 @@ Given n = 3, there are a total of 5 unique BST’s.123451         3">
       
 
       
-        <span itemprop="articleBody"><h1 id="Unique_Binary_Search_Trees"><a href="#Unique_Binary_Search_Trees" class="headerlink" title="Unique Binary Search Trees"></a><strong>Unique Binary Search Trees</strong></h1><hr>
+        <span itemprop="articleBody"><h1 id="Gray_Code"><a href="#Gray_Code" class="headerlink" title="Gray Code"></a><strong>Gray Code</strong></h1><hr>
 <blockquote>
-<p>Given n, how many structurally unique BST’s (binary search trees) that store values 1…n?</p>
-<p>For example,</p>
-<p>Given n = 3, there are a total of 5 unique BST’s.<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>         <span class="number">3</span>     <span class="number">3</span>      <span class="number">2</span>      <span class="number">1</span></span><br><span class="line"> \       /     /      / \      \</span><br><span class="line">  <span class="number">3</span>     <span class="number">2</span>     <span class="number">1</span>      <span class="number">1</span>   <span class="number">3</span>      <span class="number">2</span></span><br><span class="line"> /     /       \                 \</span><br><span class="line"><span class="number">2</span>     <span class="number">1</span>         <span class="number">2</span>                 <span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+<p>The gray code is a binary numeral system where two successive values differ in only one bit.</p>
+<p>Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code. A gray code sequence must begin with 0.</p>
+<p>For example, given n = 2, return [0,1,3,2]. Its gray code sequence is:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">00</span> - <span class="number">0</span></span><br><span class="line"><span class="number">01</span> - <span class="number">1</span></span><br><span class="line"><span class="number">11</span> - <span class="number">3</span></span><br><span class="line"><span class="number">10</span> - <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>Note:</p>
+<p>For a given n, a gray code sequence is not uniquely defined.</p>
+<p>For example, [0,2,3,1] is also a valid gray code sequence according to the above definition.</p>
+<p>For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that.</p>
 </blockquote>
-<p>比较像矩阵链乘：取不同的分界点作为根，求两边的子树数量的乘积。</p>
-<p>递归形式的AC代码，对迭代递推还是不够熟练：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; DP;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (begin &gt;= end) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (DP[begin][end]) <span class="keyword">return</span> DP[begin][end];</span><br><span class="line">        <span class="keyword">int</span> f = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = begin; i &lt;= end; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> r = solve(begin,i-<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">int</span> l = solve(i+<span class="number">1</span>,end);</span><br><span class="line">            f += r * l;</span><br><span class="line">        &#125;</span><br><span class="line">        DP[begin][end] = f;</span><br><span class="line">        <span class="keyword">return</span> f;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">1</span> &gt;= n) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        DP = <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;(n+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n+<span class="number">1</span>,<span class="number">0</span>));</span><br><span class="line">        solve(<span class="number">1</span>,n);</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> DP[<span class="number">1</span>][n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>DFS。</p>
+<p>注意对数组遍历的时候应该逆序。</p>
+<p>AC代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> n, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; r)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="number">0</span> == n)</span><br><span class="line">		&#123;</span><br><span class="line">			r.push_back(<span class="number">0</span>);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">1</span> == n)</span><br><span class="line">		&#123;</span><br><span class="line">			r.push_back(<span class="number">0</span>);</span><br><span class="line">			r.push_back(<span class="number">1</span>);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		solve(n - <span class="number">1</span>, r);</span><br><span class="line">		<span class="keyword">int</span> lv = <span class="number">1</span> &lt;&lt; (n - <span class="number">1</span>);</span><br><span class="line">		<span class="keyword">int</span> size = r.size();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i)</span><br><span class="line">		&#123;</span><br><span class="line">			r.push_back(r[i] + lv);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; grayCode(<span class="keyword">int</span> n) &#123;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; result;</span><br><span class="line">		<span class="keyword">if</span> (n &lt; <span class="number">0</span>) <span class="keyword">return</span> result;</span><br><span class="line">		solve(n, result);</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -288,17 +290,13 @@ Given n = 3, there are a total of 5 unique BST’s.123451         3">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/20/Counting-Bits/" rel="next" title="Counting Bits">
-                <i class="fa fa-chevron-left"></i> Counting Bits
+              <a href="/2016/03/22/Courses-Schedule-II/" rel="next" title="Courses Schedule II">
+                <i class="fa fa-chevron-left"></i> Courses Schedule II
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/21/Add-and-Search-Word-Data-structure-design/" rel="prev" title="Add and Search Word - Data structure design">
-                Add and Search Word - Data structure design <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -412,7 +410,7 @@ Given n = 3, there are a total of 5 unique BST’s.123451         3">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Unique_Binary_Search_Trees"><span class="nav-number">1.</span> <span class="nav-text">Unique Binary Search Trees</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gray_Code"><span class="nav-number">1.</span> <span class="nav-text">Gray Code</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
