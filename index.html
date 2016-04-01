@@ -210,6 +210,107 @@
             
               
                 
+                <a class="post-title-link" href="/2016/04/01/Material-Editor-02/" itemprop="url">
+                  Material Editor 02
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-01T14:44:09+08:00" content="2016-04-01">
+              2016-04-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Graphics/" itemprop="url" rel="index">
+                    <span itemprop="name">Graphics</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<p>最近在写开题报告，基本就是把弄一个Material Editor需要做的事情捋一遍。</p>
+<p>结果这一遍捋过之后发现这货其实跟CG本身并没有太大关联，倒是跟Visual Programming关系挺好的。</p>
+<p>这样要做的基本上大半个属于编译领域的事情了。前端就是一个UI系统，中间代码就是HLSL/GLSL/CG代码，至于后端……把生成的代码直接交付给Shader编译器也可以，想自己优化一遍也可以（因为中间代码肯定是有冗余的，我想试着做做看）。</p>
+<p>大致脉络有了，方法也有了，就看码力了。</p>
+<p>勉！</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/29/最短路：Dijkstra与A/" itemprop="url">
                   最短路：Dijkstra与A*基本要点
                 </a>
@@ -1211,109 +1312,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/20/Counting-Bits/" itemprop="url">
-                  Counting Bits
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-03-20T20:10:53+08:00" content="2016-03-20">
-              2016-03-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OJs/" itemprop="url" rel="index">
-                    <span itemprop="name">OJs</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="Counting_Bits"><a href="#Counting_Bits" class="headerlink" title="Counting Bits"></a><strong>Counting Bits</strong></h1><hr>
-<blockquote>
-<p>Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1’s in their binary representation and return them as an array.</p>
-<p>Example:</p>
-<p>For num = 5 you should return [0,1,1,2,1,2].</p>
-</blockquote>
-<p>关键点在于找出数字二进制之间的关系：15 = 8 + 7，20 = 16 + 4这样</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; countBits(<span class="keyword">int</span> num) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; DP(num+<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">        DP[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        DP[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= num; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> k = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span>(k &lt;= i)</span><br><span class="line">            &#123;</span><br><span class="line">                k *= <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            k /= <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">int</span> l = i - k;</span><br><span class="line">            <span class="keyword">if</span> (l == <span class="number">0</span>) DP[i] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> DP[i] = DP[k] + DP[l];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> DP;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1360,7 +1358,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">41</span>
+              <span class="site-state-item-count">42</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
