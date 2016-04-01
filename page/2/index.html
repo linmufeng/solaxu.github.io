@@ -210,6 +210,110 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/21/Unique-Binary-Search-Trees/" itemprop="url">
+                  Unique Binary Search Trees
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-21T13:39:11+08:00" content="2016-03-21">
+              2016-03-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="Unique_Binary_Search_Trees"><a href="#Unique_Binary_Search_Trees" class="headerlink" title="Unique Binary Search Trees"></a><strong>Unique Binary Search Trees</strong></h1><hr>
+<blockquote>
+<p>Given n, how many structurally unique BST’s (binary search trees) that store values 1…n?</p>
+<p>For example,</p>
+<p>Given n = 3, there are a total of 5 unique BST’s.<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>         <span class="number">3</span>     <span class="number">3</span>      <span class="number">2</span>      <span class="number">1</span></span><br><span class="line"> \       /     /      / \      \</span><br><span class="line">  <span class="number">3</span>     <span class="number">2</span>     <span class="number">1</span>      <span class="number">1</span>   <span class="number">3</span>      <span class="number">2</span></span><br><span class="line"> /     /       \                 \</span><br><span class="line"><span class="number">2</span>     <span class="number">1</span>         <span class="number">2</span>                 <span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>比较像矩阵链乘：取不同的分界点作为根，求两边的子树数量的乘积。</p>
+<p>递归形式的AC代码，对迭代递推还是不够熟练：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; DP;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (begin &gt;= end) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (DP[begin][end]) <span class="keyword">return</span> DP[begin][end];</span><br><span class="line">        <span class="keyword">int</span> f = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = begin; i &lt;= end; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> r = solve(begin,i-<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">int</span> l = solve(i+<span class="number">1</span>,end);</span><br><span class="line">            f += r * l;</span><br><span class="line">        &#125;</span><br><span class="line">        DP[begin][end] = f;</span><br><span class="line">        <span class="keyword">return</span> f;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">1</span> &gt;= n) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        DP = <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;(n+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n+<span class="number">1</span>,<span class="number">0</span>));</span><br><span class="line">        solve(<span class="number">1</span>,n);</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> DP[<span class="number">1</span>][n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/20/Counting-Bits/" itemprop="url">
                   Counting Bits
                 </a>
@@ -1191,115 +1295,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/09/Verify-Preorder-Serialization-of-a-Binary-Tree/" itemprop="url">
-                  Verify Preorder Serialization of a Binary Tree
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-03-09T11:27:13+08:00" content="2016-03-09">
-              2016-03-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OJs/" itemprop="url" rel="index">
-                    <span itemprop="name">OJs</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="Verify_Preorder_Serialization_of_a_Binary_Tree"><a href="#Verify_Preorder_Serialization_of_a_Binary_Tree" class="headerlink" title="Verify Preorder Serialization of a Binary Tree"></a><strong>Verify Preorder Serialization of a Binary Tree</strong></h1><hr>
-<blockquote>
-<p>One way to serialize a binary tree is to use pre-order traversal. When we encounter a non-null node, we record the node’s value. If it is a null node, we record using a sentinel value such as #.<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">     _9_</span><br><span class="line">    /   <span class="string">\</span></span><br><span class="line">   <span class="number">3</span>     <span class="number">2</span></span><br><span class="line">  / <span class="string">\</span>   / <span class="string">\</span></span><br><span class="line"> <span class="number">4</span>   <span class="number">1</span>  <span class="comment">#  6</span></span><br><span class="line">/ <span class="string">\</span> / <span class="string">\</span>   / <span class="string">\</span></span><br><span class="line"><span class="comment"># # # #   # #</span></span><br></pre></td></tr></table></figure></p>
-<p>For example, the above binary tree can be serialized to the string “9,3,4,#,#,1,#,#,2,#,6,#,#”, where # represents a null node.</p>
-<p>Given a string of comma separated values, verify whether it is a correct preorder traversal serialization of a binary tree. Find an algorithm without reconstructing the tree.</p>
-<p>Each comma separated value in the string must be either an integer or a character ‘#’ representing null pointer.</p>
-<p>You may assume that the input format is always valid, for example it could never contain two consecutive commas such as “1,,3”.</p>
-<p>Example 1:<br>“9,3,4,#,#,1,#,#,2,#,6,#,#”<br>Return true</p>
-<p>Example 2:<br>“1,#”<br>Return false</p>
-<p>Example 3:<br>“9,#,#,1”<br>Return false</p>
-</blockquote>
-<p>解法是利用栈，逐个消去节点的子树：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"9,3,4,#,#,1,#,#,2,#,6,#,#"</span></span><br><span class="line"></span><br><span class="line"><span class="number">9</span>    <span class="number">3</span>    <span class="number">4</span>    <span class="preprocessor">#     #        <span class="number">9</span>    <span class="number">3</span>    #</span></span><br><span class="line"><span class="literal">true</span> <span class="literal">true</span> <span class="literal">true</span> <span class="literal">false</span> <span class="literal">false</span> -&gt; <span class="literal">true</span> <span class="literal">true</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="number">9</span>    <span class="number">3</span>    <span class="preprocessor">#     <span class="number">1</span>    #     #        <span class="number">9</span>    <span class="number">3</span>    #     #        <span class="number">9</span>    #     </span></span><br><span class="line"><span class="literal">true</span> <span class="literal">true</span> <span class="literal">false</span> <span class="literal">true</span> <span class="literal">false</span> <span class="literal">false</span> -&gt; <span class="literal">true</span> <span class="literal">true</span> <span class="literal">false</span> <span class="literal">false</span> -&gt; <span class="literal">true</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="number">9</span>    <span class="preprocessor">#     <span class="number">2</span>    #     <span class="number">6</span>    #     #        <span class="number">9</span>    #     <span class="number">2</span>    #     #        <span class="number">9</span>    #     #        #</span></span><br><span class="line"><span class="literal">true</span> <span class="literal">false</span> <span class="literal">true</span> <span class="literal">false</span> <span class="literal">true</span> <span class="literal">false</span> <span class="literal">false</span> -&gt; <span class="literal">true</span> <span class="literal">false</span> <span class="literal">true</span> <span class="literal">false</span> <span class="literal">false</span> -&gt; <span class="literal">true</span> <span class="literal">false</span> <span class="literal">false</span> -&gt; <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p>AC代码，使用了vector作为栈：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValidSerialization</span><span class="params">(<span class="built_in">string</span> preorder)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> s;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; sk;</span><br><span class="line">        <span class="keyword">if</span> (preorder[<span class="number">0</span>] == <span class="string">'#'</span> &amp;&amp; preorder.length() == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(preorder.length() &lt; <span class="number">3</span> || preorder[<span class="number">0</span>] == <span class="string">'#'</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        preorder.push_back(<span class="string">','</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; preorder.length(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (preorder[i] == <span class="string">','</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (s.length() &amp;&amp; s[<span class="number">0</span>] != <span class="string">'#'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    sk.push_back(<span class="literal">true</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                s.clear();</span><br><span class="line">                <span class="keyword">if</span> (sk.size() &gt; <span class="number">2</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">size_t</span> preLen = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">while</span>(preLen != sk.size() &amp;&amp; sk.size() &gt;= <span class="number">2</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        preLen = sk.size();</span><br><span class="line">                        <span class="keyword">if</span> (sk[sk.size()-<span class="number">1</span>] == <span class="literal">false</span> &amp;&amp; sk[sk.size()-<span class="number">2</span>] == <span class="literal">false</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            sk.pop_back();</span><br><span class="line">                            <span class="keyword">if</span> (sk.size() == <span class="number">0</span>)</span><br><span class="line">                            &#123;</span><br><span class="line">                                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            sk.pop_back();</span><br><span class="line">                            <span class="keyword">if</span> (sk.size() == <span class="number">0</span>)</span><br><span class="line">                            &#123;</span><br><span class="line">                                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            sk.pop_back();</span><br><span class="line">                            sk.push_back(<span class="literal">false</span>);</span><br><span class="line">                            <span class="keyword">if</span> (sk[<span class="number">0</span>] == <span class="literal">false</span> &amp;&amp; i &lt; preorder.length() - <span class="number">1</span>)</span><br><span class="line">                            &#123;</span><br><span class="line">                                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (preorder[i] == <span class="string">'#'</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                sk.push_back(<span class="literal">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                s.push_back(preorder[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sk.size() == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1346,7 +1341,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
