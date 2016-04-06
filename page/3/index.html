@@ -51,15 +51,15 @@
 
 
 
-<meta name="description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta name="description" content="Nothing, EVERYTHING">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CrystalMaidenRampage">
-<meta property="og:url" content="http://solaxu.github.io/page/3/index.html">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta property="og:description" content="Nothing, EVERYTHING">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CrystalMaidenRampage">
-<meta name="twitter:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta name="twitter:description" content="Nothing, EVERYTHING">
 
 
 
@@ -74,7 +74,7 @@
   <title> CrystalMaidenRampage </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -131,7 +131,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首页
+            首頁
           </a>
         </li>
       
@@ -141,7 +141,7 @@
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            分类
+            分類
           </a>
         </li>
       
@@ -151,7 +151,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            归档
+            歸檔
           </a>
         </li>
       
@@ -161,7 +161,7 @@
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            标签
+            標籤
           </a>
         </li>
       
@@ -187,6 +187,218 @@
 
     
     
+      
+      
+
+      
+    
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/09/Binary-Tree-Paths/" itemprop="url">
+                  Binary Tree Paths
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-03-09T14:43:58+08:00" content="2016-03-09">
+              2016-03-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="Binary_Tree_Paths"><a href="#Binary_Tree_Paths" class="headerlink" title="Binary Tree Paths"></a><strong>Binary Tree Paths</strong></h1><hr>
+<blockquote>
+<p>Given a binary tree, return all root-to-leaf paths.</p>
+<p>For example, given the following binary tree:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">1</span></span><br><span class="line"> /   \</span><br><span class="line"><span class="number">2</span>     <span class="number">3</span></span><br><span class="line"> \</span><br><span class="line">  <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p>All root-to-leaf paths are:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">"1-&gt;2-&gt;5"</span>, <span class="string">"1-&gt;3"</span>]</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>DFS。</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sk;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; result;</span><br><span class="line">	<span class="built_in">string</span> str;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(TreeNode* root)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (root)</span><br><span class="line">		&#123;</span><br><span class="line">			sk.push_back(root-&gt;val);</span><br><span class="line">			solve(root-&gt;left);</span><br><span class="line">			solve(root-&gt;right);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (root-&gt;left == <span class="literal">NULL</span> &amp;&amp; root-&gt;right == <span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				str.clear();</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; sk.size(); ++i)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="built_in">string</span> number = to_string(sk[i]);</span><br><span class="line">					str += number;</span><br><span class="line">					<span class="keyword">if</span> (i &lt; sk.size() - <span class="number">1</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						str += <span class="string">"-&gt;"</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				result.push_back(str);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			sk.pop_back();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; binaryTreePaths(TreeNode* root) &#123;</span><br><span class="line">		<span class="keyword">if</span> (root)</span><br><span class="line">		&#123;</span><br><span class="line">			solve(root);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/09/N-Queens-II/" itemprop="url">
+                  N-Queens II
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-03-09T14:12:46+08:00" content="2016-03-09">
+              2016-03-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="N-Queens_II"><a href="#N-Queens_II" class="headerlink" title="N-Queens II"></a><strong>N-Queens II</strong></h1><hr>
+<blockquote>
+<p>Follow up for N-Queens problem.</p>
+<p>Now, instead outputting board configurations, return the total number of distinct solutions.</p>
+<p><img src="http://www.leetcode.com/wp-content/uploads/2012/03/8-queens.png" alt="N-QueensII"></p>
+</blockquote>
+<p>N皇后问题，回溯可解。</p>
+<p>AC代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getState</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> board[r * n + c];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span> r, <span class="keyword">int</span> c, <span class="keyword">int</span> state)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	board[r * n + c] = state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printBoard</span><span class="params">(<span class="keyword">int</span>* board, <span class="keyword">int</span> n)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"***************\n\n"</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%d "</span>, getState(n, board, i, j));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">palced</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, r, i))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, i, c))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> ir = r + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> ic = c + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// 斜线为0</span></span><br><span class="line">	<span class="keyword">while</span> (ir &lt; n &amp;&amp; ic &lt; n)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		++ir;</span><br><span class="line">		++ic;</span><br><span class="line">	&#125;</span><br><span class="line">	ir = r - <span class="number">1</span>;</span><br><span class="line">	ic = c - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (ir &gt;= <span class="number">0</span> &amp;&amp; ic &gt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		--ir;</span><br><span class="line">		--ic;</span><br><span class="line">	&#125;</span><br><span class="line">	ir = r - <span class="number">1</span>;</span><br><span class="line">	ic = c + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (ir &gt;= <span class="number">0</span> &amp;&amp; ic &lt; n)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		--ir;</span><br><span class="line">		++ic;</span><br><span class="line">	&#125;</span><br><span class="line">	ir = r + <span class="number">1</span>;</span><br><span class="line">	ic = c - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (ir &lt; n &amp;&amp; ic &gt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		++ir;</span><br><span class="line">		--ic;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">queens</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span>* nums, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ((r &gt;= <span class="number">0</span> &amp;&amp; r &lt; n) &amp;&amp; ((c &gt;= <span class="number">0</span> &amp;&amp; c &lt; n)))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (r == n - <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (palced(n, board, r, i))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//setState(n, board, r, i, 1);</span></span><br><span class="line">					++(* nums);</span><br><span class="line">					<span class="comment">//printBoard(board, n); //可以打印棋盘</span></span><br><span class="line">					<span class="comment">//setState(n, board, r, i, 0);</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (palced(n,board,r,i))</span><br><span class="line">				&#123;</span><br><span class="line">					setState(n, board, r, i, <span class="number">1</span>);<span class="comment">//放置一个皇后</span></span><br><span class="line">					queens(n, board, nums, r + <span class="number">1</span>, <span class="number">0</span>);<span class="comment">//对剩下的棋盘进行摆放</span></span><br><span class="line">					setState(n, board, r, i, <span class="number">0</span>);<span class="comment">//恢复棋盘</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">totalNQueens</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n ==<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>* board = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>) * n * n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n*n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        board[i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    queens(n, board, &amp;result, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -220,7 +432,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-09T11:27:13+08:00" content="2016-03-09">
               2016-03-09
             </time>
@@ -228,7 +440,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -329,7 +541,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-08T16:23:26+08:00" content="2016-03-08">
               2016-03-08
             </time>
@@ -337,7 +549,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -445,7 +657,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-08T13:54:33+08:00" content="2016-03-08">
               2016-03-08
             </time>
@@ -453,7 +665,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/蚍蜉撼树，螳臂当车/" itemprop="url" rel="index">
@@ -550,7 +762,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-07T20:38:24+08:00" content="2016-03-07">
               2016-03-07
             </time>
@@ -558,7 +770,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -664,7 +876,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-07T13:17:38+08:00" content="2016-03-07">
               2016-03-07
             </time>
@@ -672,7 +884,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -768,7 +980,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-06T21:48:15+08:00" content="2016-03-06">
               2016-03-06
             </time>
@@ -776,7 +988,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -875,7 +1087,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-06T20:51:08+08:00" content="2016-03-06">
               2016-03-06
             </time>
@@ -883,7 +1095,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -980,7 +1192,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-06T19:32:32+08:00" content="2016-03-06">
               2016-03-06
             </time>
@@ -988,7 +1200,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -1063,317 +1275,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/04/GC初步/" itemprop="url">
-                  GC初步
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-03-04T17:15:59+08:00" content="2016-03-04">
-              2016-03-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Compiler/" itemprop="url" rel="index">
-                    <span itemprop="name">Compiler</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
-<p>本来是想在CPP相关的文里面讨论一下内存管理的事情，不过想了一想，还是放到编译相关的文章里面谈会更合适一些。</p>
-<p>这次关于CG的讨论只关注一些基本原理以及算法，不涉及到并行GC等高级话题（水平不够Hold不住）。</p>
-<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<h2 id="u4F5C_u7528_u57DF_28RAII_u7684_u4E00_u4E2A_u5E94_u7528_29"><a href="#u4F5C_u7528_u57DF_28RAII_u7684_u4E00_u4E2A_u5E94_u7528_29" class="headerlink" title="作用域(RAII的一个应用)"></a><strong>作用域(RAII的一个应用)</strong></h2><p>在C++中，我们知道一个对象的生存周期是与它的作用域有关的。例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> Info</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function">Info <span class="title">info</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="function">Info <span class="title">i</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这就在一定程度上给我们一个方案：用一个对象包裹分配的内存地址，当该对象出了它作用域之后自动调用free/delete，如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> Info</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">struct</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line">	T* ptr;</span><br><span class="line">	SmartPtr(T* p) :ptr(p) &#123;&#125;</span><br><span class="line">	~SmartPtr() &#123; <span class="keyword">delete</span> ptr; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			i2.ptr-&gt;say();</span><br><span class="line">      <span class="comment">// 注意赋值操作符带来的错误！！！</span></span><br><span class="line">      <span class="comment">// 如果i2是从i1而来： SmartPtr&lt;Info&gt; i2 = i1;</span></span><br><span class="line">      <span class="comment">// 那么，i2一旦出了作用域，就会连带将i1的内存释放掉，而这显然是不正确的！</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这当然是不足以解决问题的——如果分配的内存希望能够在出了作用域之后继续存在怎么办？况且依旧无法对上面的代码注释中提到的情况作出应对。</p>
-<h2 id="u5F15_u7528_u8BA1_u6570"><a href="#u5F15_u7528_u8BA1_u6570" class="headerlink" title="引用计数"></a><strong>引用计数</strong></h2><p>引用计数其实是很常见的，比如在操作系统中需要记录某内核对象的引用次数，只有当该对象的计数为0的时候才能销毁该对象；再比如COM对象的引用计数。示例：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> Info</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">struct</span> refStruct</span><br><span class="line">	&#123;</span><br><span class="line">		T* ptr;</span><br><span class="line">		<span class="keyword">int</span> refc;</span><br><span class="line"></span><br><span class="line">	&#125;* sptr; <span class="comment">// 注意这里并非是直接将计数放在Smartprt中，而是加了一层。</span></span><br><span class="line">	SmartPtr() :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr(T* p) :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			sptr = <span class="keyword">new</span> refStruct;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"new refStruct here\n"</span>);</span><br><span class="line">			sptr-&gt;ptr = p;</span><br><span class="line">			sptr-&gt;refc = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	~SmartPtr()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			--sptr-&gt;refc; <span class="comment">// 析构的时候减少计数</span></span><br><span class="line">			<span class="keyword">if</span> (sptr-&gt;refc &lt;= <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr-&gt;ptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr-&gt;ptr = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"dead refStruct here\n"</span>);</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr = <span class="literal">NULL</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr&lt;T&gt;&amp; <span class="keyword">operator</span>=(SmartPtr&lt;T&gt;&amp; sp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span> != &amp;sp)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr = sp.sptr;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr-&gt;refc++; <span class="comment">// 赋值的时候增加计数</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> * <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">refCount</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;sptr)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>-&gt;sptr-&gt;refc;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>,i1.refCount());</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			SmartPtr&lt;Info&gt; i3;</span><br><span class="line">			i3 = i1;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i3 ref count: %d\n"</span>, i3.refCount());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其实上面的例子也就是shared_ptr的原理了。注意到引用计数字段并没有直接放在Smartptr对象中——因为计数只与原始指针有关，一旦直接放入Smartptr对象中，赋值的时候就会产生副本，计数递减就只是对副本的操作，从而使得内存泄漏。</p>
-<p>附上面代码的结果：</p>
-<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttgw1f1l4r7ecjvj305h070745.jpg" alt="result"></p>
-<h2 id="u50F5_u5C40_uFF1A_u5FAA_u73AF_u5F15_u7528"><a href="#u50F5_u5C40_uFF1A_u5FAA_u73AF_u5F15_u7528" class="headerlink" title="僵局：循环引用"></a><strong>僵局：循环引用</strong></h2><p>仅从结果来看，引用计数工作的很好。</p>
-<p>然而确实如此么？请注意这样一个事实：上面的对象是没有包含其他对象的指针的！</p>
-<p>我们将代码改动一下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">struct</span> refStruct</span><br><span class="line">	&#123;</span><br><span class="line">		T* ptr;</span><br><span class="line">		<span class="keyword">int</span> refc;</span><br><span class="line"></span><br><span class="line">	&#125;* sptr;</span><br><span class="line">	SmartPtr() :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr(T* p) :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			sptr = <span class="keyword">new</span> refStruct;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"new refStruct here\n"</span>);</span><br><span class="line">			sptr-&gt;ptr = p;</span><br><span class="line">			sptr-&gt;refc = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	~SmartPtr()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			--sptr-&gt;refc; <span class="comment">// 析构的时候减少计数</span></span><br><span class="line">			<span class="keyword">if</span> (sptr-&gt;refc &lt;= <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr-&gt;ptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr-&gt;ptr = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"dead refStruct here\n"</span>);</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr = <span class="literal">NULL</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr&lt;T&gt;&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> SmartPtr&lt;T&gt;&amp; sp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span> != &amp;sp)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr = sp.sptr;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr-&gt;refc++; <span class="comment">// 赋值的时候增加计数</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> * <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">refCount</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;sptr)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>-&gt;sptr-&gt;refc;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Info</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	SmartPtr&lt;Info&gt; link; <span class="comment">// 注意这里的link！！！</span></span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">LinkTo</span><span class="params">(<span class="keyword">const</span> SmartPtr&lt;Info&gt;&amp; link)</span> </span>&#123; <span class="keyword">this</span>-&gt;link = link; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>* r1 = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">int</span>* r2 = <span class="literal">NULL</span>;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		r1 = &amp;i1.sptr-&gt;refc; <span class="comment">// 取地址</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>,i1.refCount());</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			r2 = &amp;i2.sptr-&gt;refc; <span class="comment">// 取地址</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i2.refCount());</span><br><span class="line">			<span class="comment">// 令其发生循环引用</span></span><br><span class="line">			i1.sptr-&gt;ptr-&gt;LinkTo(i2);</span><br><span class="line">			i2.sptr-&gt;ptr-&gt;LinkTo(i1);</span><br><span class="line">			<span class="comment">// 打印计数值</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i2.refCount());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Final: ref i1 = %d, ref i2 = %d\n"</span>, * r1, * r2);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>附上上面的代码执行结果：</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1l5e943uwj308505fjr7.jpg" alt="result"></p>
-<p>发现引用计数不再发挥效用了！！</p>
-<p>图示会更加清楚：</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1l67b52gwj30dz0cgjrq.jpg" alt="eg"></p>
-<p>注意，这里在Info对象中添加的link字段。实际上，该字段可以认为是与Java/C#/Python中的引用一致的东西。前面的文章里面有提到过引用和指针之间是不同的，在这里将会有实际的体会：引用的概念比指针要更加高级与抽象。</p>
-<p>如何破解这个僵局呢？</p>
-<h2 id="u7834_u5C40"><a href="#u7834_u5C40" class="headerlink" title="破局"></a><strong>破局</strong></h2><p>破局的要点还是在上面那张图中：link-&gt;连线-&gt;方向+节点-&gt;有向图！</p>
-<p>如果我们能够在GC之前把回边砍掉，从而恢复正确的引用计数，那么就可以正确完成垃圾回收了！</p>
-<p>这里说明一下，上面的那张图实际上不是很正确：为了与计数对应而删掉了有向边——事实上有向边是没有删掉的（因为计数的减少并非有向边去掉导致的）。</p>
-<p>在图中找出一个回边并不是个难事——遍历扫描一下就可以了。发现回边之后更改边两端的节点的引用计数即可。</p>
-<p>然而在对一个图进行扫描的时候需要知道起点，而很多时候，分配的内存相互引用形成的图并非是一个连通图，于是这就引出了另外一个概念：Root集合。</p>
-<h2 id="Root_u96C6_u5408_u4E0EMark-Sweep"><a href="#Root_u96C6_u5408_u4E0EMark-Sweep" class="headerlink" title="Root集合与Mark-Sweep"></a><strong>Root集合与Mark-Sweep</strong></h2><p>所谓Root集合，其实就是GC回收时，扫描开始的“点”。例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">SmartPtr&lt;Info&gt; g_i1(<span class="keyword">new</span> Info(<span class="number">123</span>));</span><br><span class="line">SmartPtr&lt;Info&gt; g_i2(<span class="keyword">new</span> Info(<span class="number">456</span>));   <span class="comment">// ----&gt; ①</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addLinkTo</span><span class="params">(SmartPtr&lt;Info&gt;&amp; ptr, <span class="keyword">int</span> num)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	ptr.sptr-&gt;ptr-&gt;link = SmartPtr&lt;Info&gt;(<span class="keyword">new</span> Info(num));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		addLinkTo(g_i1,<span class="number">789</span>);						<span class="comment">// ----&gt; ②</span></span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>)); <span class="comment">// ----&gt; ③</span></span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>)); <span class="comment">// ----&gt; ④</span></span><br><span class="line">			addLinkTo(i1,<span class="number">11</span>);			<span class="comment">// ----&gt; ⑤</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// ----&gt; ⑥</span></span><br><span class="line">	addLinkTo(g_i1,<span class="number">1234</span>); <span class="comment">// 这里把以前的789那个对象给顶替了。如果不对其进行回收的话，将会产生内存泄漏。</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>不难发现，Root集合一般而言，是由全局变量，静态变量，寄存器值，方法参数，或者是由程序入口所在域及其子域中的变量等构成的。</p>
-<p>前面我们已经知道每次加一个Link，就可以在相应的节点上加上一条有向边，那么上面的代码可以对应下面的图，表号对应代码中的注释：</p>
-<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1lw89sg3uj30j40hvdh2.jpg" alt="."></p>
-<p>注意内容为<code>789</code>的那个节点。这个节点是可以确定属于垃圾的。通过以上的描述，也不难发现Root集合应当包含的节点。</p>
-<p>当我们根据Root集合进行扫描的时候，把可达节点做上标记（Mark）并收集起来，然后将不可达节点删除（Sweep）掉，就可以完成GC过程了——这就是Mark-Sweep算法的原理。</p>
-<p>至于Root节点们，当它们出了自己的作用域之后必然将会被删除，到那时，剩下的所有节点都不再是可达节点，从而会被全部回收（当然对于全局变量，程序一旦结束，OS也会回收这些内存的）。</p>
-<h2 id="u66F4_u8FDB_u4E00_u6B65_uFF1A_u4E09_u8272_u6807_u8BB0_u6A21_u578B"><a href="#u66F4_u8FDB_u4E00_u6B65_uFF1A_u4E09_u8272_u6807_u8BB0_u6A21_u578B" class="headerlink" title="更进一步：三色标记模型"></a><strong>更进一步：三色标记模型</strong></h2><p>注意，截至到上一个部分，我们都是在对图的结构稳定情况下进行处理的，也就是要求当GC进行的时候，整个程序都应当停下来，不再对内存进行分配，直到GC过程处理完毕，也就是通常所说的“Stop The World”。</p>
-<p>对于实时性要求不高的场合，这不失为一种有效的解决方法，然而对于交互式系统和实时系统这是无法接受的——至少，对于一个自动驾驶系统，如果该减速停车的时候来了一次GC，后果不堪设想。</p>
-<p>这就需要另外一系列行之有效的办法来将这个时间碎片化，分散出去。引用计数可以在一定程度上做到这些，但还不够，于是，增量收集登场了。</p>
-<p>在这个过程中，增量/并行算法将“无用垃圾信息收集穿插于程序执行过程中，避免对程序的长时间打断”。通常，由于应用程序本身总是在改变图的结构，因此将程序视为“改变器”；而GC模块，则视为“回收器”。</p>
-<p>三色标记模型作为对Mark-Sweep的拓展补充，在增量标记中发挥了重要的作用。</p>
-<p>在前面介绍<a href="http://solaxu.github.io/2016/01/17/HiHo%E4%B8%80%E4%B8%8B%E2%80%94%E2%80%94LCA/">LCA的文章</a>中已经对染色法有过一定的介绍了，这里依旧是分阶段进行染色的，不过略有不同。</p>
-<ul>
-<li>对于未访问过的对象，标记为白色；</li>
-<li>对于已经访问过，但是其子对象还没有访问过的对象，标记为灰色；</li>
-<li>对于连子对象也访问过的对象，标记为黑色。</li>
-</ul>
-<p>显然Sweep阶段完成之后，白色节点是属于不可达节点的，应当删除。但就上面描述而言，似乎没有什么特别的地方。而三色标记模型则明确了两个要点：</p>
-<ul>
-<li>黑色节点是不能够直接指向白色节点的。</li>
-<li>所有的灰色节点都处于一个待处理的数据结构中，也就是说，灰色节点属于一个中间态。</li>
-</ul>
-<p>应该明确这样的一点：标记颜色的目的，是为了保留当前结点的<strong>状态</strong>。</p>
-<p>很显然，当改变器对图中的一个黑色结点进行更改的时候（注意，出现了黑色节点也就说明了Mark过程是正在进行（或者已经Sweep了）），例如进行了一个LinkTo的操作，这个操作使得黑色节点变成了灰色节点。这个更改必须被及时、高效地的通知给收集器，通常情况下，这需要使用到“写障碍”或者是“读障碍”，他们基本都是利用OS，对相应的内存加上“读/写”锁来完成的。</p>
-<h2 id="u53E6_u4E00_u79CD_u6D41_u6D3E_uFF0C_u590D_u5236_u6536_u96C6_uFF08Copying_GC_uFF09"><a href="#u53E6_u4E00_u79CD_u6D41_u6D3E_uFF0C_u590D_u5236_u6536_u96C6_uFF08Copying_GC_uFF09" class="headerlink" title="另一种流派，复制收集（Copying GC）"></a><strong>另一种流派，复制收集（Copying GC）</strong></h2><p>相对于Mark-Sweep而言，复制收集更加易于理解，但一样要进行一次扫描阶段。</p>
-<p>复制收集的主要做法是首先为应用程序分配一个大内存，然后将其一分为两个Pool。</p>
-<ul>
-<li><p>初始化阶段任选一块内存作为Pool，命名为SrcPool，另一个命名为DestPool，应用程序的所有内存申请均从SrcPool中划分。</p>
-</li>
-<li><p>当SrcPool中没有足够的可用空间时，触发GC。</p>
-</li>
-<li><p>GC的扫描阶段标记完毕可达节点。</p>
-</li>
-<li><p>GC的复制阶段将SrcPool中所有标记的可达节点复制到DestPool，复制完毕之后，交换两个Pool的引用。</p>
-</li>
-</ul>
-<p>剩下的就是以上过程的迭代了。很显然，两个Pool起到了内存池的作用，并且内存经过了整理压缩，一定程度上解决了内存碎片的问题，并提高内存页的命中率；但这种方式的一个不好的地方在于它至少要浪费一半的内存空间；更有甚者，如果采用DFS（无论是否显式栈），还是基于额外队列的BFS，都需要另外的空间。</p>
-<p>由于Copying GC也是有着扫描这一过程，因此三色标记模型实际也是可以在这上面采用的。</p>
-<h3 id="Cheney_u7B97_u6CD5"><a href="#Cheney_u7B97_u6CD5" class="headerlink" title="Cheney算法"></a><strong>Cheney算法</strong></h3><p>为了解决额外空间的问题，Cheney算法利用复制对象过程中的特点（对象复制过后是紧凑的），采用destPool中的scan到next中间部分的记录作为BFS的队列（scan与next是两个指针），从而解决了这一问题。</p>
-<p>现在使用四个对象来简单说明一下这个算法：</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1f1m0cifsj9j31090jmaa9.jpg" alt="Cheney"></p>
-<p>首先是R对象作为Root被首先复制到DestPool中。R中保存了对象C与D的引用，这两个引用依旧指向SrcPool。</p>
-<p>于是复制C和D到DestPool中，同时更改R中两个引用的指向，使其正确。</p>
-<p>此时D中的引用仍旧指向SrcPool。</p>
-<p>复制对象E到DestPool中，更改对象D中对E的引用的指向。</p>
-<p>图中的S与N代表了scan指针与next指针。当scan最终等于next的时候，对该Root的处理结束。</p>
-<p>引用与指针的区别再一次体现了出来：这里的引用包含了指向SrcPool的指针，被以此为标识来说明引用的对象是否还处于SrcPool中。</p>
-<p>在编译课程中的GC就使用了该算法，当然实际过程会相对麻烦一些。</p>
-<h2 id="u4E16_u4EE3_u6536_u96C6"><a href="#u4E16_u4EE3_u6536_u96C6" class="headerlink" title="世代收集"></a><strong>世代收集</strong></h2><p>分代的思想是基于这样的事实的：</p>
-<ul>
-<li>总是有那么一部分内存是变化不大的；</li>
-<li>当一块内存在一次或者多次GC中存活下来，那么它继续存活的几率会比较高；</li>
-<li>新分配的对象总是会马上死亡，无法经过第二次GC。</li>
-</ul>
-<p>于是可以按照“代”将堆划分出来，比如将堆为老中青三代：</p>
-<ul>
-<li>新分配的对象总是从青年堆中分配，GC总是首先在青年堆中进行；</li>
-<li>将青年堆中存活的对象复制到中年堆中；</li>
-<li>当中年堆满的时候进行一次在中年堆上的GC，存活下来的对象复制到老年堆中；</li>
-<li>当老年堆满的时候，进行一次老年队上的GC，此时可以用Mark-Sweep或者Copy-Compact（这是在当前堆上进行的，该方法类似于内存碎片整理）等方法进行回收，一般来讲，尽量还是在回收后将对象紧凑放置。</li>
-</ul>
-<p>上面只是世代收集的思想，当然也可以分成更多世代，视设计而定。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/02/27/Semantic/" itemprop="url">
-                  Semantic
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-02-27T23:14:10+08:00" content="2016-02-27">
-              2016-02-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Compiler/" itemprop="url" rel="index">
-                    <span itemprop="name">Compiler</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
-<p>最近又翻了翻之前编译课上写的代码，大致看了一下语法分析部分跟语义分析部分。</p>
-<p>Java写的，最后生成的代码并非汇编，也不是JVM的ByteCode，而是C代码，生成的程序自然使用GCC编译链接而成，因此也就没有什么链接器——当然，即便如此也应当有一个自定义的链接部分，但由于只要求用单个文件就能表示整个程序代码，于是就没有了。至于中间代码用C来表示的问题，事实上只要能用三地址类型表示出来，中间代码的具体形式是没什么影响的（龙书里面出现的中间代码一样是类似C的代码）。生成的代码额外加了一个GC的过程，这个会在后面说。</p>
-<p>几个概念：Top-Down的递归下降子程序语法解析、完美打印（Pretty Print）以及符号表、类型。语法解析以及完美打印涉及到的抽象语法树前面已经讨论过了（抽象语法树的论述过于简短，但这个东西走一遍就能够理解了），这里主要说明一下剩下的也是语义分析需要的两个重要的部分：符号表、类型。</p>
-<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<h2 id="u7C7B_u578B"><a href="#u7C7B_u578B" class="headerlink" title="类型"></a><strong>类型</strong></h2><p>先从经常接触的<code>类型</code>开始。</p>
-<p><code>类型</code>可以看作内存中某一块数据的表现形式，用来通知程序：“对于内存中的这一块数据，你应当这么认为……然后你可以……去使用它”。</p>
-<p>在绝大部分高级语言中，对于类型的检查都是很严格的，如果只是使用过Java/C#等强调OO的语言，则可能会认为这是天经地义的一件事。但有过C代码经验的人却不能忽视一个事实：在C中，内存数据可以以几乎任何类型解释，即便是是风马牛不相及的两块数据，它们的类型同样可以相互转换——而在强调OO的语言中，类型之间是不能随意转换的，除非两种类型有继承关系。</p>
-<p>这之间的区别在于：对于C而言，类型更强调数据的<code>size</code>；对于强调OO的语言，类型除了表示数据的<code>size</code>，更是为了<strong>告诉并规范</strong>程序员数据应当如何进行使用——所谓<code>更安全</code>即是因此而来。</p>
-<h3 id="u7C7B_u578B_u68C0_u67E5"><a href="#u7C7B_u578B_u68C0_u67E5" class="headerlink" title="类型检查"></a><strong>类型检查</strong></h3><p>这里只说一下我自己写相关代码时采用的方案。</p>
-<p>对于基本类型，例如int/float/string/user-defined。可以赋予一个唯一标识符。如果有可以转换的情况，例如 int-&gt;string，那么就将赋值操作的右部分表达式的最终结果使用一个int-&gt;string的过程表示出来；至于int/float/bool之间的相互转换，直接生成对应的C代码。例如下面：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 源代码</span></span><br><span class="line"><span class="keyword">class</span> Main</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="built_in">string</span>[] argv)</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> f2i = <span class="number">18.9</span>;</span><br><span class="line">    <span class="built_in">string</span> f2i2s =  f2i;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对应生成的C代码</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> f2i = <span class="number">18.9f</span>;</span><br><span class="line">  <span class="comment">// 示例。用一个过程来表示int-&gt;string</span></span><br><span class="line">  <span class="keyword">char</span> f2i2s[<span class="number">256</span>];</span><br><span class="line">  <span class="keyword">int</span> f2i2sn = <span class="built_in">sprintf</span>(f2i2s,<span class="string">"%d"</span>,f2i);</span><br><span class="line">  f2i2s[f2i2sn] = <span class="string">'\0'</span>;</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>由于采用了一些OO特性，支持了单继承，因此用户定义的类型可能会具有基类形。故而，用户定义类型表示如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Type</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">string</span> m_uid; <span class="comment">// 使用字符串作为类型的标识</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> UserDefinedType : <span class="keyword">public</span> Type</span><br><span class="line">&#123;</span><br><span class="line">  UserDefine* m_base; <span class="comment">// 基类类型</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Type*&gt; m_dataMembers; <span class="comment">// 数据成员类型</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Type*&gt; m_derived; <span class="comment">// 继承自此类型的类型</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>那么，根据m_base与m_derived就可以得到一个静态的继承关系树（如果我没有记错的话MFC里面的RUNTIME_CLASS使用的就是这个方法，是用static对象实现的）。</p>
-<p>如果不去显式说明继承关系，又该如何？</p>
-<p>首先，回顾一下C++中的构造函数，其中有一种方式被称为初始化列表的构造方式。在大多数的C++书籍中，都会明确告诉读者：数据成员在初始化列表中的顺序与其真正的初始化顺序无关，只与它们在类中的定义顺序有关。也就是说，对于一个类，它的类型不仅仅与它包含哪些成员相关，还与它的成员的定义顺序有关。</p>
-<p>实际上，下面的两个类是不同的类型，虽然它们包含相同的成员，在内存中占有的大小也相同：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> SA</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> a;</span><br><span class="line">  <span class="keyword">char</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> SB</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">char</span> b;</span><br><span class="line">  <span class="keyword">int</span> a;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>这样定义不是没有道理的：无论是按照何种对齐方式，它们在内存中的第一个字节的意义始终是无法相同的。</p>
-<p>那么继承的情况又如何呢？<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Base</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> base;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Derived : <span class="keyword">public</span> Base</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> derived;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>很显然，我们知道Derived实际上是这样的：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Derived</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> base;</span><br><span class="line">  <span class="keyword">int</span> derived;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>于是，如果我们希望能够动态的判定Base与Derived的继承关系，需要从两个方面来判定：首先是宽度（也就是成员数目），宽度小的类有可能是宽度大的类的父类；其次是深度：宽度小的类包含的成员，必须按顺序从头到尾依次出现在宽度比较大的类中的同样位置，并且类型要相同。很显然的，类型相同包含了是否包含相同的成员数目、包含的成员类型以及定义顺序是否相同——这是一个递归过程。</p>
-<p>不难发现，上面的判断方法仅对单继承有好的支持，而对于多继承则力有不逮，不如通过语法强制显式声明来的好。</p>
-<h2 id="u7B26_u53F7_u8868"><a href="#u7B26_u53F7_u8868" class="headerlink" title="符号表"></a><strong>符号表</strong></h2><p>符号表在整个编译链接生成代码的过程中占有重要地位，居于核心位置，反映了标识符的语义特性：例如上面提到的类型信息、标识符的作用域和隶属关系等（隶属关系是我自己加的说法，单指类和它的成员之间的关系。成员的标识符隶属于类的标识符）。</p>
-<p>符号表的作用域使用是个<code>Block</code>来定义，<code>Block</code>可认为是由<code>大括号{}</code>包括的一条或者多条语句构成的。很显然，作用域是可以嵌套的。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Symbol</span><br><span class="line">&#123;</span><br><span class="line">  Block* m_block; <span class="comment">// 所属域</span></span><br><span class="line">  Type* m_type; <span class="comment">// 符号的类型，例如TYPE_INT, TYPE_FLOAT, TYPE_STRING, TYPE_USER等</span></span><br><span class="line">  Symbol* m_parent; <span class="comment">// 所隶属的符号，也就是隶属的类的类名</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Symbol*&gt; m_members; <span class="comment">// 类的成员们</span></span><br><span class="line">  Token* m_token; <span class="comment">// 相关的token，在出错的时候可以定义到对应的文本位置，另外token包含的lexeme同样也是该Symbol的名称</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Block</span><br><span class="line">&#123;</span><br><span class="line">  Block* m_parent; <span class="comment">// 父作用域</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Symbol&gt; m_symbols; <span class="comment">// 包含的符号们</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Statement*&gt; m_stms; <span class="comment">// 块中包含的语句</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>注意到Block中包含了表示语句的成员，这是因为语法与语义并非同一个概念。例如<code>string s = s1 + b1;</code>中，如果b1是一个用户定义的类型，那么很显然是不合适的；但是语法层面，两个标识符之间的相加是没有问题的。</p>
-<p>那么对于一个符号是否在作用域中重复出现，以及是否未定义，就可以通过Block的链表来上溯查找。</p>
-<p>对于每一个程序，需要额外分配一个全局域以便分析能够正确进行。</p>
-<p>整个分析过程的运行类似于单线程下的函数调用，使用一个栈就可以进行模拟了——进入一个作用域，将其压栈，然后进行分析，出作用域的时候弹出即可。</p>
-<p>至于单条语句，像上面提到的<code>string s = s1 + b1;</code>，就需要进行逐条语句的检查了。在这个过程中，类型检查开始发挥作用。</p>
-<h1 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a><strong>结束</strong></h1><hr>
-<p>写得很是惶恐，感觉说了些什么又好像什么都没说，而且稍微涉及到一些理论啊名词啊之类的东西还不知道用没有搞错……终究是没有整个搞透彻，况且又忘掉了很多东西。</p>
-<p>如果有可能，我打算慢慢把代码配上来，代码尽量过程化一些，能够凸显思路，就像Lexer里面那样。不过……代码质量不会好就是了。</p>
-<p>嗯……如果问到一些理论问题的话，应该会死得很难看吧……</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1416,26 +1317,26 @@
           <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
           <p class="site-author-name" itemprop="name">SsCM</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">希望以后心情不好的时候可以全世界遛遛弯</p>
+        <p class="site-description motion-element" itemprop="description">Nothing, EVERYTHING</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">分类</span>
+              <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">标签</span>
+              <span class="site-state-item-name">標籤</span>
               </a>
           </div>
 
@@ -1478,11 +1379,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  主题 -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT
   </a>
@@ -1551,8 +1452,7 @@
   </script>
 
   
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="LeetCode," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -51,25 +51,19 @@
 
 
 
-<meta name="description" content="Courses Schedule
-
-There are a total of n courses you have to take, labeled from 0 to n - 1.
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is">
+<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Courses Schedule II">
-<meta property="og:url" content="http://yoursite.com/2016/03/22/Courses-Schedule-II/index.html">
+<meta property="og:title" content="Hello World">
+<meta property="og:url" content="http://yoursite.com/2016/04/05/hello-world/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="Courses Schedule
-
-There are a total of n courses you have to take, labeled from 0 to n - 1.
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is">
-<meta property="og:updated_time" content="2016-03-22T07:21:34.298Z">
+<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick">
+<meta property="og:updated_time" content="2016-04-05T15:28:43.750Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Courses Schedule II">
-<meta name="twitter:description" content="Courses Schedule
-
-There are a total of n courses you have to take, labeled from 0 to n - 1.
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is">
+<meta name="twitter:title" content="Hello World">
+<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick">
 
 
 
@@ -81,7 +75,7 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
   };
 </script>
 
-  <title> Courses Schedule II | CrystalMaidenRampage </title>
+  <title> Hello World | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -211,7 +205,7 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
             
             
               
-                Courses Schedule II
+                Hello World
               
             
           </h1>
@@ -220,26 +214,11 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
         <div class="post-meta">
           <span class="post-time">
             發表於
-            <time itemprop="dateCreated" datetime="2016-03-22T15:14:33+08:00" content="2016-03-22">
-              2016-03-22
+            <time itemprop="dateCreated" datetime="2016-04-05T23:28:43+08:00" content="2016-04-05">
+              2016-04-05
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分類於
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OJs/" itemprop="url" rel="index">
-                    <span itemprop="name">OJs</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -259,49 +238,36 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
       
 
       
-        <span itemprop="articleBody"><h1 id="Courses_Schedule"><a href="#Courses_Schedule" class="headerlink" title="Courses Schedule"></a><strong>Courses Schedule</strong></h1><hr>
-<blockquote>
-<p>There are a total of n courses you have to take, labeled from 0 to n - 1.</p>
-<p>Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]</p>
-<p>Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.</p>
-<p>There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.</p>
-<p>For example:<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>, <span class="string">[[1,0]]</span></span><br></pre></td></tr></table></figure></p>
-<p>There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1]<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span>, [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">0</span>],[<span class="number">3</span>,<span class="number">1</span>],[<span class="number">3</span>,<span class="number">2</span>]]</span><br></pre></td></tr></table></figure></p>
-<p>There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].</p>
-</blockquote>
-<p>拓扑排序。流程和 <a href="http://solaxu.github.io/2016/03/09/Course-Schedule/" target="_blank" rel="external">Courses Schedule</a>一样。但有两个需要注意的地方：</p>
-<ul>
-<li>pair<int,int>是边，如果没有边的话，那么所有的节点都是单独的，因此应当按照编号输出所有节点；</int,int></li>
-<li>如果没有可行的选课方案，那么最后的最后的选课的队列长度一定不等于课程数目，从而能可以判定无解，清空选课队列并输出。</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; findOrder(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt;&amp; prerequisites) &#123;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; order;</span><br><span class="line">		<span class="keyword">if</span> (numCourses == <span class="number">0</span>) <span class="keyword">return</span> order;</span><br><span class="line">		<span class="keyword">int</span> reqs = prerequisites.size();</span><br><span class="line">		<span class="keyword">if</span> (reqs == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">		    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i)</span><br><span class="line">		    &#123;</span><br><span class="line">		        order.push_back(i);</span><br><span class="line">		    &#125;</span><br><span class="line">		    <span class="keyword">return</span> order;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; inDegrees(numCourses, <span class="number">0</span>);</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; graphic(numCourses, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> p : prerequisites)</span><br><span class="line">		&#123;</span><br><span class="line">			graphic[p.second].push_back(p.first);</span><br><span class="line">			inDegrees[p.first]++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (inDegrees[i] == <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				q.push(i);</span><br><span class="line">				order.push_back(i);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (!q.empty())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> f = q.front();</span><br><span class="line">			q.pop();</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">auto</span> i = <span class="number">0</span>; i &lt; graphic[f].size(); ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				inDegrees[graphic[f][i]]--;</span><br><span class="line">				<span class="keyword">if</span> (inDegrees[graphic[f][i]] == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					q.push(graphic[f][i]);</span><br><span class="line">					order.push_back(graphic[f][i]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (order.size() != numCourses) order.clear();</span><br><span class="line">		<span class="keyword">return</span> order;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+        <span itemprop="articleBody"><p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 </span>
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/LeetCode/" rel="tag">#LeetCode</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/22/Number-of-Island/" rel="next" title="Number of Island">
-                <i class="fa fa-chevron-left"></i> Number of Island
+              <a href="/2016/04/01/Word-Break/" rel="next" title="Word Break">
+                <i class="fa fa-chevron-left"></i> Word Break
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/27/Gray-Code/" rel="prev" title="Gray Code">
-                Gray Code <i class="fa fa-chevron-right"></i>
+              <a href="/2016/04/06/Nim-Game/" rel="prev" title="Nim Game">
+                Nim Game <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -416,7 +382,7 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Courses_Schedule"><span class="nav-number">1.</span> <span class="nav-text">Courses Schedule</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick_Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create_a_new_post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run_server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate_static_files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy_to_remote_sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

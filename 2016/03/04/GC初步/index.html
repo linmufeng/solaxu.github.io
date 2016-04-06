@@ -58,7 +58,7 @@
 作用域(RAII的一个应用)在C++中，我们知道一个对象的生存周期是与它的作用域有关的。例如：1234567891011121314151617#include &amp;lt;stdi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GC初步">
-<meta property="og:url" content="http://solaxu.github.io/2016/03/04/GC初步/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/03/04/GC初步/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
 <meta property="og:description" content="前面
 本来是想在CPP相关的文里面讨论一下内存管理的事情，不过想了一想，还是放到编译相关的文章里面谈会更合适一些。
@@ -92,7 +92,7 @@
   <title> GC初步 | CrystalMaidenRampage </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -147,7 +147,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首页
+            首頁
           </a>
         </li>
       
@@ -157,7 +157,7 @@
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            分类
+            分類
           </a>
         </li>
       
@@ -167,7 +167,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            归档
+            歸檔
           </a>
         </li>
       
@@ -177,7 +177,7 @@
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            标签
+            標籤
           </a>
         </li>
       
@@ -227,7 +227,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-04T17:15:59+08:00" content="2016-03-04">
               2016-03-04
             </time>
@@ -235,7 +235,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Compiler/" itemprop="url" rel="index">
@@ -305,7 +305,7 @@
 <p>这就需要另外一系列行之有效的办法来将这个时间碎片化，分散出去。引用计数可以在一定程度上做到这些，但还不够，于是，增量收集登场了。</p>
 <p>在这个过程中，增量/并行算法将“无用垃圾信息收集穿插于程序执行过程中，避免对程序的长时间打断”。通常，由于应用程序本身总是在改变图的结构，因此将程序视为“改变器”；而GC模块，则视为“回收器”。</p>
 <p>三色标记模型作为对Mark-Sweep的拓展补充，在增量标记中发挥了重要的作用。</p>
-<p>在前面介绍<a href="http://solaxu.github.io/2016/01/17/HiHo%E4%B8%80%E4%B8%8B%E2%80%94%E2%80%94LCA/">LCA的文章</a>中已经对染色法有过一定的介绍了，这里依旧是分阶段进行染色的，不过略有不同。</p>
+<p>在前面介绍<a href="http://solaxu.github.io/2016/01/17/HiHo%E4%B8%80%E4%B8%8B%E2%80%94%E2%80%94LCA/" target="_blank" rel="external">LCA的文章</a>中已经对染色法有过一定的介绍了，这里依旧是分阶段进行染色的，不过略有不同。</p>
 <ul>
 <li>对于未访问过的对象，标记为白色；</li>
 <li>对于已经访问过，但是其子对象还没有访问过的对象，标记为灰色；</li>
@@ -434,10 +434,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
+            文章目錄
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
+            本站概覽
           </li>
         </ul>
       
@@ -447,26 +447,26 @@
           <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
           <p class="site-author-name" itemprop="name">SsCM</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">希望以后心情不好的时候可以全世界遛遛弯</p>
+        <p class="site-description motion-element" itemprop="description">Nothing, EVERYTHING</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">分类</span>
+              <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">标签</span>
+              <span class="site-state-item-name">標籤</span>
               </a>
           </div>
 
@@ -526,11 +526,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  主题 -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT
   </a>
@@ -760,8 +760,7 @@
   </script>
 
   
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

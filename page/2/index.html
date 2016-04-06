@@ -51,15 +51,15 @@
 
 
 
-<meta name="description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta name="description" content="Nothing, EVERYTHING">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CrystalMaidenRampage">
-<meta property="og:url" content="http://solaxu.github.io/page/2/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta property="og:description" content="Nothing, EVERYTHING">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CrystalMaidenRampage">
-<meta name="twitter:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta name="twitter:description" content="Nothing, EVERYTHING">
 
 
 
@@ -74,7 +74,7 @@
   <title> CrystalMaidenRampage </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -131,7 +131,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首页
+            首頁
           </a>
         </li>
       
@@ -141,7 +141,7 @@
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            分类
+            分類
           </a>
         </li>
       
@@ -151,7 +151,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            归档
+            歸檔
           </a>
         </li>
       
@@ -161,7 +161,7 @@
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            标签
+            標籤
           </a>
         </li>
       
@@ -187,6 +187,224 @@
 
     
     
+      
+      
+
+      
+    
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/22/Word-Search/" itemprop="url">
+                  Word Search
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-03-22T12:11:43+08:00" content="2016-03-22">
+              2016-03-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="Word_Search"><a href="#Word_Search" class="headerlink" title="Word Search"></a><strong>Word Search</strong></h1><hr>
+<blockquote>
+<p>Given a 2D board and a word, find if the word exists in the grid.</p>
+<p>The word can be constructed from letters of sequentially adjacent cell, where “adjacent” cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.</p>
+<p>For example,</p>
+<p>Given board =<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  ['A','B','C','E'],</span><br><span class="line">  ['S','F','C','S'],</span><br><span class="line">  ['A','D','E','E']</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>word = “ABCCED”, -&gt; returns true,</p>
+<p>word = “SEE”, -&gt; returns true,</p>
+<p>word = “ABCB”, -&gt; returns false.</p>
+</blockquote>
+<p>回溯。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="keyword">typedef</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vi;</span><br><span class="line">	<span class="keyword">typedef</span> <span class="built_in">vector</span>&lt;vi&gt; vvi;</span><br><span class="line"></span><br><span class="line">	vvi vis;</span><br><span class="line">	<span class="keyword">int</span> index;</span><br><span class="line">	<span class="keyword">int</span>* rdir;</span><br><span class="line">	<span class="keyword">int</span>* cdir;</span><br><span class="line">	<span class="keyword">int</span> rows;</span><br><span class="line">	<span class="keyword">int</span> cols;</span><br><span class="line">	<span class="keyword">bool</span> result;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="keyword">int</span> r, <span class="keyword">int</span> c, <span class="built_in">string</span>&amp; word)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		vis[r][c] = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">if</span> (word[index] == board[r][c])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (result) <span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">if</span> (index == word.length() - <span class="number">1</span>) result = <span class="literal">true</span>;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">4</span>; ++k)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> i = r - rdir[k];</span><br><span class="line">				<span class="keyword">int</span> j = c - cdir[k];</span><br><span class="line">				<span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; rows &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; cols &amp;&amp; vis[i][j] == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					++index;</span><br><span class="line">					solve(board, i, j, word);</span><br><span class="line">					--index;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		vis[r][c] = <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">exist</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="built_in">string</span> word)</span> </span>&#123;</span><br><span class="line">		rows = board.size();</span><br><span class="line">		<span class="keyword">if</span> (rows == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		cols = board[<span class="number">0</span>].size();</span><br><span class="line">		<span class="keyword">if</span> (cols == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		vis = vvi(rows, vi(cols, <span class="number">0</span>));</span><br><span class="line">		index = <span class="number">0</span>;</span><br><span class="line">		result = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">int</span> rdirs[] = &#123; <span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span> &#125;;</span><br><span class="line">		<span class="keyword">int</span> cdirs[] = &#123; <span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span> &#125;;</span><br><span class="line">		rdir = rdirs;</span><br><span class="line">		cdir = cdirs;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; ++j)</span><br><span class="line">			&#123;</span><br><span class="line">				solve(board, i, j, word);</span><br><span class="line">				<span class="keyword">if</span> (result) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/21/Add-and-Search-Word-Data-structure-design/" itemprop="url">
+                  Add and Search Word - Data structure design
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-03-21T19:19:04+08:00" content="2016-03-21">
+              2016-03-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="Add_and_Search_Word_-_Data_structure_design"><a href="#Add_and_Search_Word_-_Data_structure_design" class="headerlink" title="Add and Search Word - Data structure design"></a><strong>Add and Search Word - Data structure design</strong></h1><hr>
+<blockquote>
+<p>Design a data structure that supports the following two operations:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function"><span class="title">addWord</span><span class="params">(word)</span></span></span><br><span class="line">bool <span class="function"><span class="title">search</span><span class="params">(word)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>search(word) can search a literal word or a regular expression string containing only letters a-z or .. A . means it can represent any one letter.</p>
+<p>For example:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">addWord</span><span class="params">(<span class="string">"bad"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">addWord</span><span class="params">(<span class="string">"dad"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">addWord</span><span class="params">(<span class="string">"mad"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">search</span><span class="params">(<span class="string">"pad"</span>)</span></span> -&gt; false</span><br><span class="line"><span class="function"><span class="title">search</span><span class="params">(<span class="string">"bad"</span>)</span></span> -&gt; true</span><br><span class="line"><span class="function"><span class="title">search</span><span class="params">(<span class="string">".ad"</span>)</span></span> -&gt; true</span><br><span class="line"><span class="function"><span class="title">search</span><span class="params">(<span class="string">"b.."</span>)</span></span> -&gt; true</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>回溯法解。注意需要剪枝，不然会超时。</p>
+<p>首先上没有剪枝的版本，这个代码超时了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> WordDictionary &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; datas;</span><br><span class="line">	<span class="comment">// Adds a word into the data structure.</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">addWord</span><span class="params">(<span class="built_in">string</span> word)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">auto</span> it = datas.find(word);</span><br><span class="line">		<span class="keyword">if</span> (it == datas.end())</span><br><span class="line">		&#123;</span><br><span class="line">			pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p(word, <span class="number">1</span>);</span><br><span class="line">			datas.insert(p);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			it-&gt;second += <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Returns if the word is in the data structure. A word could</span></span><br><span class="line">	<span class="comment">// contain the dot character '.' to represent any one letter.</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">search</span><span class="params">(<span class="built_in">string</span> word)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">bool</span> r = <span class="literal">false</span>;</span><br><span class="line">		<span class="built_in">string</span> st;</span><br><span class="line">		solve(r, st, word, <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">return</span> r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">bool</span>&amp; r, <span class="built_in">string</span>&amp; st, <span class="built_in">string</span>&amp; word, <span class="keyword">int</span> index)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">int</span> pos = index;</span><br><span class="line">		<span class="keyword">for</span> (; pos &lt; word.length(); ++pos)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (word[pos] == <span class="string">'.'</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			st.push_back(word[pos]);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (st.length() == word.length())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (r == <span class="literal">false</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				r = (datas.find(st) != datas.end());</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="string">'a'</span>; i &lt;= <span class="string">'z'</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			st.push_back((<span class="keyword">char</span>)i);</span><br><span class="line">			solve(r, st, word, pos + <span class="number">1</span>);</span><br><span class="line">			<span class="keyword">if</span> (r) <span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">int</span> l = st.length() - pos;</span><br><span class="line">			<span class="keyword">while</span> (l &gt; <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				st.pop_back();</span><br><span class="line">				--l;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后是AC了的剪枝版本。剪枝过程使用了字典树，然后就是Check函数的三种返回值需要注意；字典树节点中的BOOL成员表明该字符是否属于一个字符串的终结字符。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> WordDictionary &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="keyword">struct</span> Node</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">char</span> c;</span><br><span class="line">		<span class="keyword">bool</span> bstr;</span><br><span class="line">		Node* children[<span class="number">26</span>];</span><br><span class="line">		Node()</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; ++i)</span><br><span class="line">				children[i] = <span class="literal">NULL</span>;</span><br><span class="line">			bstr = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		Node(<span class="keyword">char</span> ch):c(ch)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; ++i)</span><br><span class="line">				children[i] = <span class="literal">NULL</span>;</span><br><span class="line">			bstr = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;root;</span><br><span class="line">	<span class="comment">// Adds a word into the data structure.</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">addWord</span><span class="params">(<span class="built_in">string</span> word)</span> </span>&#123;</span><br><span class="line">		Node* pRoot = &amp;root;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; word.length(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (pRoot-&gt;children[word[i] - <span class="string">'a'</span>] == <span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				pRoot-&gt;children[word[i] - <span class="string">'a'</span>] = <span class="keyword">new</span> Node(word[i]);</span><br><span class="line">			&#125;</span><br><span class="line">			pRoot = pRoot-&gt;children[word[i] - <span class="string">'a'</span>];</span><br><span class="line">			<span class="keyword">if</span> (i + <span class="number">1</span> == word.length())</span><br><span class="line">				pRoot-&gt;bstr = <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">check</span><span class="params">(<span class="built_in">string</span>&amp; s)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		Node* pRoot = &amp;root;</span><br><span class="line">		Node* eNode = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			pRoot = pRoot-&gt;children[s[i] - <span class="string">'a'</span>];</span><br><span class="line">			<span class="keyword">if</span> (pRoot == <span class="literal">NULL</span>)</span><br><span class="line">				<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">if</span> (i + <span class="number">1</span> == s.length())</span><br><span class="line">				eNode = pRoot;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (eNode-&gt;bstr) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Returns if the word is in the data structure. A word could</span></span><br><span class="line">	<span class="comment">// contain the dot character '.' to represent any one letter.</span></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">search</span><span class="params">(<span class="built_in">string</span> word)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">bool</span> r = <span class="literal">false</span>;</span><br><span class="line">		<span class="built_in">string</span> st;</span><br><span class="line">		solve(r, st, word, <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">return</span> r;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">bool</span>&amp; r, <span class="built_in">string</span>&amp; st, <span class="built_in">string</span>&amp; word, <span class="keyword">int</span> index)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">int</span> pos = index;</span><br><span class="line">		<span class="keyword">for</span> (; pos &lt; word.length(); ++pos)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (word[pos] == <span class="string">'.'</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			st.push_back(word[pos]);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (st.length() == word.length())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (r == <span class="literal">false</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				r =  (<span class="number">1</span> == check(st));</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="string">'a'</span>; i &lt;= <span class="string">'z'</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			st.push_back((<span class="keyword">char</span>)i);</span><br><span class="line">			<span class="keyword">if</span> (<span class="number">0</span> == check(st))</span><br><span class="line">			&#123;</span><br><span class="line">				st.pop_back();</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			solve(r, st, word, pos + <span class="number">1</span>);</span><br><span class="line">			<span class="keyword">if</span> (r) <span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">int</span> l = st.length() - pos;</span><br><span class="line">			<span class="keyword">while</span> (l &gt; <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				st.pop_back();</span><br><span class="line">				--l;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -220,7 +438,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-21T13:39:11+08:00" content="2016-03-21">
               2016-03-21
             </time>
@@ -228,7 +446,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -324,7 +542,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-20T20:10:53+08:00" content="2016-03-20">
               2016-03-20
             </time>
@@ -332,7 +550,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -427,7 +645,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-20T17:05:47+08:00" content="2016-03-20">
               2016-03-20
             </time>
@@ -435,7 +653,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -535,7 +753,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-19T15:40:14+08:00" content="2016-03-19">
               2016-03-19
             </time>
@@ -543,7 +761,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -679,7 +897,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-11T20:02:53+08:00" content="2016-03-11">
               2016-03-11
             </time>
@@ -687,7 +905,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -795,7 +1013,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-09T22:07:25+08:00" content="2016-03-09">
               2016-03-09
             </time>
@@ -803,7 +1021,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -908,7 +1126,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-09T19:09:29+08:00" content="2016-03-09">
               2016-03-09
             </time>
@@ -916,7 +1134,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -1012,7 +1230,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-03-09T18:21:52+08:00" content="2016-03-09">
               2016-03-09
             </time>
@@ -1020,7 +1238,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -1088,213 +1306,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/09/Binary-Tree-Paths/" itemprop="url">
-                  Binary Tree Paths
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-03-09T14:43:58+08:00" content="2016-03-09">
-              2016-03-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OJs/" itemprop="url" rel="index">
-                    <span itemprop="name">OJs</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="Binary_Tree_Paths"><a href="#Binary_Tree_Paths" class="headerlink" title="Binary Tree Paths"></a><strong>Binary Tree Paths</strong></h1><hr>
-<blockquote>
-<p>Given a binary tree, return all root-to-leaf paths.</p>
-<p>For example, given the following binary tree:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">1</span></span><br><span class="line"> /   \</span><br><span class="line"><span class="number">2</span>     <span class="number">3</span></span><br><span class="line"> \</span><br><span class="line">  <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
-<p>All root-to-leaf paths are:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">"1-&gt;2-&gt;5"</span>, <span class="string">"1-&gt;3"</span>]</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>DFS。</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sk;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; result;</span><br><span class="line">	<span class="built_in">string</span> str;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(TreeNode* root)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (root)</span><br><span class="line">		&#123;</span><br><span class="line">			sk.push_back(root-&gt;val);</span><br><span class="line">			solve(root-&gt;left);</span><br><span class="line">			solve(root-&gt;right);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (root-&gt;left == <span class="literal">NULL</span> &amp;&amp; root-&gt;right == <span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				str.clear();</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; sk.size(); ++i)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="built_in">string</span> number = to_string(sk[i]);</span><br><span class="line">					str += number;</span><br><span class="line">					<span class="keyword">if</span> (i &lt; sk.size() - <span class="number">1</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						str += <span class="string">"-&gt;"</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				result.push_back(str);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			sk.pop_back();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; binaryTreePaths(TreeNode* root) &#123;</span><br><span class="line">		<span class="keyword">if</span> (root)</span><br><span class="line">		&#123;</span><br><span class="line">			solve(root);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/09/N-Queens-II/" itemprop="url">
-                  N-Queens II
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-03-09T14:12:46+08:00" content="2016-03-09">
-              2016-03-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OJs/" itemprop="url" rel="index">
-                    <span itemprop="name">OJs</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="N-Queens_II"><a href="#N-Queens_II" class="headerlink" title="N-Queens II"></a><strong>N-Queens II</strong></h1><hr>
-<blockquote>
-<p>Follow up for N-Queens problem.</p>
-<p>Now, instead outputting board configurations, return the total number of distinct solutions.</p>
-<p><img src="http://www.leetcode.com/wp-content/uploads/2012/03/8-queens.png" alt="N-QueensII"></p>
-</blockquote>
-<p>N皇后问题，回溯可解。</p>
-<p>AC代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getState</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> board[r * n + c];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span> r, <span class="keyword">int</span> c, <span class="keyword">int</span> state)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	board[r * n + c] = state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printBoard</span><span class="params">(<span class="keyword">int</span>* board, <span class="keyword">int</span> n)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"***************\n\n"</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%d "</span>, getState(n, board, i, j));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">palced</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, r, i))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, i, c))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> ir = r + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> ic = c + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// 斜线为0</span></span><br><span class="line">	<span class="keyword">while</span> (ir &lt; n &amp;&amp; ic &lt; n)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		++ir;</span><br><span class="line">		++ic;</span><br><span class="line">	&#125;</span><br><span class="line">	ir = r - <span class="number">1</span>;</span><br><span class="line">	ic = c - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (ir &gt;= <span class="number">0</span> &amp;&amp; ic &gt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		--ir;</span><br><span class="line">		--ic;</span><br><span class="line">	&#125;</span><br><span class="line">	ir = r - <span class="number">1</span>;</span><br><span class="line">	ic = c + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (ir &gt;= <span class="number">0</span> &amp;&amp; ic &lt; n)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		--ir;</span><br><span class="line">		++ic;</span><br><span class="line">	&#125;</span><br><span class="line">	ir = r + <span class="number">1</span>;</span><br><span class="line">	ic = c - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (ir &lt; n &amp;&amp; ic &gt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (getState(n, board, ir, ic))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		++ir;</span><br><span class="line">		--ic;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">queens</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>* board, <span class="keyword">int</span>* nums, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ((r &gt;= <span class="number">0</span> &amp;&amp; r &lt; n) &amp;&amp; ((c &gt;= <span class="number">0</span> &amp;&amp; c &lt; n)))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (r == n - <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (palced(n, board, r, i))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//setState(n, board, r, i, 1);</span></span><br><span class="line">					++(* nums);</span><br><span class="line">					<span class="comment">//printBoard(board, n); //可以打印棋盘</span></span><br><span class="line">					<span class="comment">//setState(n, board, r, i, 0);</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (palced(n,board,r,i))</span><br><span class="line">				&#123;</span><br><span class="line">					setState(n, board, r, i, <span class="number">1</span>);<span class="comment">//放置一个皇后</span></span><br><span class="line">					queens(n, board, nums, r + <span class="number">1</span>, <span class="number">0</span>);<span class="comment">//对剩下的棋盘进行摆放</span></span><br><span class="line">					setState(n, board, r, i, <span class="number">0</span>);<span class="comment">//恢复棋盘</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">totalNQueens</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n ==<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>* board = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>) * n * n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n*n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        board[i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    queens(n, board, &amp;result, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1337,26 +1348,26 @@
           <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
           <p class="site-author-name" itemprop="name">SsCM</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">希望以后心情不好的时候可以全世界遛遛弯</p>
+        <p class="site-description motion-element" itemprop="description">Nothing, EVERYTHING</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">分类</span>
+              <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">标签</span>
+              <span class="site-state-item-name">標籤</span>
               </a>
           </div>
 
@@ -1399,11 +1410,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  主题 -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT
   </a>
@@ -1472,8 +1483,7 @@
   </script>
 
   
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

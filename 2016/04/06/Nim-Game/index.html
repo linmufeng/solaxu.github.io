@@ -51,25 +51,22 @@
 
 
 
-<meta name="description" content="Courses Schedule
+<meta name="description" content="Nim Game
 
-There are a total of n courses you have to take, labeled from 0 to n - 1.
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is">
+You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone w">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Courses Schedule II">
-<meta property="og:url" content="http://yoursite.com/2016/03/22/Courses-Schedule-II/index.html">
+<meta property="og:title" content="Nim Game">
+<meta property="og:url" content="http://yoursite.com/2016/04/06/Nim-Game/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="Courses Schedule
+<meta property="og:description" content="Nim Game
 
-There are a total of n courses you have to take, labeled from 0 to n - 1.
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is">
-<meta property="og:updated_time" content="2016-03-22T07:21:34.298Z">
+You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone w">
+<meta property="og:updated_time" content="2016-04-06T08:25:00.769Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Courses Schedule II">
-<meta name="twitter:description" content="Courses Schedule
+<meta name="twitter:title" content="Nim Game">
+<meta name="twitter:description" content="Nim Game
 
-There are a total of n courses you have to take, labeled from 0 to n - 1.
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is">
+You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone w">
 
 
 
@@ -81,7 +78,7 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
   };
 </script>
 
-  <title> Courses Schedule II | CrystalMaidenRampage </title>
+  <title> Nim Game | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -211,7 +208,7 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
             
             
               
-                Courses Schedule II
+                Nim Game
               
             
           </h1>
@@ -220,8 +217,8 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
         <div class="post-meta">
           <span class="post-time">
             發表於
-            <time itemprop="dateCreated" datetime="2016-03-22T15:14:33+08:00" content="2016-03-22">
-              2016-03-22
+            <time itemprop="dateCreated" datetime="2016-04-06T16:19:09+08:00" content="2016-04-06">
+              2016-04-06
             </time>
           </span>
 
@@ -259,22 +256,16 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
       
 
       
-        <span itemprop="articleBody"><h1 id="Courses_Schedule"><a href="#Courses_Schedule" class="headerlink" title="Courses Schedule"></a><strong>Courses Schedule</strong></h1><hr>
+        <span itemprop="articleBody"><h1 id="Nim_Game"><a href="#Nim_Game" class="headerlink" title="Nim Game"></a><strong>Nim Game</strong></h1><hr>
 <blockquote>
-<p>There are a total of n courses you have to take, labeled from 0 to n - 1.</p>
-<p>Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]</p>
-<p>Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.</p>
-<p>There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.</p>
-<p>For example:<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>, <span class="string">[[1,0]]</span></span><br></pre></td></tr></table></figure></p>
-<p>There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1]<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span>, [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">0</span>],[<span class="number">3</span>,<span class="number">1</span>],[<span class="number">3</span>,<span class="number">2</span>]]</span><br></pre></td></tr></table></figure></p>
-<p>There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].</p>
+<p>You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones.</p>
+<p>Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap.</p>
+<p>For example, if there are 4 stones in the heap, then you will never win the game: no matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend.</p>
 </blockquote>
-<p>拓扑排序。流程和 <a href="http://solaxu.github.io/2016/03/09/Course-Schedule/" target="_blank" rel="external">Courses Schedule</a>一样。但有两个需要注意的地方：</p>
-<ul>
-<li>pair<int,int>是边，如果没有边的话，那么所有的节点都是单独的，因此应当按照编号输出所有节点；</int,int></li>
-<li>如果没有可行的选课方案，那么最后的最后的选课的队列长度一定不等于课程数目，从而能可以判定无解，清空选课队列并输出。</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; findOrder(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt;&amp; prerequisites) &#123;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; order;</span><br><span class="line">		<span class="keyword">if</span> (numCourses == <span class="number">0</span>) <span class="keyword">return</span> order;</span><br><span class="line">		<span class="keyword">int</span> reqs = prerequisites.size();</span><br><span class="line">		<span class="keyword">if</span> (reqs == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">		    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i)</span><br><span class="line">		    &#123;</span><br><span class="line">		        order.push_back(i);</span><br><span class="line">		    &#125;</span><br><span class="line">		    <span class="keyword">return</span> order;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; inDegrees(numCourses, <span class="number">0</span>);</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; graphic(numCourses, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> p : prerequisites)</span><br><span class="line">		&#123;</span><br><span class="line">			graphic[p.second].push_back(p.first);</span><br><span class="line">			inDegrees[p.first]++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (inDegrees[i] == <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				q.push(i);</span><br><span class="line">				order.push_back(i);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (!q.empty())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> f = q.front();</span><br><span class="line">			q.pop();</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">auto</span> i = <span class="number">0</span>; i &lt; graphic[f].size(); ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				inDegrees[graphic[f][i]]--;</span><br><span class="line">				<span class="keyword">if</span> (inDegrees[graphic[f][i]] == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					q.push(graphic[f][i]);</span><br><span class="line">					order.push_back(graphic[f][i]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (order.size() != numCourses) order.clear();</span><br><span class="line">		<span class="keyword">return</span> order;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>重要的是找出必胜状态与必败状态。</p>
+<p>此类问题的正确描述在于注释内的代码，通过递推关系求出结果。</p>
+<p>非注释代码只是根据题目取了巧，递推求结果会导致超时。</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canWinNim</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">         <span class="comment">/*</span><br><span class="line">         if ( n == 0 ) return false;</span><br><span class="line">         if ( n &lt;= 3 ) return true;</span><br><span class="line">         vector&lt;bool&gt; stones(n,false);</span><br><span class="line">         stones[0] = stones[1] = stones[2] = true;</span><br><span class="line">         for (int i = 3; i &lt; n ; ++i)</span><br><span class="line">         &#123;</span><br><span class="line">             if (stones[i-1] &amp;&amp; stones[i-2] &amp;&amp; stones[i-3])</span><br><span class="line">             &#123;</span><br><span class="line">                 stones[i] = false;</span><br><span class="line">             &#125;</span><br><span class="line">             else</span><br><span class="line">             &#123;</span><br><span class="line">                 stones[i] = true;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         return stones[n-1];</span><br><span class="line">         */</span></span><br><span class="line">         <span class="keyword">return</span> !(n % <span class="number">4</span> == <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -292,17 +283,13 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/22/Number-of-Island/" rel="next" title="Number of Island">
-                <i class="fa fa-chevron-left"></i> Number of Island
+              <a href="/2016/04/05/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/27/Gray-Code/" rel="prev" title="Gray Code">
-                Gray Code <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -416,7 +403,7 @@ Some courses may have prerequisites, for example to take course 0 you have to fi
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Courses_Schedule"><span class="nav-number">1.</span> <span class="nav-text">Courses Schedule</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nim_Game"><span class="nav-number">1.</span> <span class="nav-text">Nim Game</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

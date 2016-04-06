@@ -59,7 +59,7 @@
 Le">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lexer">
-<meta property="og:url" content="http://solaxu.github.io/2016/02/19/Lexer/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/02/19/Lexer/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
 <meta property="og:description" content="前面
 说起来，我的这些个总结如果放到简历上给人看，大概会堵了不少实习机会吧，毕竟个人痕迹以及倾向表现的太重……
@@ -94,7 +94,7 @@ Le">
   <title> Lexer | CrystalMaidenRampage </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -149,7 +149,7 @@ Le">
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首页
+            首頁
           </a>
         </li>
       
@@ -159,7 +159,7 @@ Le">
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            分类
+            分類
           </a>
         </li>
       
@@ -169,7 +169,7 @@ Le">
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            归档
+            歸檔
           </a>
         </li>
       
@@ -179,7 +179,7 @@ Le">
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            标签
+            標籤
           </a>
         </li>
       
@@ -229,7 +229,7 @@ Le">
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-02-19T19:59:46+08:00" content="2016-02-19">
               2016-02-19
             </time>
@@ -237,7 +237,7 @@ Le">
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Compiler/" itemprop="url" rel="index">
@@ -286,7 +286,7 @@ Le">
 <p>在此方法中，对于<code>ifqwe</code>这样的串一定不能在读到<code>if</code>之后就去与关键字比较，这样得到的结果是错误的，所以在<code>readId</code>处理之后再去判断它是不是关键字。</p>
 <p>貌似没看到状态机？实际上状态机已经是有了的：对于<code>ifqwe[2]</code>这样的串，很显然<code>readId</code>在读到<code>[</code>的时候已经可以意识到标识符已经读完了，此时就可以切换<code>curCode</code>为初始状态再进行读取。</p>
 <p>然而上述方法需要进行字符串的比较，即便是采用了<code>HashTable</code>，其时间耗费也是在<code>O(N)+</code>的。为了提高效率，我们自然是想要一个<code>O(N)</code>的解决方案。</p>
-<p>这个方案需要使用到字典树，在前面<a href="http://solaxu.github.io/2015/12/26/%E5%9F%BA%E4%BA%8E%E7%8A%B6%E6%80%81%E7%9A%84%E7%BC%96%E7%A8%8B/">基于状态的编程</a>一文中已经介绍过了。相比前面一种方法，该方法在编码上要稍微麻烦一些——要多维护一棵树，而且空间耗费也多起来了，并且有一些注意事项（至少是在我编码的时候出现过的）：在构建字典树的时候，对于具有共同前缀的关键字，例如：<code>if</code>与<code>ifelse</code>，最好先构建<code>if</code>的路径，再构建<code>ifelse</code>的路径。因为先构建<code>if</code>，那么<code>i-&gt;f</code>需要首先设置<code>f</code>后面的所有指针都是空的，接下来的<code>if-&gt;else</code>直接把代表e的槽覆盖掉就可以了；而如果先处理<code>ifelse</code>，那么在处理<code>if</code>的时候就要小心，不要将已经建好的路径破坏掉了（如果按照<code>i-&gt;f-&gt;结束</code>，无匹配，<code>i-&gt;f-&gt;else</code>的路径就会断掉）。</p>
+<p>这个方案需要使用到字典树，在前面<a href="http://solaxu.github.io/2015/12/26/%E5%9F%BA%E4%BA%8E%E7%8A%B6%E6%80%81%E7%9A%84%E7%BC%96%E7%A8%8B/" target="_blank" rel="external">基于状态的编程</a>一文中已经介绍过了。相比前面一种方法，该方法在编码上要稍微麻烦一些——要多维护一棵树，而且空间耗费也多起来了，并且有一些注意事项（至少是在我编码的时候出现过的）：在构建字典树的时候，对于具有共同前缀的关键字，例如：<code>if</code>与<code>ifelse</code>，最好先构建<code>if</code>的路径，再构建<code>ifelse</code>的路径。因为先构建<code>if</code>，那么<code>i-&gt;f</code>需要首先设置<code>f</code>后面的所有指针都是空的，接下来的<code>if-&gt;else</code>直接把代表e的槽覆盖掉就可以了；而如果先处理<code>ifelse</code>，那么在处理<code>if</code>的时候就要小心，不要将已经建好的路径破坏掉了（如果按照<code>i-&gt;f-&gt;结束</code>，无匹配，<code>i-&gt;f-&gt;else</code>的路径就会断掉）。</p>
 <h1 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a><strong>结束</strong></h1><hr>
 <p>关于Lexer的实现，我知道的也就是前面的两种方案，其中第一种方案易于编码，简单直观，第二种则需要稍微花点心思。就我看过的一些资料而言，方案一用得更多一些（当然这些都只是教材，而并非商业级的东西，然而貌似Lua的Lexer也是采用第一种方案的），我自己两种方案都使用过，也踩过一些坑，上面也已经提到过了。总的来讲实现一个玩具级的Lexer并非一个难事。</p>
 <p>最后说一下<code>语法高亮（Syntax Lighting）</code>的问题。</p>
@@ -377,10 +377,10 @@ Le">
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
+            文章目錄
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
+            本站概覽
           </li>
         </ul>
       
@@ -390,26 +390,26 @@ Le">
           <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
           <p class="site-author-name" itemprop="name">SsCM</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">希望以后心情不好的时候可以全世界遛遛弯</p>
+        <p class="site-description motion-element" itemprop="description">Nothing, EVERYTHING</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">分类</span>
+              <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">标签</span>
+              <span class="site-state-item-name">標籤</span>
               </a>
           </div>
 
@@ -469,11 +469,11 @@ Le">
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  主题 -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT
   </a>
@@ -703,8 +703,7 @@ Le">
   </script>
 
   
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

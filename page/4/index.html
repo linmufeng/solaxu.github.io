@@ -51,15 +51,15 @@
 
 
 
-<meta name="description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta name="description" content="Nothing, EVERYTHING">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CrystalMaidenRampage">
-<meta property="og:url" content="http://solaxu.github.io/page/4/index.html">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta property="og:description" content="Nothing, EVERYTHING">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CrystalMaidenRampage">
-<meta name="twitter:description" content="希望以后心情不好的时候可以全世界遛遛弯">
+<meta name="twitter:description" content="Nothing, EVERYTHING">
 
 
 
@@ -74,7 +74,7 @@
   <title> CrystalMaidenRampage </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -131,7 +131,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首页
+            首頁
           </a>
         </li>
       
@@ -141,7 +141,7 @@
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            分类
+            分類
           </a>
         </li>
       
@@ -151,7 +151,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            归档
+            歸檔
           </a>
         </li>
       
@@ -161,7 +161,7 @@
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            标签
+            標籤
           </a>
         </li>
       
@@ -187,6 +187,322 @@
 
     
     
+      
+      
+
+      
+    
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/04/GC初步/" itemprop="url">
+                  GC初步
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-03-04T17:15:59+08:00" content="2016-03-04">
+              2016-03-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Compiler/" itemprop="url" rel="index">
+                    <span itemprop="name">Compiler</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
+<p>本来是想在CPP相关的文里面讨论一下内存管理的事情，不过想了一想，还是放到编译相关的文章里面谈会更合适一些。</p>
+<p>这次关于CG的讨论只关注一些基本原理以及算法，不涉及到并行GC等高级话题（水平不够Hold不住）。</p>
+<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<h2 id="u4F5C_u7528_u57DF_28RAII_u7684_u4E00_u4E2A_u5E94_u7528_29"><a href="#u4F5C_u7528_u57DF_28RAII_u7684_u4E00_u4E2A_u5E94_u7528_29" class="headerlink" title="作用域(RAII的一个应用)"></a><strong>作用域(RAII的一个应用)</strong></h2><p>在C++中，我们知道一个对象的生存周期是与它的作用域有关的。例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> Info</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function">Info <span class="title">info</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="function">Info <span class="title">i</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这就在一定程度上给我们一个方案：用一个对象包裹分配的内存地址，当该对象出了它作用域之后自动调用free/delete，如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> Info</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">struct</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line">	T* ptr;</span><br><span class="line">	SmartPtr(T* p) :ptr(p) &#123;&#125;</span><br><span class="line">	~SmartPtr() &#123; <span class="keyword">delete</span> ptr; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			i2.ptr-&gt;say();</span><br><span class="line">      <span class="comment">// 注意赋值操作符带来的错误！！！</span></span><br><span class="line">      <span class="comment">// 如果i2是从i1而来： SmartPtr&lt;Info&gt; i2 = i1;</span></span><br><span class="line">      <span class="comment">// 那么，i2一旦出了作用域，就会连带将i1的内存释放掉，而这显然是不正确的！</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这当然是不足以解决问题的——如果分配的内存希望能够在出了作用域之后继续存在怎么办？况且依旧无法对上面的代码注释中提到的情况作出应对。</p>
+<h2 id="u5F15_u7528_u8BA1_u6570"><a href="#u5F15_u7528_u8BA1_u6570" class="headerlink" title="引用计数"></a><strong>引用计数</strong></h2><p>引用计数其实是很常见的，比如在操作系统中需要记录某内核对象的引用次数，只有当该对象的计数为0的时候才能销毁该对象；再比如COM对象的引用计数。示例：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> Info</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">struct</span> refStruct</span><br><span class="line">	&#123;</span><br><span class="line">		T* ptr;</span><br><span class="line">		<span class="keyword">int</span> refc;</span><br><span class="line"></span><br><span class="line">	&#125;* sptr; <span class="comment">// 注意这里并非是直接将计数放在Smartprt中，而是加了一层。</span></span><br><span class="line">	SmartPtr() :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr(T* p) :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			sptr = <span class="keyword">new</span> refStruct;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"new refStruct here\n"</span>);</span><br><span class="line">			sptr-&gt;ptr = p;</span><br><span class="line">			sptr-&gt;refc = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	~SmartPtr()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			--sptr-&gt;refc; <span class="comment">// 析构的时候减少计数</span></span><br><span class="line">			<span class="keyword">if</span> (sptr-&gt;refc &lt;= <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr-&gt;ptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr-&gt;ptr = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"dead refStruct here\n"</span>);</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr = <span class="literal">NULL</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr&lt;T&gt;&amp; <span class="keyword">operator</span>=(SmartPtr&lt;T&gt;&amp; sp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span> != &amp;sp)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr = sp.sptr;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr-&gt;refc++; <span class="comment">// 赋值的时候增加计数</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> * <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">refCount</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;sptr)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>-&gt;sptr-&gt;refc;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>,i1.refCount());</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			SmartPtr&lt;Info&gt; i3;</span><br><span class="line">			i3 = i1;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i3 ref count: %d\n"</span>, i3.refCount());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实上面的例子也就是shared_ptr的原理了。注意到引用计数字段并没有直接放在Smartptr对象中——因为计数只与原始指针有关，一旦直接放入Smartptr对象中，赋值的时候就会产生副本，计数递减就只是对副本的操作，从而使得内存泄漏。</p>
+<p>附上面代码的结果：</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/006lhMttgw1f1l4r7ecjvj305h070745.jpg" alt="result"></p>
+<h2 id="u50F5_u5C40_uFF1A_u5FAA_u73AF_u5F15_u7528"><a href="#u50F5_u5C40_uFF1A_u5FAA_u73AF_u5F15_u7528" class="headerlink" title="僵局：循环引用"></a><strong>僵局：循环引用</strong></h2><p>仅从结果来看，引用计数工作的很好。</p>
+<p>然而确实如此么？请注意这样一个事实：上面的对象是没有包含其他对象的指针的！</p>
+<p>我们将代码改动一下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> SmartPtr</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">struct</span> refStruct</span><br><span class="line">	&#123;</span><br><span class="line">		T* ptr;</span><br><span class="line">		<span class="keyword">int</span> refc;</span><br><span class="line"></span><br><span class="line">	&#125;* sptr;</span><br><span class="line">	SmartPtr() :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr(T* p) :sptr(<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			sptr = <span class="keyword">new</span> refStruct;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"new refStruct here\n"</span>);</span><br><span class="line">			sptr-&gt;ptr = p;</span><br><span class="line">			sptr-&gt;refc = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	~SmartPtr()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sptr != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			--sptr-&gt;refc; <span class="comment">// 析构的时候减少计数</span></span><br><span class="line">			<span class="keyword">if</span> (sptr-&gt;refc &lt;= <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr-&gt;ptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr-&gt;ptr = <span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"dead refStruct here\n"</span>);</span><br><span class="line">				<span class="keyword">delete</span> <span class="keyword">this</span>-&gt;sptr;</span><br><span class="line">				<span class="keyword">this</span>-&gt;sptr = <span class="literal">NULL</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	SmartPtr&lt;T&gt;&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> SmartPtr&lt;T&gt;&amp; sp)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span> != &amp;sp)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr = sp.sptr;</span><br><span class="line">			<span class="keyword">this</span>-&gt;sptr-&gt;refc++; <span class="comment">// 赋值的时候增加计数</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> * <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">refCount</span><span class="params">()</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;sptr)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">this</span>-&gt;sptr-&gt;refc;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Info</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	SmartPtr&lt;Info&gt; link; <span class="comment">// 注意这里的link！！！</span></span><br><span class="line">	Info(<span class="keyword">int</span> va) :a(va) &#123; <span class="built_in">printf</span>(<span class="string">"Hello, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	~Info() &#123; <span class="built_in">printf</span>(<span class="string">"Bye, Info %d.\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Say</span><span class="params">()</span> </span>&#123; <span class="built_in">printf</span>(<span class="string">"this is %d\n"</span>, <span class="keyword">this</span>-&gt;a); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">LinkTo</span><span class="params">(<span class="keyword">const</span> SmartPtr&lt;Info&gt;&amp; link)</span> </span>&#123; <span class="keyword">this</span>-&gt;link = link; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>* r1 = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">int</span>* r2 = <span class="literal">NULL</span>;</span><br><span class="line">	&#123;</span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>));</span><br><span class="line">		r1 = &amp;i1.sptr-&gt;refc; <span class="comment">// 取地址</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>,i1.refCount());</span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>));</span><br><span class="line">			r2 = &amp;i2.sptr-&gt;refc; <span class="comment">// 取地址</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i2.refCount());</span><br><span class="line">			<span class="comment">// 令其发生循环引用</span></span><br><span class="line">			i1.sptr-&gt;ptr-&gt;LinkTo(i2);</span><br><span class="line">			i2.sptr-&gt;ptr-&gt;LinkTo(i1);</span><br><span class="line">			<span class="comment">// 打印计数值</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"i2 ref count: %d\n"</span>, i2.refCount());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i1 ref count: %d\n"</span>, i1.refCount());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Final: ref i1 = %d, ref i2 = %d\n"</span>, * r1, * r2);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>附上上面的代码执行结果：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1l5e943uwj308505fjr7.jpg" alt="result"></p>
+<p>发现引用计数不再发挥效用了！！</p>
+<p>图示会更加清楚：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1l67b52gwj30dz0cgjrq.jpg" alt="eg"></p>
+<p>注意，这里在Info对象中添加的link字段。实际上，该字段可以认为是与Java/C#/Python中的引用一致的东西。前面的文章里面有提到过引用和指针之间是不同的，在这里将会有实际的体会：引用的概念比指针要更加高级与抽象。</p>
+<p>如何破解这个僵局呢？</p>
+<h2 id="u7834_u5C40"><a href="#u7834_u5C40" class="headerlink" title="破局"></a><strong>破局</strong></h2><p>破局的要点还是在上面那张图中：link-&gt;连线-&gt;方向+节点-&gt;有向图！</p>
+<p>如果我们能够在GC之前把回边砍掉，从而恢复正确的引用计数，那么就可以正确完成垃圾回收了！</p>
+<p>这里说明一下，上面的那张图实际上不是很正确：为了与计数对应而删掉了有向边——事实上有向边是没有删掉的（因为计数的减少并非有向边去掉导致的）。</p>
+<p>在图中找出一个回边并不是个难事——遍历扫描一下就可以了。发现回边之后更改边两端的节点的引用计数即可。</p>
+<p>然而在对一个图进行扫描的时候需要知道起点，而很多时候，分配的内存相互引用形成的图并非是一个连通图，于是这就引出了另外一个概念：Root集合。</p>
+<h2 id="Root_u96C6_u5408_u4E0EMark-Sweep"><a href="#Root_u96C6_u5408_u4E0EMark-Sweep" class="headerlink" title="Root集合与Mark-Sweep"></a><strong>Root集合与Mark-Sweep</strong></h2><p>所谓Root集合，其实就是GC回收时，扫描开始的“点”。例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">SmartPtr&lt;Info&gt; g_i1(<span class="keyword">new</span> Info(<span class="number">123</span>));</span><br><span class="line">SmartPtr&lt;Info&gt; g_i2(<span class="keyword">new</span> Info(<span class="number">456</span>));   <span class="comment">// ----&gt; ①</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addLinkTo</span><span class="params">(SmartPtr&lt;Info&gt;&amp; ptr, <span class="keyword">int</span> num)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	ptr.sptr-&gt;ptr-&gt;link = SmartPtr&lt;Info&gt;(<span class="keyword">new</span> Info(num));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		addLinkTo(g_i1,<span class="number">789</span>);						<span class="comment">// ----&gt; ②</span></span><br><span class="line">		SmartPtr&lt;Info&gt; i1(<span class="keyword">new</span> Info(<span class="number">1</span>)); <span class="comment">// ----&gt; ③</span></span><br><span class="line">		&#123;</span><br><span class="line">			SmartPtr&lt;Info&gt; i2(<span class="keyword">new</span> Info(<span class="number">2</span>)); <span class="comment">// ----&gt; ④</span></span><br><span class="line">			addLinkTo(i1,<span class="number">11</span>);			<span class="comment">// ----&gt; ⑤</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// ----&gt; ⑥</span></span><br><span class="line">	addLinkTo(g_i1,<span class="number">1234</span>); <span class="comment">// 这里把以前的789那个对象给顶替了。如果不对其进行回收的话，将会产生内存泄漏。</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不难发现，Root集合一般而言，是由全局变量，静态变量，寄存器值，方法参数，或者是由程序入口所在域及其子域中的变量等构成的。</p>
+<p>前面我们已经知道每次加一个Link，就可以在相应的节点上加上一条有向边，那么上面的代码可以对应下面的图，表号对应代码中的注释：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f1lw89sg3uj30j40hvdh2.jpg" alt="."></p>
+<p>注意内容为<code>789</code>的那个节点。这个节点是可以确定属于垃圾的。通过以上的描述，也不难发现Root集合应当包含的节点。</p>
+<p>当我们根据Root集合进行扫描的时候，把可达节点做上标记（Mark）并收集起来，然后将不可达节点删除（Sweep）掉，就可以完成GC过程了——这就是Mark-Sweep算法的原理。</p>
+<p>至于Root节点们，当它们出了自己的作用域之后必然将会被删除，到那时，剩下的所有节点都不再是可达节点，从而会被全部回收（当然对于全局变量，程序一旦结束，OS也会回收这些内存的）。</p>
+<h2 id="u66F4_u8FDB_u4E00_u6B65_uFF1A_u4E09_u8272_u6807_u8BB0_u6A21_u578B"><a href="#u66F4_u8FDB_u4E00_u6B65_uFF1A_u4E09_u8272_u6807_u8BB0_u6A21_u578B" class="headerlink" title="更进一步：三色标记模型"></a><strong>更进一步：三色标记模型</strong></h2><p>注意，截至到上一个部分，我们都是在对图的结构稳定情况下进行处理的，也就是要求当GC进行的时候，整个程序都应当停下来，不再对内存进行分配，直到GC过程处理完毕，也就是通常所说的“Stop The World”。</p>
+<p>对于实时性要求不高的场合，这不失为一种有效的解决方法，然而对于交互式系统和实时系统这是无法接受的——至少，对于一个自动驾驶系统，如果该减速停车的时候来了一次GC，后果不堪设想。</p>
+<p>这就需要另外一系列行之有效的办法来将这个时间碎片化，分散出去。引用计数可以在一定程度上做到这些，但还不够，于是，增量收集登场了。</p>
+<p>在这个过程中，增量/并行算法将“无用垃圾信息收集穿插于程序执行过程中，避免对程序的长时间打断”。通常，由于应用程序本身总是在改变图的结构，因此将程序视为“改变器”；而GC模块，则视为“回收器”。</p>
+<p>三色标记模型作为对Mark-Sweep的拓展补充，在增量标记中发挥了重要的作用。</p>
+<p>在前面介绍<a href="http://solaxu.github.io/2016/01/17/HiHo%E4%B8%80%E4%B8%8B%E2%80%94%E2%80%94LCA/" target="_blank" rel="external">LCA的文章</a>中已经对染色法有过一定的介绍了，这里依旧是分阶段进行染色的，不过略有不同。</p>
+<ul>
+<li>对于未访问过的对象，标记为白色；</li>
+<li>对于已经访问过，但是其子对象还没有访问过的对象，标记为灰色；</li>
+<li>对于连子对象也访问过的对象，标记为黑色。</li>
+</ul>
+<p>显然Sweep阶段完成之后，白色节点是属于不可达节点的，应当删除。但就上面描述而言，似乎没有什么特别的地方。而三色标记模型则明确了两个要点：</p>
+<ul>
+<li>黑色节点是不能够直接指向白色节点的。</li>
+<li>所有的灰色节点都处于一个待处理的数据结构中，也就是说，灰色节点属于一个中间态。</li>
+</ul>
+<p>应该明确这样的一点：标记颜色的目的，是为了保留当前结点的<strong>状态</strong>。</p>
+<p>很显然，当改变器对图中的一个黑色结点进行更改的时候（注意，出现了黑色节点也就说明了Mark过程是正在进行（或者已经Sweep了）），例如进行了一个LinkTo的操作，这个操作使得黑色节点变成了灰色节点。这个更改必须被及时、高效地的通知给收集器，通常情况下，这需要使用到“写障碍”或者是“读障碍”，他们基本都是利用OS，对相应的内存加上“读/写”锁来完成的。</p>
+<h2 id="u53E6_u4E00_u79CD_u6D41_u6D3E_uFF0C_u590D_u5236_u6536_u96C6_uFF08Copying_GC_uFF09"><a href="#u53E6_u4E00_u79CD_u6D41_u6D3E_uFF0C_u590D_u5236_u6536_u96C6_uFF08Copying_GC_uFF09" class="headerlink" title="另一种流派，复制收集（Copying GC）"></a><strong>另一种流派，复制收集（Copying GC）</strong></h2><p>相对于Mark-Sweep而言，复制收集更加易于理解，但一样要进行一次扫描阶段。</p>
+<p>复制收集的主要做法是首先为应用程序分配一个大内存，然后将其一分为两个Pool。</p>
+<ul>
+<li><p>初始化阶段任选一块内存作为Pool，命名为SrcPool，另一个命名为DestPool，应用程序的所有内存申请均从SrcPool中划分。</p>
+</li>
+<li><p>当SrcPool中没有足够的可用空间时，触发GC。</p>
+</li>
+<li><p>GC的扫描阶段标记完毕可达节点。</p>
+</li>
+<li><p>GC的复制阶段将SrcPool中所有标记的可达节点复制到DestPool，复制完毕之后，交换两个Pool的引用。</p>
+</li>
+</ul>
+<p>剩下的就是以上过程的迭代了。很显然，两个Pool起到了内存池的作用，并且内存经过了整理压缩，一定程度上解决了内存碎片的问题，并提高内存页的命中率；但这种方式的一个不好的地方在于它至少要浪费一半的内存空间；更有甚者，如果采用DFS（无论是否显式栈），还是基于额外队列的BFS，都需要另外的空间。</p>
+<p>由于Copying GC也是有着扫描这一过程，因此三色标记模型实际也是可以在这上面采用的。</p>
+<h3 id="Cheney_u7B97_u6CD5"><a href="#Cheney_u7B97_u6CD5" class="headerlink" title="Cheney算法"></a><strong>Cheney算法</strong></h3><p>为了解决额外空间的问题，Cheney算法利用复制对象过程中的特点（对象复制过后是紧凑的），采用destPool中的scan到next中间部分的记录作为BFS的队列（scan与next是两个指针），从而解决了这一问题。</p>
+<p>现在使用四个对象来简单说明一下这个算法：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1f1m0cifsj9j31090jmaa9.jpg" alt="Cheney"></p>
+<p>首先是R对象作为Root被首先复制到DestPool中。R中保存了对象C与D的引用，这两个引用依旧指向SrcPool。</p>
+<p>于是复制C和D到DestPool中，同时更改R中两个引用的指向，使其正确。</p>
+<p>此时D中的引用仍旧指向SrcPool。</p>
+<p>复制对象E到DestPool中，更改对象D中对E的引用的指向。</p>
+<p>图中的S与N代表了scan指针与next指针。当scan最终等于next的时候，对该Root的处理结束。</p>
+<p>引用与指针的区别再一次体现了出来：这里的引用包含了指向SrcPool的指针，被以此为标识来说明引用的对象是否还处于SrcPool中。</p>
+<p>在编译课程中的GC就使用了该算法，当然实际过程会相对麻烦一些。</p>
+<h2 id="u4E16_u4EE3_u6536_u96C6"><a href="#u4E16_u4EE3_u6536_u96C6" class="headerlink" title="世代收集"></a><strong>世代收集</strong></h2><p>分代的思想是基于这样的事实的：</p>
+<ul>
+<li>总是有那么一部分内存是变化不大的；</li>
+<li>当一块内存在一次或者多次GC中存活下来，那么它继续存活的几率会比较高；</li>
+<li>新分配的对象总是会马上死亡，无法经过第二次GC。</li>
+</ul>
+<p>于是可以按照“代”将堆划分出来，比如将堆为老中青三代：</p>
+<ul>
+<li>新分配的对象总是从青年堆中分配，GC总是首先在青年堆中进行；</li>
+<li>将青年堆中存活的对象复制到中年堆中；</li>
+<li>当中年堆满的时候进行一次在中年堆上的GC，存活下来的对象复制到老年堆中；</li>
+<li>当老年堆满的时候，进行一次老年队上的GC，此时可以用Mark-Sweep或者Copy-Compact（这是在当前堆上进行的，该方法类似于内存碎片整理）等方法进行回收，一般来讲，尽量还是在回收后将对象紧凑放置。</li>
+</ul>
+<p>上面只是世代收集的思想，当然也可以分成更多世代，视设计而定。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/02/27/Semantic/" itemprop="url">
+                  Semantic
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-02-27T23:14:10+08:00" content="2016-02-27">
+              2016-02-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Compiler/" itemprop="url" rel="index">
+                    <span itemprop="name">Compiler</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="u524D_u9762"><a href="#u524D_u9762" class="headerlink" title="前面"></a><strong>前面</strong></h1><hr>
+<p>最近又翻了翻之前编译课上写的代码，大致看了一下语法分析部分跟语义分析部分。</p>
+<p>Java写的，最后生成的代码并非汇编，也不是JVM的ByteCode，而是C代码，生成的程序自然使用GCC编译链接而成，因此也就没有什么链接器——当然，即便如此也应当有一个自定义的链接部分，但由于只要求用单个文件就能表示整个程序代码，于是就没有了。至于中间代码用C来表示的问题，事实上只要能用三地址类型表示出来，中间代码的具体形式是没什么影响的（龙书里面出现的中间代码一样是类似C的代码）。生成的代码额外加了一个GC的过程，这个会在后面说。</p>
+<p>几个概念：Top-Down的递归下降子程序语法解析、完美打印（Pretty Print）以及符号表、类型。语法解析以及完美打印涉及到的抽象语法树前面已经讨论过了（抽象语法树的论述过于简短，但这个东西走一遍就能够理解了），这里主要说明一下剩下的也是语义分析需要的两个重要的部分：符号表、类型。</p>
+<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
+<h2 id="u7C7B_u578B"><a href="#u7C7B_u578B" class="headerlink" title="类型"></a><strong>类型</strong></h2><p>先从经常接触的<code>类型</code>开始。</p>
+<p><code>类型</code>可以看作内存中某一块数据的表现形式，用来通知程序：“对于内存中的这一块数据，你应当这么认为……然后你可以……去使用它”。</p>
+<p>在绝大部分高级语言中，对于类型的检查都是很严格的，如果只是使用过Java/C#等强调OO的语言，则可能会认为这是天经地义的一件事。但有过C代码经验的人却不能忽视一个事实：在C中，内存数据可以以几乎任何类型解释，即便是是风马牛不相及的两块数据，它们的类型同样可以相互转换——而在强调OO的语言中，类型之间是不能随意转换的，除非两种类型有继承关系。</p>
+<p>这之间的区别在于：对于C而言，类型更强调数据的<code>size</code>；对于强调OO的语言，类型除了表示数据的<code>size</code>，更是为了<strong>告诉并规范</strong>程序员数据应当如何进行使用——所谓<code>更安全</code>即是因此而来。</p>
+<h3 id="u7C7B_u578B_u68C0_u67E5"><a href="#u7C7B_u578B_u68C0_u67E5" class="headerlink" title="类型检查"></a><strong>类型检查</strong></h3><p>这里只说一下我自己写相关代码时采用的方案。</p>
+<p>对于基本类型，例如int/float/string/user-defined。可以赋予一个唯一标识符。如果有可以转换的情况，例如 int-&gt;string，那么就将赋值操作的右部分表达式的最终结果使用一个int-&gt;string的过程表示出来；至于int/float/bool之间的相互转换，直接生成对应的C代码。例如下面：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 源代码</span></span><br><span class="line"><span class="keyword">class</span> Main</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="built_in">string</span>[] argv)</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> f2i = <span class="number">18.9</span>;</span><br><span class="line">    <span class="built_in">string</span> f2i2s =  f2i;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对应生成的C代码</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> f2i = <span class="number">18.9f</span>;</span><br><span class="line">  <span class="comment">// 示例。用一个过程来表示int-&gt;string</span></span><br><span class="line">  <span class="keyword">char</span> f2i2s[<span class="number">256</span>];</span><br><span class="line">  <span class="keyword">int</span> f2i2sn = <span class="built_in">sprintf</span>(f2i2s,<span class="string">"%d"</span>,f2i);</span><br><span class="line">  f2i2s[f2i2sn] = <span class="string">'\0'</span>;</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于采用了一些OO特性，支持了单继承，因此用户定义的类型可能会具有基类形。故而，用户定义类型表示如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Type</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">string</span> m_uid; <span class="comment">// 使用字符串作为类型的标识</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> UserDefinedType : <span class="keyword">public</span> Type</span><br><span class="line">&#123;</span><br><span class="line">  UserDefine* m_base; <span class="comment">// 基类类型</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Type*&gt; m_dataMembers; <span class="comment">// 数据成员类型</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Type*&gt; m_derived; <span class="comment">// 继承自此类型的类型</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>那么，根据m_base与m_derived就可以得到一个静态的继承关系树（如果我没有记错的话MFC里面的RUNTIME_CLASS使用的就是这个方法，是用static对象实现的）。</p>
+<p>如果不去显式说明继承关系，又该如何？</p>
+<p>首先，回顾一下C++中的构造函数，其中有一种方式被称为初始化列表的构造方式。在大多数的C++书籍中，都会明确告诉读者：数据成员在初始化列表中的顺序与其真正的初始化顺序无关，只与它们在类中的定义顺序有关。也就是说，对于一个类，它的类型不仅仅与它包含哪些成员相关，还与它的成员的定义顺序有关。</p>
+<p>实际上，下面的两个类是不同的类型，虽然它们包含相同的成员，在内存中占有的大小也相同：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> SA</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> a;</span><br><span class="line">  <span class="keyword">char</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> SB</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">char</span> b;</span><br><span class="line">  <span class="keyword">int</span> a;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这样定义不是没有道理的：无论是按照何种对齐方式，它们在内存中的第一个字节的意义始终是无法相同的。</p>
+<p>那么继承的情况又如何呢？<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Base</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> base;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Derived : <span class="keyword">public</span> Base</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> derived;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>很显然，我们知道Derived实际上是这样的：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Derived</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> base;</span><br><span class="line">  <span class="keyword">int</span> derived;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>于是，如果我们希望能够动态的判定Base与Derived的继承关系，需要从两个方面来判定：首先是宽度（也就是成员数目），宽度小的类有可能是宽度大的类的父类；其次是深度：宽度小的类包含的成员，必须按顺序从头到尾依次出现在宽度比较大的类中的同样位置，并且类型要相同。很显然的，类型相同包含了是否包含相同的成员数目、包含的成员类型以及定义顺序是否相同——这是一个递归过程。</p>
+<p>不难发现，上面的判断方法仅对单继承有好的支持，而对于多继承则力有不逮，不如通过语法强制显式声明来的好。</p>
+<h2 id="u7B26_u53F7_u8868"><a href="#u7B26_u53F7_u8868" class="headerlink" title="符号表"></a><strong>符号表</strong></h2><p>符号表在整个编译链接生成代码的过程中占有重要地位，居于核心位置，反映了标识符的语义特性：例如上面提到的类型信息、标识符的作用域和隶属关系等（隶属关系是我自己加的说法，单指类和它的成员之间的关系。成员的标识符隶属于类的标识符）。</p>
+<p>符号表的作用域使用是个<code>Block</code>来定义，<code>Block</code>可认为是由<code>大括号{}</code>包括的一条或者多条语句构成的。很显然，作用域是可以嵌套的。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> Symbol</span><br><span class="line">&#123;</span><br><span class="line">  Block* m_block; <span class="comment">// 所属域</span></span><br><span class="line">  Type* m_type; <span class="comment">// 符号的类型，例如TYPE_INT, TYPE_FLOAT, TYPE_STRING, TYPE_USER等</span></span><br><span class="line">  Symbol* m_parent; <span class="comment">// 所隶属的符号，也就是隶属的类的类名</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Symbol*&gt; m_members; <span class="comment">// 类的成员们</span></span><br><span class="line">  Token* m_token; <span class="comment">// 相关的token，在出错的时候可以定义到对应的文本位置，另外token包含的lexeme同样也是该Symbol的名称</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> Block</span><br><span class="line">&#123;</span><br><span class="line">  Block* m_parent; <span class="comment">// 父作用域</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Symbol&gt; m_symbols; <span class="comment">// 包含的符号们</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Statement*&gt; m_stms; <span class="comment">// 块中包含的语句</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>注意到Block中包含了表示语句的成员，这是因为语法与语义并非同一个概念。例如<code>string s = s1 + b1;</code>中，如果b1是一个用户定义的类型，那么很显然是不合适的；但是语法层面，两个标识符之间的相加是没有问题的。</p>
+<p>那么对于一个符号是否在作用域中重复出现，以及是否未定义，就可以通过Block的链表来上溯查找。</p>
+<p>对于每一个程序，需要额外分配一个全局域以便分析能够正确进行。</p>
+<p>整个分析过程的运行类似于单线程下的函数调用，使用一个栈就可以进行模拟了——进入一个作用域，将其压栈，然后进行分析，出作用域的时候弹出即可。</p>
+<p>至于单条语句，像上面提到的<code>string s = s1 + b1;</code>，就需要进行逐条语句的检查了。在这个过程中，类型检查开始发挥作用。</p>
+<h1 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a><strong>结束</strong></h1><hr>
+<p>写得很是惶恐，感觉说了些什么又好像什么都没说，而且稍微涉及到一些理论啊名词啊之类的东西还不知道用没有搞错……终究是没有整个搞透彻，况且又忘掉了很多东西。</p>
+<p>如果有可能，我打算慢慢把代码配上来，代码尽量过程化一些，能够凸显思路，就像Lexer里面那样。不过……代码质量不会好就是了。</p>
+<p>嗯……如果问到一些理论问题的话，应该会死得很难看吧……</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -220,7 +536,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-02-24T16:43:21+08:00" content="2016-02-24">
               2016-02-24
             </time>
@@ -228,7 +544,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Things-of-cpp/" itemprop="url" rel="index">
@@ -269,7 +585,7 @@
 <p>上面想法是在我大致学习了MIT的JOS之后形成的。虽然曾经跟了MIT JOS 2014实验课的几个关键Labs，但放下的时间稍嫌久了些，竟是没有剩下许多印象——然而终归有迹可循，日后想要重新拿起，想来应该不会无从下手。</p>
 <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
 <p>谈到STL，便不能不谈到泛型编程与Iterator模式。</p>
-<p>CPP泛型编程的基础已经在首篇的<a href="http://solaxu.github.io/2015/12/24/View-C++-Template/">《View CPP Template》</a>里面演示过了，这里不再多说。这里主要说一下Iterator模式以此作为“设计模式”这 个话题的补充，并说明其在STL中的应用。</p>
+<p>CPP泛型编程的基础已经在首篇的<a href="http://solaxu.github.io/2015/12/24/View-C++-Template/" target="_blank" rel="external">《View CPP Template》</a>里面演示过了，这里不再多说。这里主要说一下Iterator模式以此作为“设计模式”这 个话题的补充，并说明其在STL中的应用。</p>
 <h2 id="u8FED_u4EE3_u5668_u6A21_u5F0F"><a href="#u8FED_u4EE3_u5668_u6A21_u5F0F" class="headerlink" title="迭代器模式"></a><strong>迭代器模式</strong></h2><p>事实上，迭代器模式是通过增加一个<code>迭代器</code>层来实现数据与算法分离的。例如在STL中，对于<code>vector</code>和<code>list</code>的遍历都可以通过：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it = container.begin(); it != container.end();++it)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//do sth...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>来完成（当然使用<code>for_each</code>也可），而众所周知<code>vector</code>是一个使用了变长数组的容器而<code>list</code>则是一个使用了双向链表的容器，两者的数据存储方式完全不同。</p>
@@ -346,7 +662,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-02-22T20:34:33+08:00" content="2016-02-22">
               2016-02-22
             </time>
@@ -354,7 +670,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Compiler/" itemprop="url" rel="index">
@@ -445,7 +761,7 @@
 <p>大致回忆一下“计算器”作业的过程：使用两个Stack，一个是装载运算符，一个装载读取到的数字；从左到右逐个读取字符，遇到数字就把数字放进数字栈，遇到运算符就把运算符放进运算符栈；如果将要入栈的运算符是<code>*</code>或者<code>\</code>，就从数字栈弹出两个数字，用将要入栈的运算符计算结果，并将结果入数字栈；如果将要入栈的运算符是<code>+</code>或者<code>-</code>，那么就从运算符栈中弹出一个运算符，数字栈中弹出两个数字，计算并将结果压入数字栈；迭代这一过程，直到运算符栈为空，此时数字栈中应该只剩下一个数字，便是最后结果。</p>
 <p>再看上面的伪代码：注意到<code>if</code>块中有一个“pop 2 × | β | symbols”。</p>
 <p>再注意：四则运算文法中的规约，对于<code>r1~r4</code>都能找出一个代表性的符号，而这个符号，恰好就是运算符。</p>
-<p>另外，在之前的<a href="http://solaxu.github.io/2015/12/25/%E8%A1%A8%E9%A9%B1%E5%8A%A8%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">表驱动编程</a>和<a href="http://solaxu.github.io/2015/12/26/%E5%9F%BA%E4%BA%8E%E7%8A%B6%E6%80%81%E7%9A%84%E7%BC%96%E7%A8%8B/">基于状态编程</a>中，曾经提到过：对于由于<code>if-else</code>分支过多而冗长的程序，可以使用状态与表来解决，而在计算器的程序中，需要经常判定读取到的符号的意义。回看上面的伪代码：state，Action[ ]，Goto[ ]。</p>
+<p>另外，在之前的<a href="http://solaxu.github.io/2015/12/25/%E8%A1%A8%E9%A9%B1%E5%8A%A8%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" target="_blank" rel="external">表驱动编程</a>和<a href="http://solaxu.github.io/2015/12/26/%E5%9F%BA%E4%BA%8E%E7%8A%B6%E6%80%81%E7%9A%84%E7%BC%96%E7%A8%8B/" target="_blank" rel="external">基于状态编程</a>中，曾经提到过：对于由于<code>if-else</code>分支过多而冗长的程序，可以使用状态与表来解决，而在计算器的程序中，需要经常判定读取到的符号的意义。回看上面的伪代码：state，Action[ ]，Goto[ ]。</p>
 <p>再有：LR的分析栈包含两个：状态栈以及文法符号栈，而“计算器”也有两个栈。</p>
 <p>先把四则运算文法的Action与Goto表填出来。GoTo表实际上就是一个状态转移表。</p>
 <p>补充：Action表中有些许错误：单一的number直接accept了，严格来讲应该reduce r5</p>
@@ -512,7 +828,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-02-19T19:59:46+08:00" content="2016-02-19">
               2016-02-19
             </time>
@@ -520,7 +836,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Compiler/" itemprop="url" rel="index">
@@ -572,7 +888,7 @@
 <p>在此方法中，对于<code>ifqwe</code>这样的串一定不能在读到<code>if</code>之后就去与关键字比较，这样得到的结果是错误的，所以在<code>readId</code>处理之后再去判断它是不是关键字。</p>
 <p>貌似没看到状态机？实际上状态机已经是有了的：对于<code>ifqwe[2]</code>这样的串，很显然<code>readId</code>在读到<code>[</code>的时候已经可以意识到标识符已经读完了，此时就可以切换<code>curCode</code>为初始状态再进行读取。</p>
 <p>然而上述方法需要进行字符串的比较，即便是采用了<code>HashTable</code>，其时间耗费也是在<code>O(N)+</code>的。为了提高效率，我们自然是想要一个<code>O(N)</code>的解决方案。</p>
-<p>这个方案需要使用到字典树，在前面<a href="http://solaxu.github.io/2015/12/26/%E5%9F%BA%E4%BA%8E%E7%8A%B6%E6%80%81%E7%9A%84%E7%BC%96%E7%A8%8B/">基于状态的编程</a>一文中已经介绍过了。相比前面一种方法，该方法在编码上要稍微麻烦一些——要多维护一棵树，而且空间耗费也多起来了，并且有一些注意事项（至少是在我编码的时候出现过的）：在构建字典树的时候，对于具有共同前缀的关键字，例如：<code>if</code>与<code>ifelse</code>，最好先构建<code>if</code>的路径，再构建<code>ifelse</code>的路径。因为先构建<code>if</code>，那么<code>i-&gt;f</code>需要首先设置<code>f</code>后面的所有指针都是空的，接下来的<code>if-&gt;else</code>直接把代表e的槽覆盖掉就可以了；而如果先处理<code>ifelse</code>，那么在处理<code>if</code>的时候就要小心，不要将已经建好的路径破坏掉了（如果按照<code>i-&gt;f-&gt;结束</code>，无匹配，<code>i-&gt;f-&gt;else</code>的路径就会断掉）。</p>
+<p>这个方案需要使用到字典树，在前面<a href="http://solaxu.github.io/2015/12/26/%E5%9F%BA%E4%BA%8E%E7%8A%B6%E6%80%81%E7%9A%84%E7%BC%96%E7%A8%8B/" target="_blank" rel="external">基于状态的编程</a>一文中已经介绍过了。相比前面一种方法，该方法在编码上要稍微麻烦一些——要多维护一棵树，而且空间耗费也多起来了，并且有一些注意事项（至少是在我编码的时候出现过的）：在构建字典树的时候，对于具有共同前缀的关键字，例如：<code>if</code>与<code>ifelse</code>，最好先构建<code>if</code>的路径，再构建<code>ifelse</code>的路径。因为先构建<code>if</code>，那么<code>i-&gt;f</code>需要首先设置<code>f</code>后面的所有指针都是空的，接下来的<code>if-&gt;else</code>直接把代表e的槽覆盖掉就可以了；而如果先处理<code>ifelse</code>，那么在处理<code>if</code>的时候就要小心，不要将已经建好的路径破坏掉了（如果按照<code>i-&gt;f-&gt;结束</code>，无匹配，<code>i-&gt;f-&gt;else</code>的路径就会断掉）。</p>
 <h1 id="u7ED3_u675F"><a href="#u7ED3_u675F" class="headerlink" title="结束"></a><strong>结束</strong></h1><hr>
 <p>关于Lexer的实现，我知道的也就是前面的两种方案，其中第一种方案易于编码，简单直观，第二种则需要稍微花点心思。就我看过的一些资料而言，方案一用得更多一些（当然这些都只是教材，而并非商业级的东西，然而貌似Lua的Lexer也是采用第一种方案的），我自己两种方案都使用过，也踩过一些坑，上面也已经提到过了。总的来讲实现一个玩具级的Lexer并非一个难事。</p>
 <p>最后说一下<code>语法高亮（Syntax Lighting）</code>的问题。</p>
@@ -637,7 +953,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-02-19T14:13:57+08:00" content="2016-02-19">
               2016-02-19
             </time>
@@ -645,7 +961,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Graphics/" itemprop="url" rel="index">
@@ -770,7 +1086,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-02-17T20:29:11+08:00" content="2016-02-17">
               2016-02-17
             </time>
@@ -778,7 +1094,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Graphics/" itemprop="url" rel="index">
@@ -906,7 +1222,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-01-23T17:09:51+08:00" content="2016-01-23">
               2016-01-23
             </time>
@@ -914,7 +1230,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -1106,7 +1422,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-01-17T17:54:09+08:00" content="2016-01-17">
               2016-01-17
             </time>
@@ -1114,7 +1430,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -1248,7 +1564,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-01-13T09:42:47+08:00" content="2016-01-13">
               2016-01-13
             </time>
@@ -1256,7 +1572,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -1295,333 +1611,6 @@
 <p>想“嫁个好家户”还是得刷题，然而不搞比赛的弱鸡刷题其实是一件蛮痛苦的事情，各种挫败遭不住……</p>
 <p>之前有刷了一部分的LeetCode，但是感觉不够系统，对于新题不能有效地找到切入点（不包括朴素解法，然而OJ么，大家都懂的），不参考别人的解法渐渐就搞不动了。这当然也跟自己练得少，总结得少有关。因此开个坑，打算把<a href="http://hihocoder.com/hiho" target="_blank" rel="external">HiHoCoder</a>的“HiHo一下”系列搞掉，顺带做一些总结。</p>
 <p>嗯，从试做情况来看，在HiHo上做题感觉比LeetCode要更“扎手”一些。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/03/图形管线中的裁剪与剔除/" itemprop="url">
-                  图形管线中的裁剪与剔除
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-03T17:21:09+08:00" content="2016-01-03">
-              2016-01-03
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Graphics/" itemprop="url" rel="index">
-                    <span itemprop="name">Graphics</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<p>前面有提到过之前做的Software Renderer是不包含裁剪的，因为裁剪的过程比较繁琐，无论是2D的还是3D的都有可能涉及。这次整理后的Software Renderer是要包含裁剪的过程的，因此这里就管线中的裁剪做一次说明。</p>
-<h2 id="3D_u7A7A_u95F4_u4E0B_u7684_u4E09_u89D2_u5F62_u88C1_u526A_u4E0E_u5254_u9664"><a href="#3D_u7A7A_u95F4_u4E0B_u7684_u4E09_u89D2_u5F62_u88C1_u526A_u4E0E_u5254_u9664" class="headerlink" title="3D空间下的三角形裁剪与剔除"></a><strong>3D空间下的三角形裁剪与剔除</strong></h2><h3 id="u80CC_u9762_u5254_u9664_uFF08_u80CC_u9762_u6D88_u9690_uFF09"><a href="#u80CC_u9762_u5254_u9664_uFF08_u80CC_u9762_u6D88_u9690_uFF09" class="headerlink" title="背面剔除（背面消隐）"></a><strong>背面剔除（背面消隐）</strong></h3><p>这个方法是最为简单有效的三角形剔除方法之一了：只需要知道三角形的法线朝向<code>N</code>以及相机的朝向<code>L</code>即可——只有当三角形是朝向观察者的时候，观察者才能看到它，否则三角形是不可见的，也就不会被绘制。</p>
-<p>已知向量点乘结果的符号是向量投影的方向，那么点乘结果为负的两个向量，它们相互的投影必然是方向相反的。这个性质可以用来判定三角形可见与否：当<code>Dot(N, L)</code>的结果为负的时候，三角形朝向观察者，可以绘制；否则不予绘制。这样就完成了背面剔除。</p>
-<p>至于三角形的法线方向是如何得到的，一般而言，我们以坐标系的标准环绕方向来计算。在本Software Renderer中是按照左手系，也就是顺时针方向为准。</p>
-<h3 id="u89C6_u9525_u4F53_u88C1_u526A/_u5254_u9664"><a href="#u89C6_u9525_u4F53_u88C1_u526A/_u5254_u9664" class="headerlink" title="视锥体裁剪/剔除"></a><strong>视锥体裁剪/剔除</strong></h3><p>在前面介绍图形管线中的矩阵的时候有提到透视变换，透视变换实际上就是将一个3D空间中的视锥体规整为一个方体的过程。在这个过程中我们可以看到实际上我们最终在投影平面上看到场景的就是视锥体中包含的场景，那么很自然地，我们希望能够通过这个视锥体对3D空间中的物体进行剔除以及裁剪，以减小对管线的压力。</p>
-<p>除上述目的外，视锥体裁剪的一个很重要的作用就是对穿过近裁剪平面的三角形进行裁剪，否则，这下在裁剪平面后端的点将会在投影之后产生一个小于0的深度值，从而影响深度排序的结果，造成错误的绘制（绘制一些不应该看到的东西）；远裁剪平面则可以选择不去裁剪，这并不影响投影结果，对于超过远裁剪平面的点，将会在投影后得到一个大于1.0的深度值。</p>
-<p>这里简单提一下基于画家算法的深度排序：光栅化的过程中我们需要对投影屏幕上的每一个像素进行深度值的排序，以便距离视平面近的点能够覆盖掉视平面较远的的点。这可以采用两种方法来解决问题：第一：直接使用像素的<code>Z</code>值，很显然，<code>Z</code>值越大，表示距离越远；第二，使用像素的<code>1/Z</code>值，那么<code>1/Z</code>越小，表示越远。当前我们不去深究这个问题，只需要保有这个概念即可，后面的文章会谈到。</p>
-<h4 id="u5E73_u9762_u4E0E_u4E09_u89D2_u5F62"><a href="#u5E73_u9762_u4E0E_u4E09_u89D2_u5F62" class="headerlink" title="平面与三角形"></a><strong>平面与三角形</strong></h4><p>平面在本Software Renderer中是采用的法线——距离的形式定义的，法线自然指平面的单位法向量，而距离则是指平面距离远点的距离，从而我们可以通过一个点乘计算来判断空间中一个点与平面之间的关系：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3D Plane ==&gt; &#123; N = [Px, Py, Pz] , d &#125;</span></span><br><span class="line"><span class="comment">// 3D vertex ==&gt; &#123; [ V = (Vx, Vy, Vz) ] &#125;</span></span><br><span class="line"><span class="keyword">float</span> result = Dot(N, V) + d</span><br></pre></td></tr></table></figure></p>
-<p>通过判断上面result与0之间的关系可以得到：result = 0，则说明点在平面上，result &gt; 0，则说明点在平面前面，否则点在平面后面。</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1ezmkllplbhj307r0673yl.jpg" alt="TriangleClip"></p>
-<p>上面的的图片可以用来说明三角形裁剪的过程，这张图片的视角是贴着3D平面看过去的。让我们从点A开始，沿着顺时针方向来说明裁剪过程。</p>
-<p>三角形的边AB与平面相交，这可以得到一个交点E；边BC不与平面相交，无交点；边CA与平面相交，得到另一个交点D；回到点A完成交点的计算过程。</p>
-<p>几乎没什么难度是不是么？稍微麻烦一点的也就是要计算交点的纹理坐标、法向量、颜色之类的属性，但这都可以通过线性插值来完成——由于这是在3D空间中线性插值，因此不会产生任何不良影响（2D空间中插值产生的影响将会在后面透视纹理以及深度缓存部分说明）。</p>
-<p>上面的过程推广到普通多边形就是Weiler-Atherton算法。经过上面的过程，我们可以讲一个三角形分为两个部分：ADE和CDEB。注意图中的虚线CE，如此将三角形分为三个新的三角形：DAE，CDE和EBC。</p>
-<h4 id="BSP_28Binary_Space_Partition_2C__u4E8C_u5143_u7A7A_u95F4_u5212_u5206_29"><a href="#BSP_28Binary_Space_Partition_2C__u4E8C_u5143_u7A7A_u95F4_u5212_u5206_29" class="headerlink" title="BSP(Binary Space Partition, 二元空间划分)"></a><strong>BSP(Binary Space Partition, 二元空间划分)</strong></h4><p>有了上面的平面与三角形的剪切过程，接下来我们就可以进入到另外一种绘制方式的介绍了——虽然这个方式只限于在静态场景之中使用，然而它的效益则是十分巨大的——它可以让我们抛弃Z缓存，但是同样能够得到正确的完美的绘制结果。这便是大名鼎鼎的BSP，二元空间划分。虽然在本Software Renderer中不准备去实现BSP，但是为了以后考虑，还是介绍一下吧。</p>
-<p>至于Z缓存的具体情形将会在下一篇文章中进行介绍，届时将会看到Z缓存带来的好处以及相应的代价，这个代价说大不大说小不小，足以让DX与OpenGL的管线将其与Alpha混合、光照以及纹理采样平级，并设置一个状态开关来控制是否需要启用它。</p>
-<p>借用<a href="http://downloads.gamedev.net/pdf/gpbb/gpbb59.pdf" target="_blank" rel="external">《Michael Abrash’s Graphics Programming Black Book trees》, Chapter 59: The idea of BSP</a>中的几张图，这些图是在2D情况下的BSP模拟，3D下的过程与之一致，以此为基础可以较为容易地理解3D情况。</p>
-<h5 id="u521B_u5EFA"><a href="#u521B_u5EFA" class="headerlink" title="创建"></a><strong>创建</strong></h5><p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezqybw9snpj30er05ydg5.jpg" alt="FinalBSP"></p>
-<p>图中的实线段代表实际的多边形，虚线代表多边形所在的平面，箭头指向代表平面的法向量方向。途中左边是一个场景实例，右边就是该场景对应的BSP树。</p>
-<p>可以看到BSP树实际上就是一个二叉树。一个节点的左右子树分别代表了它前后空间的多边形集合。回忆画家算法，它实际上要求我们在绘制场景的时候先绘制较远的多边形，然后绘制近处的多边形，使用了深度缓冲的画家算法实际上是将绘制的粒度细化到一个像素——而在多边形没有相交的情形下，以多边形为粒度的画家算法同样能正常工作，BSP就是利用了这一事实。</p>
-<p>BSP树的创建过程实际上就是利用静态场景中的多边形来对场景进行自我划分的。例如图中的A和E是被B所在的平面分割后的结果。</p>
-<p>在创建BSP的时候，一个要点就是尽量使得每次分割的节点将自己所在的“子空间”中的多边形平分两堆，使得最后得到的的BSP树尽量保持平衡（Balanced Binary Tree），以提高效率。由于BSP树适用于静态场景，那么也就意味着这个步骤可以离线进行，从而不至影响实时渲染的速率。常用的方式是对当前划分步骤中的所有多变形进行遍历并进行评估，最后选取评估结果最好的多边形所在的平面做划分平面进行场景分割。</p>
-<h5 id="u904D_u5386"><a href="#u904D_u5386" class="headerlink" title="遍历"></a><strong>遍历</strong></h5><p><img src="http://ww3.sinaimg.cn/mw690/006lhMttjw1ezqzqf55rwj30ea064q35.jpg" alt="BSPViewTraverseOrder"><br>假定相机位置位于图中的眼睛位置。</p>
-<p>通过观察我们可以知道正确的多边形绘制顺序应为：<code>A, E-&gt; B -&gt; C -&gt; D</code>，回顾上面的BSP树的形态，我们会发现这这个顺序正好与二叉树的<code>“先右子树再左子树最后父节点”</code>的后序遍历顺序相同。</p>
-<p>当然这并不能完全避免像素重绘，事实上只要是以多边形为单位的绘制过程都不能完全避免像素重绘——绘制粒度太大了。BSP+扫描线渲染则可以完全避免重绘，这里不予介绍，详细情形可参见《3D游戏编程大师技巧》第13章。</p>
-<p>由于BSP属于空间划分算法，而空间划分算法的一个重要作用就是将当前无用大部分多边形信息从流水线中剔除，因此BSP树结合视锥体剔除可以极大改善对静态场景的绘制效率。<br>一个简单的策略就是对于视点之后的空间直接完全剔除：注意这里的“视点之后”意指：划分平面与视向量垂直，该策略完全不考虑空间包围体，如图：</p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezr1y09g9ej30fm09wwf3.jpg" alt="BSPReject"></p>
-<p>上面的策略不够完整，完整的剔除策略应当引入包围体：当一个子树的包围体完全被视锥体检测拒绝的时候，该子树可被完全剔除。</p>
-<p>BSP的介绍就先到这里，不过既然开了剔除这个话题，那么下面再介绍几种常用方法来说明可见性集合的选择策略。BSP策略是针对静态场景，那么接下来将要介绍的策略不但适用于静态场景，也适用于动态场景。</p>
-<h4 id="u56DB_u53C9_u6811_uFF08Quad-Tree_uFF09_u4E0E_u516B_u53C9_u6811_uFF08Oct-Tree_uFF09"><a href="#u56DB_u53C9_u6811_uFF08Quad-Tree_uFF09_u4E0E_u516B_u53C9_u6811_uFF08Oct-Tree_uFF09" class="headerlink" title="四叉树（Quad-Tree）与八叉树（Oct-Tree）"></a><strong>四叉树（Quad-Tree）与八叉树（Oct-Tree）</strong></h4><p>四叉树与八叉树可以放在一起进行说明，他们只是维度数目上不不同而已——八叉树比四叉树多了一个维度。这里只对四叉树进行说明，八叉树可以由四叉树扩展得到。</p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttjw1ezr2ons06jj30cr0cfmy5.jpg" alt="QuadTree"></p>
-<p>上图中的黑色边框为第一层的子节点，红色划分得到的是第二层子节点，紫色划分的为第三层子节点；蓝色的两条线是视景范围，点A是视点位置。图中没有标识出远近裁剪面，不过这不影响我们的理解。</p>
-<p>我们在创建四叉树的时候，每创建一个层级的节点，就要对应创建该节点对应的包围体（AABB或者OBB），每一个层级都将上一个层级分为四个子部分，这四个子部分的并集应当完全“覆盖”它对应的上层节点（图中是均分的，实际应用可用采用其他策略）；递归进行这一过程，直到达到一个预定的阈值结束递归。</p>
-<p>在进行剔除的时候，我们需要遍历整个树，对每个节点的包围体进行视锥体检测。完全在视景体外部的节点及其对应的子树将会被剔除，例如图中的白色部分；完全在视景体内部的节点则可以直接将其包含的渲染对象组织给渲染列表；相交的节点进一步递归进行上面的过程（图中棕色的部分）。</p>
-<p>八叉树的剔除过程与四叉树极为类似，不再赘述。</p>
-<h4 id="K-D_u6811"><a href="#K-D_u6811" class="headerlink" title="K-D树"></a><strong>K-D树</strong></h4><p>K-D树，也就是多维树（K-dimension tree）。一般作为数据库数据的一种组织方式，实际上它是二叉树的一种形式，只不过在树的层次上附加了根据属性剔除的意义。在某种程度上，BSP树也可以视作K-D树的一种形式（非轴对齐，而是平面对齐）。我们这里说明的是轴对齐的K-D树。</p>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1ezr3vbbmyij30l10cw3zm.jpg" alt="K-D树"></p>
-<p>图中所示就是轴对齐K-D树的结构——每一层都是上面一层在另一个轴上的划分，于是每次剔除都可以完全剔除当前的半个空间。</p>
-<h4 id="u5165_u53E3_uFF08Portal_uFF09"><a href="#u5165_u53E3_uFF08Portal_uFF09" class="headerlink" title="入口（Portal）"></a><strong>入口（Portal）</strong></h4><p><img src="http://ww1.sinaimg.cn/mw690/006lhMttjw1ezr5904yeyj30ab05q74e.jpg" alt="Portal"></p>
-<p>上图说明了Portal的工作过程：最初的视景体<code>F1</code>经过入口<code>P1</code>得到新的视景体<code>F2</code>，<code>F2</code>经过<code>P2和P3</code>得到<code>F3和F4</code>……这是一个递归的过程，该过程中最重要的部分是新的视景体的生成。</p>
-<p>入口需要每一帧都需要重新进行计算，最终使用生成的一系列的视景体来对场景进行剔除。</p>
-<h3 id="u906E_u6321_u5254_u9664"><a href="#u906E_u6321_u5254_u9664" class="headerlink" title="遮挡剔除"></a><strong>遮挡剔除</strong></h3><p>遮挡剔除主要是为了消除一部分的重复绘制——在标准的3D绘制流程中，我们是由远及近对多边形进行绘制。设想两个物体，A距离投影平面的距离大于B，也就是A距离视距较远；并且投影之后A会被B完全覆盖掉，也就是视野中只能看到B。</p>
-<p>在上面的情况下，采取由远及近的绘制方式会导致A一定被绘制一遍，而实际上我们只需要绘制B即可，此时便可以采用遮挡剔除来避免对A的绘制了。</p>
-<p>遮挡剔除的一个关键是要处理好物体相应的遮挡关系——一般是以一个内接体和一个外接体来实现，通过求出遮挡体在投影之后的相互遮挡关系就可以了，或者对此类情况直接采用从前到后的绘制方式绘制（这种方式只是在光栅化部分消除了像素的重绘，但是坐标变换还是要做的）。</p>
-<h1 id="u7ED3_u8BED"><a href="#u7ED3_u8BED" class="headerlink" title="结语"></a><strong>结语</strong></h1><hr>
-<p>3D空间中常用的剔除方式基本算是介绍完毕了，上面那些策略的理论基础都还是比较容易的，然而实际处理中就要考虑诸多情况了。由于个人经历以及能力所限，本人不能对这些策略结合实际应用做进一步的介绍，不能不说是一个遗憾（只是实现过松散OctTree）。这篇文章先将这些方法简要整理一下，以后有机会的话会对其中某一个话题进行进一步的探讨。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/31/图形管线中的矩阵运算/" itemprop="url">
-                  图形管线中的矩阵运算
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-31T12:23:29+08:00" content="2015-12-31">
-              2015-12-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Graphics/" itemprop="url" rel="index">
-                    <span itemprop="name">Graphics</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u5199_u5728_u524D_u9762"><a href="#u5199_u5728_u524D_u9762" class="headerlink" title="写在前面"></a><strong>写在前面</strong></h1><hr>
-<p>最近打算把之前写过的一个简易的仿DX固定管线的Software Renderer整理整理发到Git上面去。由于之前写这个东西的时候更偏重于理解学习，因此代码烂的一塌糊涂，实在是不能直接就丢上去——况且原来的版本只包含了能够正确显示3D物体的必要步骤（坐标变换、透视纹理以及1/Z深度缓冲，外加一个背面消隐），除此之外并没有更多的features，甚至没有裁剪（只是保证相机位置使得投影可以正常工作）。</p>
-<p>这次重新整理编码，打算给这个玩意儿再加上一些features，比如光照，Alpha混合之类。如果情况允许的话会想尝试把DX中可编程管线部分使用脚本来模拟一下，不过这个不属于核心部分，可能不会去做，不过至少作为一个想法，这里先记一下吧。</p>
-<p>这次重新编码的过程会被记录在一个文件中，这个文件也一并上传到了Git，通过这个记录可以大致知晓编码过程中自己是怎么思考的，另外在Blog上也会写一些东西来记录一些重点作为笔记，尽量写得易懂一些，以便帮助理解以及日后复习。</p>
-<p>就“把复杂的东西讲得容易接受”这个事情吐个槽吧：有时候好像不加一些数学公式跟证明就显得很Low，显得没下功夫一样……难道必须加一些晦涩的东西才能显出有深度？</p>
-<h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
-<p>这次先来看图形学中关于矩阵的问题。这里我们不讨论为何图形学要采用矩阵来作为主要的计算方式（这一点再全文讨论完毕之后我们自然就有答案了），只关心那些个矩阵是如何得来的。</p>
-<h2 id="u77E9_u9635_u4E58_u6CD5"><a href="#u77E9_u9635_u4E58_u6CD5" class="headerlink" title="矩阵乘法"></a><strong>矩阵乘法</strong></h2><p>无论是向量乘以矩阵还是矩阵乘以向量，我们都可以认为是矩阵乘以矩阵——向量本身可以视为是一个行维度或者列维度为1的特殊矩阵。</p>
-<p>假设我们有两个矩阵 Mat01[M][<strong><code>N</code></strong>]与Mat02[<strong><code>L</code></strong>][K]，注意高亮部分的<code>N</code>和<code>L</code>，只有当<code>N == L</code>的时候这两个矩阵才可以相乘。另外，矩阵乘法是不支持交换律的。</p>
-<p>现在时Mat01[M][N]与Mat02[N][K]相乘，那么我们将得到一个M*K的矩阵Mat03[M][K]，后面来我们使用小写字母来代表矩阵元素的下标，也就是Mat[m][k]代表矩阵Mat的第m行，第k列位置的元素。有下面的规则：</p>
-<blockquote>
-<p><code>Result[m][k] = MatLeft[m][0] * MatRight[0][k] + MatLeft[m][1] * MatRight[1][k] + ... + MatLeft[m][n-1] * MatRight[n-1][k]</code></p>
-</blockquote>
-<p>上面的规则也说明了矩阵乘法为何没有交换律这个问题了。</p>
-<p>在有了矩阵乘法这个概念之后，我们就可以进一步进行后续的说明了。</p>
-<h2 id="u5E73_u79FB_u77E9_u9635"><a href="#u5E73_u79FB_u77E9_u9635" class="headerlink" title="平移矩阵"></a><strong>平移矩阵</strong></h2><p>假定我们想要移动空间中的某一个点，假如我们想要把位于<code>[x, y, z]</code>的点平移<code>[l,m,n</code>]到达<code>[x&#39;, y&#39; z&#39;]</code>，也就是<code>[x&#39;, y&#39;, z&#39;] = [x, y, z] + [l, m, n] =&gt; {x&#39; = x + l, y&#39; = y + m, z&#39; = z + n}</code>。我们可以通过一个四维向量和一个4x4的矩阵来进行这一计算：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//trans</span></span><br><span class="line">                  | <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> |</span><br><span class="line">| x, y, z, <span class="number">1</span> |  * | <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> | = | x + l, y + m, z + n, <span class="number">1</span> |</span><br><span class="line">                  | <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> |</span><br><span class="line">                  | l m n <span class="number">1</span> |</span><br></pre></td></tr></table></figure></p>
-<p>上面计算过程中的矩阵就是我们需要的平移矩阵了。</p>
-<h2 id="u65CB_u8F6C_u77E9_u9635"><a href="#u65CB_u8F6C_u77E9_u9635" class="headerlink" title="旋转矩阵"></a><strong>旋转矩阵</strong></h2><p>旋转矩阵分为两类：固定围绕X/Y/Z轴旋转的矩阵和围绕任意一个向量旋转的矩阵。</p>
-<h3 id="u56F4_u7ED5X/Y/Z_u8F74_u65CB_u8F6C_u7684_u77E9_u9635"><a href="#u56F4_u7ED5X/Y/Z_u8F74_u65CB_u8F6C_u7684_u77E9_u9635" class="headerlink" title="围绕X/Y/Z轴旋转的矩阵"></a><strong>围绕X/Y/Z轴旋转的矩阵</strong></h3><p>三者其是是相通的，这里只给围绕X轴的矩阵的推出过程，剩下的两个可以自行类比推导。</p>
-<p>我们先来看以三角函数的方式该如何解决一个点<code>[x, y, z]</code>围绕X轴旋转的问题：</p>
-<ul>
-<li>围绕X轴进行旋转，那么也就是说，这个点的<code>X坐标</code>是永远不会发生改变的。</li>
-<li>在已知<code>X坐标</code>不会受到影响的情况下，我们可以将3D坐标投影到<code>YOZ平面</code>上对该问题进行求解。</li>
-</ul>
-<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1eziydr1mv1j30jp0gbqgg.jpg" alt="(X,Y,Z)ProjOn YOZ"></p>
-<p>注意<code>Y轴</code>和<code>Z轴</code>的位置关系，这里是从<code>X轴</code>负方向看去的。</p>
-<p>上图中的点<code>A: (y,z)</code>围绕<code>X轴</code>转过了<code>θ</code>角度得到新的点<code>A’: (y’,z’)</code>。注意到旋转过程中<code>点到X轴的距离不变</code>，记其长度为<code>L</code>，再记<code>OA’</code>与<code>Y轴</code>的夹角为<code>α</code>，那么<code>OA</code>与<code>Y轴</code>的夹角为<code>(θ+α)</code>：那么可以有如下关系：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">L * <span class="built_in">sin</span>α = y’ -----------------&gt;  ①</span><br><span class="line">L * <span class="built_in">cos</span>α = z’ -----------------&gt;  ②</span><br><span class="line"></span><br><span class="line"><span class="function">L * <span class="title">sin</span><span class="params">(θ+α)</span> </span>= y --------------&gt;  ③</span><br><span class="line"><span class="function">L * <span class="title">cos</span><span class="params">(θ+α)</span> </span>= z --------------&gt;  ④</span><br></pre></td></tr></table></figure></p>
-<p>其中③和④经由三角形和差倍角公式可以展开如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = L * <span class="built_in">sin</span>θ * <span class="built_in">cos</span>α + L * <span class="built_in">cos</span>θ * <span class="built_in">sin</span>α ---------&gt; ⑤</span><br><span class="line">z = L * <span class="built_in">cos</span>θ * <span class="built_in">cos</span>α - L * <span class="built_in">sin</span>θ * <span class="built_in">sin</span>α ---------&gt; ⑥</span><br></pre></td></tr></table></figure></p>
-<p>将①和②代入⑤和⑥：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = y’ * <span class="built_in">cos</span>θ + z’ * <span class="built_in">sin</span>θ</span><br><span class="line">z = z’ * <span class="built_in">cos</span>θ - y’ * <span class="built_in">sin</span>θ</span><br></pre></td></tr></table></figure></p>
-<p>解上面的方程，可得<code>A’: (y’,z’)</code>的结果（左手系）：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y’ = y * <span class="built_in">cos</span>θ - z * <span class="built_in">sin</span>θ</span><br><span class="line">z’ = y * <span class="built_in">sin</span>θ + z * <span class="built_in">cos</span>θ</span><br></pre></td></tr></table></figure></p>
-<p>将过程用矩阵表示出来：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Rotate on X with θ</span></span><br><span class="line">                  | <span class="number">1</span>      <span class="number">0</span>      <span class="number">0</span>     <span class="number">0</span> |</span><br><span class="line">                  | <span class="number">0</span>   <span class="built_in">cos</span>θ   <span class="built_in">sin</span>θ     <span class="number">0</span> |</span><br><span class="line">                  | <span class="number">0</span>  -<span class="built_in">sin</span>θ   <span class="built_in">cos</span>θ     <span class="number">0</span> |</span><br><span class="line">| x, y, z, <span class="number">1</span> | *  | <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span>     <span class="number">1</span> | =</span><br><span class="line"></span><br><span class="line">       | x + l, y * <span class="built_in">cos</span>θ - z * <span class="built_in">sin</span>θ, y * <span class="built_in">sin</span>θ + z * <span class="built_in">cos</span>θ , <span class="number">1</span> |</span><br></pre></td></tr></table></figure></p>
-<p>上面的矩阵就是左手坐标系下绕<code>X轴</code>旋转的矩阵了。另外两个矩阵这里不再推导，直接给出结果：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Rotate on Y with θ</span></span><br><span class="line">|  <span class="built_in">cos</span>θ      <span class="number">0</span>   -<span class="built_in">sin</span>θ    <span class="number">0</span> |</span><br><span class="line">|     <span class="number">0</span>      <span class="number">1</span>       <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">|  <span class="built_in">sin</span>θ      <span class="number">0</span>    <span class="built_in">cos</span>θ    <span class="number">0</span> |</span><br><span class="line">|     <span class="number">0</span>      <span class="number">0</span>       <span class="number">0</span>    <span class="number">1</span> |</span><br><span class="line"></span><br><span class="line"><span class="comment">//Rotate on Z with θ</span></span><br><span class="line">|  <span class="built_in">cos</span>θ   <span class="built_in">sin</span>θ    <span class="number">0</span>     <span class="number">0</span> |</span><br><span class="line">| -<span class="built_in">sin</span>θ   <span class="built_in">cos</span>θ    <span class="number">0</span>     <span class="number">0</span> |</span><br><span class="line">|     <span class="number">0</span>      <span class="number">0</span>    <span class="number">1</span>     <span class="number">0</span> |</span><br><span class="line">|     <span class="number">0</span>      <span class="number">0</span>    <span class="number">0</span>     <span class="number">1</span> |</span><br></pre></td></tr></table></figure>
-<h3 id="u7ED5_u4EFB_u610F_u8F74_u65CB_u8F6C_u7684_u77E9_u9635"><a href="#u7ED5_u4EFB_u610F_u8F74_u65CB_u8F6C_u7684_u77E9_u9635" class="headerlink" title="绕任意轴旋转的矩阵"></a><strong>绕任意轴旋转的矩阵</strong></h3><p>计算围绕任意轴旋转的矩阵是一个比较繁琐的过程，然而通过上面的讨论我们知道<code>投影</code>是解决3D空间问题的一个有力武器，于是自然应当联想到能否通过将向量投影到与旋转轴垂直的平面上来解决问题。</p>
-<p>来看看我们现有的已经条件：一条任意的旋转轴<code>N: [Nx, Ny, Nz]</code>，一条待旋转的向量<code>V: [x, y, z]</code>，需要到旋转<code>θ</code>角度后得到的向量<code>V’: [x’ y’ z’]</code>。我们将基于以下过程对问题进行求解：</p>
-<ul>
-<li><p>首先确向量N自身的坐标系：通过corss(N,V)，我们可以的得到与N垂直的一个向量<code>L</code>，然后再经过cross(L,N)可以得到另外一个与<code>L和N</code>都互相垂直的向量<code>M</code>，于是我们可以得到一个小的坐标系统<code>L,M,N</code>。</p>
-</li>
-<li><p>将<code>V</code>在<code>L-M</code>平面上投影，可以得到向量<code>P</code>；将<code>V</code>在向量<code>N</code>上投影，可以得到向量<code>Q = N * Dot(V,N)</code>。注意这两个向量是互相垂直的。于是我们只需要计算出<code>P</code>旋转后的结果<code>P’</code>，就可以由<code>P’ + Q</code>得到结果了。</p>
-</li>
-<li><p>此时对于<code>P’</code>的求值就类似于前面的投影计算了。现在，问题集中在如何计算向量<code>P</code>上：由于<code>V</code>分为两个正交的投影向量<code>P</code>和<code>Q</code>，那么<code>V = P + Q</code>，从而我们得到了<code>P =  V - Q</code>。由此便可以计算出最终的<code>V’</code>了。</p>
-</li>
-</ul>
-<p>上面的过程看似需要计算<code>(L,M,N)</code>，而实际上，可以直接通过<code>cross(N,V)</code>来得到这个小坐标系——<code>V的平面投影P</code>，<code>Q</code>，<code>cross(N,V)</code>就是这个坐标系的三个正交轴。其中<code>Q</code>和我们的旋转轴<code>N</code>是相互重合的。</p>
-<p>从而我们可以得到’P’ = P <em> cosθ + cross(N,V) </em> sinθ’，则最终结果为：<br><code>P = (V - N * Dot(V,N)) * cosθ + cross(N,V) * sinθ + N * Dot(V,N)</code></p>
-<p>我们使<code>V = [1, 0, 0]，N = [Nx, Ny, Nz]</code>来计算最终结果的X系数，这里不再写计算过程了：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Nx*Nx(1-cosθ)+cosθ, Nx*Ny(1-cosθ)+Nz*sinθ, Nx*Nz(1-cosθ)-Ny*sinθ]</span><br></pre></td></tr></table></figure></p>
-<p>同理可以得到Y系数与Z系数：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// Y系数</span><br><span class="line">[Nx*Ny(1-cosθ)-Nz*sinθ, Ny*Ny(1-cosθ)+cosθ, Ny*Nz(1-cosθ)+Nx*sinθ]</span><br><span class="line">// Z系数</span><br><span class="line">[Nx*Nz(1-cosθ)+Ny*sinθ, Ny*Nz(1-cosθ)-Nx*sinθ, Nz*Nz(1-cosθ)+cosθ]</span><br></pre></td></tr></table></figure></p>
-<p>合起来就是：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| Nx*Nx(1-cosθ)+cosθ     Nx*Ny(1-cosθ)+Nz*sinθ    Nx*Nz(1-cosθ)-Ny*sinθ    0 |</span><br><span class="line">| Nx*Ny(1-cosθ)-Nz*sinθ     Ny*Ny(1-cosθ)+cosθ    Ny*Nz(1-cosθ)+Nx*sinθ    0 |</span><br><span class="line">| Nx*Nz(1-cosθ)+Ny*sinθ  Ny*Nz(1-cosθ)-Nx*sinθ       Nz*Nz(1-cosθ)+cosθ    0 |</span><br><span class="line">|                     0                      0                        0    1 |</span><br></pre></td></tr></table></figure></p>
-<h2 id="u7F29_u653E_u77E9_u9635"><a href="#u7F29_u653E_u77E9_u9635" class="headerlink" title="缩放矩阵"></a><strong>缩放矩阵</strong></h2><p>相较旋转矩阵而言，缩放矩阵就容易多了，一目了然：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Scale</span></span><br><span class="line">               | Sx   <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|x, y, z, <span class="number">1</span>| * |  <span class="number">0</span>  Sy   <span class="number">0</span>   <span class="number">0</span> | = | x * Sx, y * Sy, z * Sz, <span class="number">0</span> |</span><br><span class="line">               |  <span class="number">0</span>   <span class="number">0</span>  Sz   <span class="number">0</span> |</span><br><span class="line">               |  <span class="number">0</span>   <span class="number">0</span>   <span class="number">0</span>   <span class="number">1</span> |</span><br></pre></td></tr></table></figure></p>
-<p>最基本的三种变换说完了，最后需要说明的是：使用矩阵进行变换之前必须先想好变换的顺序：先平移后旋转和先旋转后平移完全不一样。</p>
-<h2 id="u76F8_u673A_u77E9_u9635"><a href="#u76F8_u673A_u77E9_u9635" class="headerlink" title="相机矩阵"></a><strong>相机矩阵</strong></h2><p>前面三个矩阵都可以用来表示物体自身的坐标系与时间坐标系之间的关系，在图形管线中World Transform之后就是View Transform，作用是将世界空间坐标系中的坐标变换到相机坐标系中。</p>
-<p>与所有的坐标系一样，相机坐标系也有三个正交的轴，分别记为<code>Up, Look, Right</code>（这里略去基于欧拉角的相机系统，直接说明UNV相机系统）。相机本身又处于世界坐标系下，因此还需要一个世界中的位置。</p>
-<p>那么如何将世界坐标系中的坐标转换到相机坐标系中呢？</p>
-<p>我们需要把世界坐标系的远点<code>[0, 0, 0]</code>相机的的位置<code>[Px, Py, Pz]</code>，然后将世界坐标系的三个正交轴与相机的三个正交轴通过旋转重合起来，当然在这个过程中所有处于世界坐标系中的点都进行了这个变换。</p>
-<p>平移的话很简单，我们前面已经讨论过了，关键在于旋转。</p>
-<p>回忆这样一个事实：当我们说一个点<code>N</code>的坐标为[x, y, z]的时候，实际上是指向量<code>ON</code>在<code>X, Y, Z三个轴上的投影的长度为x, y, z</code>，并且我们默认了这样的一个前提：点N与坐标轴<code>X, Y, Z</code>同属于一个坐标系，且<code>ON</code>的起点为原点。再来看当前的情况，定义相机坐标系的<code>UP, Look, Right</code>三个轴实际上存在于世界坐标中，那么我们所谓的相机坐标中的位置，实际上就是所要变换的点在这三个作为坐标轴的向量上的投影长度。这样一来我们就可以不去考虑令人头痛的旋转问题了：在坐标平移之后直接进行投影即可，而投影实际上是一个点乘，我们记需要变换的坐标为<code>V: [x, y, z]</code>，相机的位置为<code>P: [Px, Py, Pz]</code>，三个轴的坐标分别为<code>Up: [Ux, Uy, Uz], Right: [Rx, Ry,Rz], Look: [Lx, Ly, Lz]</code>，于是我们有：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">y’ = Dot([x - Px, y - Py, z - Pz], [Ux, Uy, Uz])</span><br><span class="line">   = (x * Ux - Px * Ux) + (y * Uy - Py * Uy) + (z * Uz - Pz * Uz)</span><br><span class="line">   = Dot(V, Up) - Dot(P, Up)</span><br><span class="line"></span><br><span class="line">x’ = Dot([x - Px, y - Py, z - Pz], [Rx, Ry, Rz])</span><br><span class="line">   = Dot(V,Right) - Dot(P, Right)</span><br><span class="line"></span><br><span class="line">z’ = Dot([x - Px, y - Py, z - Pz], [Lx, Ly, Lz])</span><br><span class="line">   = Dot(V,Look) - Dot(P, Look)</span><br></pre></td></tr></table></figure></p>
-<p>上面之所以使用<code>y-&gt;x-&gt;z</code>的顺序是因为相机的<code>Up</code>实际上是要和左手坐标系下世界的<code>Y轴</code>重合的。<br>用矩阵表示就是：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|         Rx            Ux             Lx   <span class="number">0</span> |</span><br><span class="line">|         Ry            Uy             Ly   <span class="number">0</span> |</span><br><span class="line">|         Rz            Uz             Lz   <span class="number">0</span> |</span><br><span class="line">| -dot(P,Up)  -dot(P,Right)  -dot(P,Look)   <span class="number">1</span> |</span><br></pre></td></tr></table></figure></p>
-<h2 id="u900F_u89C6_u77E9_u9635__3D_3D_26gt_3B__u88C1_u526A_u77E9_u9635"><a href="#u900F_u89C6_u77E9_u9635__3D_3D_26gt_3B__u88C1_u526A_u77E9_u9635" class="headerlink" title="透视矩阵 ==&gt; 裁剪矩阵"></a><strong>透视矩阵 ==&gt; 裁剪矩阵</strong></h2><p>投影矩阵负责把相机坐标系中的点投规整到一个标准化方体之中，这个方体……呃，还是借用一张图吧：<br><img src="http://ww3.sinaimg.cn/mw690/006lhMttgw1ezj8kxfu7gj30ki07k75z.jpg" alt="PerspectiveTrans"><br>注意到方体的“深度”值为<code>0.0f ~ 1.0f</code>，这与以后将会提到的深度缓冲有关。在采用右手坐标系的OpenGL中，这个区间是<code>[-1.0f ~ 1.0f]</code>。理论上方体大小可以任意指定，但实际中通常将方体限制在<code>1</code>，主要是为了方便计算。同时注意到投影中心点的位置以及坐标轴的方向，这两者在后面视口变换的过程中需要注意的点。</p>
-<p>现在让我们开始讨论透视矩阵是如何得到并进行工作的：<br><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1ezjx3y55cfj30cc090wfa.jpg" alt="PersVertex"><br>图中是从<code>Y轴</code>负方向看去的<code>XOZ</code>平面。我们要将空间中的一点<code>V</code>投影到距离相机原点距离为<code>d</code>的投影平面上。</p>
-<p>根据三角形相似关系，我们可以得到<code>V</code>在投影平面上的投影的<code>X坐标</code>:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d/Z0 = X’/X0 =&gt; X’ = (d*X0)/Z0</span><br></pre></td></tr></table></figure></p>
-<p>同理也可以得到<code>V</code>在投影平面上的投影的<code>Y坐标</code>:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d/Z0 = Y’/Y0 =&gt; Y’ = (d*Y0)/Z0</span><br></pre></td></tr></table></figure></p>
-<p>于是我们得到了2D平面上的一个点(X’, Y’)——在最终结果上，我们舍弃了原有的Z值，我们的矩阵应该满足：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">| X0, Y0, Z0, <span class="number">1</span> | * Matrix? = | (d*X0)/Z0, (d*Y0)/Z0, Z?, W? |</span><br></pre></td></tr></table></figure></p>
-<p>由于我们不关心最终结果的<code>Z和W</code>分量，因此可以暂时置为<code>M = 1 和 N = 1</code>，然后我们将<code>X和Y分量</code>的分母乘上去：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">| X0, Y0, Z0, <span class="number">1</span> | * Matrix? = | (d*X0), (d*Y0), <span class="number">1</span>*Z0, <span class="number">1</span>*Z0 |</span><br><span class="line">推出矩阵：</span><br><span class="line">```cpp</span><br><span class="line">| d  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span> |      | <span class="number">1</span>  <span class="number">0</span>    <span class="number">0</span>    <span class="number">0</span> |  </span><br><span class="line">| <span class="number">0</span>  d  <span class="number">0</span>  <span class="number">0</span> |  ==&gt; | <span class="number">0</span>  <span class="number">1</span>    <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">| <span class="number">0</span>  <span class="number">0</span>  <span class="number">1</span>  <span class="number">1</span> |      | <span class="number">0</span>  <span class="number">0</span>  <span class="number">1</span>/d  <span class="number">1</span>/d |</span><br><span class="line">| <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span> |      | <span class="number">0</span>  <span class="number">0</span>    <span class="number">0</span>    <span class="number">0</span> |</span><br></pre></td></tr></table></figure></p>
-<p>貌似上面的矩阵是有问题的，得到的结构并非我们想要的结果，但实际上，4D向量需要进行一个<code>齐次化</code>的操作，也就是向量的所有分量都除以其<code>W</code>分量，就可以得到我们想要的<code>X 和 Z</code>了。<br>看起来我们只需要一个投影平面到<code>XOY</code>的距离<code>d</code>就可以了，那么我们回头看看<code>OpenGL</code>或者<code>DirectX</code>，发现创建一个透视矩阵需要的几个参数：<code>视角Fov、投影屏幕宽高比例Aspect以及远近裁剪面FarZ与NearZ</code>——似乎没有投影面这一说法，这又是怎么回事呢？</p>
-<p>再次声明，我们不关心最终结果的<code>Z和W</code>分量，这使得我们对于能够影响到这两个分量的运算（矩阵的后面两列）可以进行适当的调整，以便于我们进行后续计算。<code>OpenGL</code>与<code>DirectX</code>管线中最难理解的部分的就在这里了。</p>
-<p>接下来引入视角。观察前面给出的草图，其中的两条斜的射线之间的夹角就是我们的视角<code>Fov</code>，为了分别，分别记为<code>FovX</code>，<code>FovY</code>，前图中是以<code>FovX</code>示例。</p>
-<p>引入视角的原因在于，进行投影的时候是不能将所有的点都进行投影的（理论上完全可以这样做），这样很有可能导致流水线被压垮，需要一定的手段进行筛选，包括远近裁剪平面也是如此，这形成了一个视锥体；再一个，也是<strong>最重要的，就是产生缩放效果</strong>的需要。这里的缩放指的是：当视角比较大的时候，我们看到的3D空间中的物体也就越多，由于屏幕的大小是固定的，因此视角越大，显示的物体就越小，从而能够显示更多的物体，视角越小则反之。我们以DirectX下的应用程序来示例一下，以帮助理解：下面是对于同样的一个显示一个柱体的程序，改变<code>Fov</code>的大小所带来的结果：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 视角广，Fov = 90度</span></span><br><span class="line">D3DXMatrixPerspectiveFovLH( &amp;matProj, D3DX_PI/<span class="number">2</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">100.0f</span> );</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttgw1ezk2h1nzhyj30dw0dwq3b.jpg" alt="GreatFov"><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 视角窄小，Fov = 45度</span></span><br><span class="line">D3DXMatrixPerspectiveFovLH( &amp;matProj, D3DX_PI/<span class="number">4</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">100.0f</span> );</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttgw1ezk2j1ih2qj30dw0dwt99.jpg" alt="Fov"></p>
-<p>上面的对比可以清楚看到视角大小的选取对显示效果的影响。</p>
-<p>在明白了为何需要视角之后，我们来看看视角<code>Fov</code>是怎样被放置到矩阵中的。很明显地，当<code>Fov</code>小时，投影变大，反之投影变小。由于我们唯一可以确定的就是投影平面的视距<code>d</code>，因此可以使用<code>余切cot</code>来反应这种反比例关系：cot(FOV/2)，将其带入到矩阵中：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| cot(FovX/<span class="number">2</span>)            <span class="number">0</span>    <span class="number">0</span>    <span class="number">0</span> |  </span><br><span class="line">|           <span class="number">0</span>  cot(FovY/<span class="number">2</span>)    <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>  <span class="number">1</span>/d  <span class="number">1</span>/d |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>    <span class="number">0</span>    <span class="number">0</span> |</span><br></pre></td></tr></table></figure></p>
-<p>然后，我们需要处理的只剩下远近裁剪平面<code>FarZ和NearZ</code>了。引入它们的目的前面提到一个裁剪，这里还有另外一个目的：将所有通过裁剪的点的坐标的<code>Z</code>值压缩到区间[0.0 ~ 1.0]中。很显然这个压缩需要除法，坐标的Z值将会除以<code>(FarZ - NearZ)</code>。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| cot(FovX/<span class="number">2</span>)            <span class="number">0</span>                   <span class="number">0</span>    <span class="number">0</span> |  </span><br><span class="line">|           <span class="number">0</span>  cot(FovY/<span class="number">2</span>)                   <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>  <span class="number">1</span>/(d*(FarZ-NearZ))  <span class="number">1</span>/d |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>                   <span class="number">0</span>    <span class="number">0</span> |</span><br></pre></td></tr></table></figure></p>
-<p>等等，<code>d</code>的值呢？事实上<code>d</code>可以是任意值！回顾我们对这个矩阵的思考过程就可以发现这一事实，为了便于计算，我们令 <code>d = 1</code>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| cot(FovX/<span class="number">2</span>)            <span class="number">0</span>                   <span class="number">0</span>    <span class="number">0</span> |  </span><br><span class="line">|           <span class="number">0</span>  cot(FovY/<span class="number">2</span>)                   <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>      <span class="number">1</span>/(FarZ-NearZ)    <span class="number">1</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>                   <span class="number">0</span>    <span class="number">0</span> |</span><br></pre></td></tr></table></figure></p>
-<p>但是这样得到的Z值将会是<code>Z0/(FarZ-NearZ)</code>，很显然是不对的，应该为：<code>(Z0-NearZ)/(FarZ-NearZ) = Z0/(FarZ-NearZ) - NearZ/(FarZ-NearZ)</code><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| cot(FovX/<span class="number">2</span>)            <span class="number">0</span>                    <span class="number">0</span>    <span class="number">0</span> |  </span><br><span class="line">|           <span class="number">0</span>  cot(FovY/<span class="number">2</span>)                    <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>       <span class="number">1</span>/(FarZ-NearZ)    <span class="number">1</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>  -NearZ/(FarZ-NearZ)    <span class="number">0</span> |</span><br></pre></td></tr></table></figure></p>
-<p>接下来又有一个但是了：经过上面的变化之后，<code>Z’ = (Z0-NearZ)/(FarZ-NearZ)，而W = Z0</code>，其中<code>Z’</code>已经处于是<code>[0.0f ~ 1.0f]</code>之内了，齐次化之后不是更小么，显然不利于进行深度比较。于是再做一次下面的变化：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| cot(FovX/<span class="number">2</span>)            <span class="number">0</span>                           <span class="number">0</span>    <span class="number">0</span> |  </span><br><span class="line">|           <span class="number">0</span>  cot(FovY/<span class="number">2</span>)                           <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>           FarZ/(FarZ-NearZ)    <span class="number">1</span> |</span><br><span class="line">|           <span class="number">0</span>            <span class="number">0</span>  -(NearZ*FarZ)/(FarZ-NearZ)    <span class="number">0</span> |</span><br></pre></td></tr></table></figure></p>
-<p>现在来分别取 <code>Z0 = NearZ</code> 和 <code>Z0 = FarZ</code>来验证一下上面的矩阵：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Z0 = NearZ:</span></span><br><span class="line">Z’ = (FarZ * (NearZ-NearZ))/(FarZ-NearZ) = <span class="number">0</span></span><br><span class="line">W’ = NearZ</span><br><span class="line">齐次化后 Z’ = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Z0 = FarZ:</span></span><br><span class="line">Z’ = (FarZ * (FarZ-NearZ))/(FarZ-NearZ) = FarZ</span><br><span class="line">W’ = FarZ</span><br><span class="line">齐次化后 Z’ = <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
-<p>至此，我们的裁剪矩阵已经完成了，还真是一段艰苦的旅程。至于其中的<code>FovY</code> 与 <code>FovX</code>是可以相互替换的，方法就是通过<code>d和Aspect</code>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cot(FovX/<span class="number">2</span>) = d/(Width/<span class="number">2</span>) = d/((Height/<span class="number">2</span>)*Aspect) = (d/(Height/<span class="number">2</span>)) / Aspect = cot(FovY/<span class="number">2</span>) / <span class="function">Aspect</span><br><span class="line"><span class="title">cot</span><span class="params">(FovY/<span class="number">2</span>)</span> </span>= d/(Height/<span class="number">2</span>) = d/((Width/Aspect)/<span class="number">2</span>) = d/(Width/<span class="number">2</span>) * (Aspect) = cot(FovX/<span class="number">2</span>) * Aspect</span><br></pre></td></tr></table></figure></p>
-<p>最终结果的形式取决于Fov代表水平视角还是垂直视角，这里采用了垂直视角：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Persective Matrix</span></span><br><span class="line">| cot(Fov/<span class="number">2</span>)/Aspect              <span class="number">0</span>                           <span class="number">0</span>    <span class="number">0</span> |  </span><br><span class="line">|                 <span class="number">0</span>     cot(Fov/<span class="number">2</span>)                           <span class="number">0</span>    <span class="number">0</span> |</span><br><span class="line">|                 <span class="number">0</span>              <span class="number">0</span>           FarZ/(FarZ-NearZ)    <span class="number">1</span> |</span><br><span class="line">|                 <span class="number">0</span>              <span class="number">0</span>  -(NearZ*FarZ)/(FarZ-NearZ)    <span class="number">0</span> |</span><br></pre></td></tr></table></figure></p>
-<h2 id="u89C6_u53E3_u53D8_u6362"><a href="#u89C6_u53E3_u53D8_u6362" class="headerlink" title="视口变换"></a><strong>视口变换</strong></h2><p>我们终于来到了最后一个关卡了，前面的一系列变换确实有点复杂，写了几个小时脑袋都发昏了！相比之下，视口比变换就容易理解的多了，它的目的就是：得到正确的<code>X与Y</code>然后将其显示屏幕上。</p>
-<p>经过前面的裁剪矩阵，我们的所处的坐标系就成了裁剪坐标系，也就是前面图中的那个方块，我们的<code>X和Y</code>都处于[-1.0f ~ 1.0f]之内。我们首先需要视口的<code>宽Width与高Height</code>，然后用它们各自的一半分别乘以<code>X和Y</code>,于是我们就得到了一个这样的投影结果：</p>
-<p><img src="http://ww4.sinaimg.cn/mw690/006lhMttgw1ezk7f3xtcrj30bz0b1my5.jpg" alt="PortNoOffset"></p>
-<p>对应的变换如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X’ = X*Width/<span class="number">2</span> + Width/<span class="number">2</span></span><br><span class="line">Y’ = Y*Height/<span class="number">2</span> - Height/<span class="number">2</span></span><br><span class="line"></span><br><span class="line">|   width/<span class="number">2</span>          <span class="number">0</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|         <span class="number">0</span>   height/<span class="number">2</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|         <span class="number">0</span>          <span class="number">0</span>     <span class="number">1</span>   <span class="number">0</span> |</span><br><span class="line">|         <span class="number">0</span>          <span class="number">0</span>     <span class="number">0</span>   <span class="number">1</span> |</span><br></pre></td></tr></table></figure></p>
-<p>然而考虑一下我们实际采用的窗口坐标系统，它的原点在客户区左上角的位置，并且<code>Y轴</code>d的方向是朝下的。这就要求我们再做另外一次也是最后一次的坐标转换：到屏幕坐标去。</p>
-<p>首先将原来的坐标系原点移动到投影区域的左上角位置：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X’ = X*Width*<span class="number">0.5</span> + Width/<span class="number">2</span></span><br><span class="line">Y’ = Y*Height*<span class="number">0.5</span> - Height/<span class="number">2</span></span><br><span class="line"></span><br><span class="line">| width*<span class="number">0.5</span>            <span class="number">0</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|         <span class="number">0</span>   height*<span class="number">0.5</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|         <span class="number">0</span>            <span class="number">0</span>     <span class="number">1</span>   <span class="number">0</span> |</span><br><span class="line">| width*<span class="number">0.5</span>  -height*<span class="number">0.5</span>     <span class="number">0</span>   <span class="number">1</span> |</span><br></pre></td></tr></table></figure></p>
-<p>然后将Y坐标翻转：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X’ = X*Width*<span class="number">0.5</span> + Width/<span class="number">2</span></span><br><span class="line">Y’ = (-<span class="number">1</span>)*Y*Height*<span class="number">0.5</span> - Height/<span class="number">2</span></span><br><span class="line"></span><br><span class="line">| width*<span class="number">0.5</span>            <span class="number">0</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|         <span class="number">0</span>  -height*<span class="number">0.5</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|         <span class="number">0</span>            <span class="number">0</span>     <span class="number">1</span>   <span class="number">0</span> |</span><br><span class="line">| width*<span class="number">0.5</span>  -height*<span class="number">0.5</span>     <span class="number">0</span>   <span class="number">1</span> |</span><br></pre></td></tr></table></figure></p>
-<p>上面的变换是假设Port的左上角为[0, 0]的情况下做出的变换，如果考虑视口左上角在篡改口客户区的位置，还需要加上对应的偏移量：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X’ = X*Width*<span class="number">0.5</span> + Width/<span class="number">2</span> + ViewPort.Left</span><br><span class="line">Y’ = (-<span class="number">1</span>)*Y*Height*<span class="number">0.5</span> - Height/<span class="number">2</span> + ViewPort.Top</span><br><span class="line"></span><br><span class="line">|      width*<span class="number">0.5</span>                <span class="number">0</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|              <span class="number">0</span>      -height*<span class="number">0.5</span>     <span class="number">0</span>   <span class="number">0</span> |</span><br><span class="line">|              <span class="number">0</span>                <span class="number">0</span>     <span class="number">1</span>   <span class="number">0</span> |</span><br><span class="line">| width*<span class="number">0.5</span>+left  -height*<span class="number">0.5</span>+top     <span class="number">0</span>   <span class="number">1</span> |</span><br></pre></td></tr></table></figure>
-<p>这便是最终的视口变换矩阵了。</p>
-<h1 id="u7ED3_u8BED"><a href="#u7ED3_u8BED" class="headerlink" title="结语"></a><strong>结语</strong></h1><p>矩阵推导的部分终于结束了，重新编码的Software Renderer的数学运算部分也基本完成，这些应该是足以支撑整个程序了。上面的推导过程比较长，但这些东西是图形学的入门基础。虽然直接跟着DX或者OpenGL的教程走能写出来东西，但如果不彻底搞明白这些的话，但后面学习肯定会遇到瓶颈，以至于不得不回过头来再过一遍（我自己就属于这种情况……）。虽然这些东西在很多书上都会提及到，但是相当一部分也只是列出结果，对于思考过程语焉不详，即便有心也不一定知道如何下手，从而导致图形学上手困难。这里把我自己在推导这些矩阵的思考过程集中记录下来，以便在以后需要的时候能够帮助自己复习，同时也希望能够帮助一些刚开始学习图形学的人。</p>
-<p>除了数学过程，Software Renderer推翻了原定使用GDI的打算，与《3D大师编程技巧》一样，使用DDraw来实现了，原因么，我只是自己想做做看而已。目前已搭好了基本的框架，可以在屏幕上点亮一些像素了:D</p>
 
             
           </span>
@@ -1685,26 +1674,26 @@
           <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
           <p class="site-author-name" itemprop="name">SsCM</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">希望以后心情不好的时候可以全世界遛遛弯</p>
+        <p class="site-description motion-element" itemprop="description">Nothing, EVERYTHING</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">分类</span>
+              <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">标签</span>
+              <span class="site-state-item-name">標籤</span>
               </a>
           </div>
 
@@ -1747,11 +1736,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  主题 -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT
   </a>
@@ -1820,8 +1809,7 @@
   </script>
 
   
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

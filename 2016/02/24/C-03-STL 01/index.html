@@ -55,7 +55,7 @@
 说了一大堆杂七杂八的东西，今天换一换，简单总结一下STL——但是不考虑新的C++11标准，无它，用的不多，不熟。虽然多少知道一些新标准里面的东西是怎么一回事：比如左值右值，λ表达式，类型推导等，也不是不会用，但怎么用好则又是一回事情。就像OS与网络，虽然并非对其一无所知，且并不忌惮，但一直没有进行太多投入。因为我个人觉得这些都是属于系统编程的，相较之下工程意味更重，去公司锻炼事半功倍，不似图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++ 03 STL 01">
-<meta property="og:url" content="http://solaxu.github.io/2016/02/24/C-03-STL 01/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/02/24/C-03-STL 01/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
 <meta property="og:description" content="前面
 说了一大堆杂七杂八的东西，今天换一换，简单总结一下STL——但是不考虑新的C++11标准，无它，用的不多，不熟。虽然多少知道一些新标准里面的东西是怎么一回事：比如左值右值，λ表达式，类型推导等，也不是不会用，但怎么用好则又是一回事情。就像OS与网络，虽然并非对其一无所知，且并不忌惮，但一直没有进行太多投入。因为我个人觉得这些都是属于系统编程的，相较之下工程意味更重，去公司锻炼事半功倍，不似图">
@@ -78,7 +78,7 @@
   <title> C++ 03 STL 01 | CrystalMaidenRampage </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -133,7 +133,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首页
+            首頁
           </a>
         </li>
       
@@ -143,7 +143,7 @@
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            分类
+            分類
           </a>
         </li>
       
@@ -153,7 +153,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            归档
+            歸檔
           </a>
         </li>
       
@@ -163,7 +163,7 @@
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            标签
+            標籤
           </a>
         </li>
       
@@ -213,7 +213,7 @@
 
         <div class="post-meta">
           <span class="post-time">
-            发表于
+            發表於
             <time itemprop="dateCreated" datetime="2016-02-24T16:43:21+08:00" content="2016-02-24">
               2016-02-24
             </time>
@@ -221,7 +221,7 @@
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
+              &nbsp; | &nbsp; 分類於
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Things-of-cpp/" itemprop="url" rel="index">
@@ -259,7 +259,7 @@
 <p>上面想法是在我大致学习了MIT的JOS之后形成的。虽然曾经跟了MIT JOS 2014实验课的几个关键Labs，但放下的时间稍嫌久了些，竟是没有剩下许多印象——然而终归有迹可循，日后想要重新拿起，想来应该不会无从下手。</p>
 <h1 id="u6B63_u6587"><a href="#u6B63_u6587" class="headerlink" title="正文"></a><strong>正文</strong></h1><hr>
 <p>谈到STL，便不能不谈到泛型编程与Iterator模式。</p>
-<p>CPP泛型编程的基础已经在首篇的<a href="http://solaxu.github.io/2015/12/24/View-C++-Template/">《View CPP Template》</a>里面演示过了，这里不再多说。这里主要说一下Iterator模式以此作为“设计模式”这 个话题的补充，并说明其在STL中的应用。</p>
+<p>CPP泛型编程的基础已经在首篇的<a href="http://solaxu.github.io/2015/12/24/View-C++-Template/" target="_blank" rel="external">《View CPP Template》</a>里面演示过了，这里不再多说。这里主要说一下Iterator模式以此作为“设计模式”这 个话题的补充，并说明其在STL中的应用。</p>
 <h2 id="u8FED_u4EE3_u5668_u6A21_u5F0F"><a href="#u8FED_u4EE3_u5668_u6A21_u5F0F" class="headerlink" title="迭代器模式"></a><strong>迭代器模式</strong></h2><p>事实上，迭代器模式是通过增加一个<code>迭代器</code>层来实现数据与算法分离的。例如在STL中，对于<code>vector</code>和<code>list</code>的遍历都可以通过：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it = container.begin(); it != container.end();++it)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//do sth...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>来完成（当然使用<code>for_each</code>也可），而众所周知<code>vector</code>是一个使用了变长数组的容器而<code>list</code>则是一个使用了双向链表的容器，两者的数据存储方式完全不同。</p>
@@ -364,10 +364,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
+            文章目錄
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
+            本站概覽
           </li>
         </ul>
       
@@ -377,26 +377,26 @@
           <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
           <p class="site-author-name" itemprop="name">SsCM</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">希望以后心情不好的时候可以全世界遛遛弯</p>
+        <p class="site-description motion-element" itemprop="description">Nothing, EVERYTHING</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-name">文章</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">分类</span>
+              <span class="site-state-item-name">分類</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">29</span>
-              <span class="site-state-item-name">标签</span>
+              <span class="site-state-item-name">標籤</span>
               </a>
           </div>
 
@@ -456,11 +456,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
 </div>
 
 <div class="theme-info">
-  主题 -
+  主題 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT
   </a>
@@ -690,8 +690,7 @@
   </script>
 
   
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
-    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
