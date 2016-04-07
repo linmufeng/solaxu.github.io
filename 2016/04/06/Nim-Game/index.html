@@ -61,7 +61,7 @@ You are playing the following Nim Game with your friend: There is a heap of ston
 <meta property="og:description" content="Nim Game
 
 You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone w">
-<meta property="og:updated_time" content="2016-04-06T08:25:00.769Z">
+<meta property="og:updated_time" content="2016-04-06T10:57:25.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nim Game">
 <meta name="twitter:description" content="Nim Game
@@ -266,6 +266,10 @@ You are playing the following Nim Game with your friend: There is a heap of ston
 <p>此类问题的正确描述在于注释内的代码，通过递推关系求出结果。</p>
 <p>非注释代码只是根据题目取了巧，递推求结果会导致超时。</p>
 <p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canWinNim</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">         <span class="comment">/*</span><br><span class="line">         if ( n == 0 ) return false;</span><br><span class="line">         if ( n &lt;= 3 ) return true;</span><br><span class="line">         vector&lt;bool&gt; stones(n,false);</span><br><span class="line">         stones[0] = stones[1] = stones[2] = true;</span><br><span class="line">         for (int i = 3; i &lt; n ; ++i)</span><br><span class="line">         &#123;</span><br><span class="line">             if (stones[i-1] &amp;&amp; stones[i-2] &amp;&amp; stones[i-3])</span><br><span class="line">             &#123;</span><br><span class="line">                 stones[i] = false;</span><br><span class="line">             &#125;</span><br><span class="line">             else</span><br><span class="line">             &#123;</span><br><span class="line">                 stones[i] = true;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         return stones[n-1];</span><br><span class="line">         */</span></span><br><span class="line">         <span class="keyword">return</span> !(n % <span class="number">4</span> == <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="Nim_Sum"><a href="#Nim_Sum" class="headerlink" title="Nim Sum"></a><strong>Nim Sum</strong></h1><hr>
+<p>From: HiHoCoder #1163 <a href="http://hihocoder.com/problemset/problem/1163" target="_blank" rel="external">博弈游戏·Nim游戏</a></p>
+<p>Nim Sum的应用。</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; N;</span><br><span class="line">	<span class="keyword">if</span> (N == <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"Alice"</span> &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> M = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; M;</span><br><span class="line">	<span class="keyword">int</span> r = M;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cin</span> &gt;&gt; M;</span><br><span class="line">		r ^= M;</span><br><span class="line">	&#125;</span><br><span class="line">	(r == <span class="number">0</span>) ? (<span class="built_in">cout</span> &lt;&lt; <span class="string">"Bob"</span> &lt;&lt; endl) : (<span class="built_in">cout</span> &lt;&lt; <span class="string">"Alice"</span> &lt;&lt; endl);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -283,8 +287,8 @@ You are playing the following Nim Game with your friend: There is a heap of ston
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/05/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2016/04/01/Word-Break/" rel="next" title="Word Break">
+                <i class="fa fa-chevron-left"></i> Word Break
               </a>
             
           </div>
@@ -357,7 +361,7 @@ You are playing the following Nim Game with your friend: There is a heap of ston
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -403,7 +407,7 @@ You are playing the following Nim Game with your friend: There is a heap of ston
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nim_Game"><span class="nav-number">1.</span> <span class="nav-text">Nim Game</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nim_Game"><span class="nav-number">1.</span> <span class="nav-text">Nim Game</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Nim_Sum"><span class="nav-number">2.</span> <span class="nav-text">Nim Sum</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

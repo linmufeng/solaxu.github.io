@@ -273,95 +273,10 @@
 <p>此类问题的正确描述在于注释内的代码，通过递推关系求出结果。</p>
 <p>非注释代码只是根据题目取了巧，递推求结果会导致超时。</p>
 <p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canWinNim</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">         <span class="comment">/*</span><br><span class="line">         if ( n == 0 ) return false;</span><br><span class="line">         if ( n &lt;= 3 ) return true;</span><br><span class="line">         vector&lt;bool&gt; stones(n,false);</span><br><span class="line">         stones[0] = stones[1] = stones[2] = true;</span><br><span class="line">         for (int i = 3; i &lt; n ; ++i)</span><br><span class="line">         &#123;</span><br><span class="line">             if (stones[i-1] &amp;&amp; stones[i-2] &amp;&amp; stones[i-3])</span><br><span class="line">             &#123;</span><br><span class="line">                 stones[i] = false;</span><br><span class="line">             &#125;</span><br><span class="line">             else</span><br><span class="line">             &#123;</span><br><span class="line">                 stones[i] = true;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         return stones[n-1];</span><br><span class="line">         */</span></span><br><span class="line">         <span class="keyword">return</span> !(n % <span class="number">4</span> == <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/05/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            發表於
-            <time itemprop="dateCreated" datetime="2016-04-05T23:28:43+08:00" content="2016-04-05">
-              2016-04-05
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<h1 id="Nim_Sum"><a href="#Nim_Sum" class="headerlink" title="Nim Sum"></a><strong>Nim Sum</strong></h1><hr>
+<p>From: HiHoCoder #1163 <a href="http://hihocoder.com/problemset/problem/1163" target="_blank" rel="external">博弈游戏·Nim游戏</a></p>
+<p>Nim Sum的应用。</p>
+<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; N;</span><br><span class="line">	<span class="keyword">if</span> (N == <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"Alice"</span> &lt;&lt; endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> M = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; M;</span><br><span class="line">	<span class="keyword">int</span> r = M;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cin</span> &gt;&gt; M;</span><br><span class="line">		r ^= M;</span><br><span class="line">	&#125;</span><br><span class="line">	(r == <span class="number">0</span>) ? (<span class="built_in">cout</span> &lt;&lt; <span class="string">"Bob"</span> &lt;&lt; endl) : (<span class="built_in">cout</span> &lt;&lt; <span class="string">"Alice"</span> &lt;&lt; endl);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
             
           </span>
@@ -1295,6 +1210,113 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/22/Word-Search/" itemprop="url">
+                  Word Search
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-03-22T12:11:43+08:00" content="2016-03-22">
+              2016-03-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="Word_Search"><a href="#Word_Search" class="headerlink" title="Word Search"></a><strong>Word Search</strong></h1><hr>
+<blockquote>
+<p>Given a 2D board and a word, find if the word exists in the grid.</p>
+<p>The word can be constructed from letters of sequentially adjacent cell, where “adjacent” cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.</p>
+<p>For example,</p>
+<p>Given board =<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  ['A','B','C','E'],</span><br><span class="line">  ['S','F','C','S'],</span><br><span class="line">  ['A','D','E','E']</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>word = “ABCCED”, -&gt; returns true,</p>
+<p>word = “SEE”, -&gt; returns true,</p>
+<p>word = “ABCB”, -&gt; returns false.</p>
+</blockquote>
+<p>回溯。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="keyword">typedef</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vi;</span><br><span class="line">	<span class="keyword">typedef</span> <span class="built_in">vector</span>&lt;vi&gt; vvi;</span><br><span class="line"></span><br><span class="line">	vvi vis;</span><br><span class="line">	<span class="keyword">int</span> index;</span><br><span class="line">	<span class="keyword">int</span>* rdir;</span><br><span class="line">	<span class="keyword">int</span>* cdir;</span><br><span class="line">	<span class="keyword">int</span> rows;</span><br><span class="line">	<span class="keyword">int</span> cols;</span><br><span class="line">	<span class="keyword">bool</span> result;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="keyword">int</span> r, <span class="keyword">int</span> c, <span class="built_in">string</span>&amp; word)</span></span><br><span class="line">	</span>&#123;</span><br><span class="line">		vis[r][c] = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">if</span> (word[index] == board[r][c])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (result) <span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">if</span> (index == word.length() - <span class="number">1</span>) result = <span class="literal">true</span>;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">4</span>; ++k)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> i = r - rdir[k];</span><br><span class="line">				<span class="keyword">int</span> j = c - cdir[k];</span><br><span class="line">				<span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; rows &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; cols &amp;&amp; vis[i][j] == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					++index;</span><br><span class="line">					solve(board, i, j, word);</span><br><span class="line">					--index;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		vis[r][c] = <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">exist</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="built_in">string</span> word)</span> </span>&#123;</span><br><span class="line">		rows = board.size();</span><br><span class="line">		<span class="keyword">if</span> (rows == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		cols = board[<span class="number">0</span>].size();</span><br><span class="line">		<span class="keyword">if</span> (cols == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		vis = vvi(rows, vi(cols, <span class="number">0</span>));</span><br><span class="line">		index = <span class="number">0</span>;</span><br><span class="line">		result = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">int</span> rdirs[] = &#123; <span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,-<span class="number">1</span> &#125;;</span><br><span class="line">		<span class="keyword">int</span> cdirs[] = &#123; <span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span> &#125;;</span><br><span class="line">		rdir = rdirs;</span><br><span class="line">		cdir = cdirs;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rows; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; cols; ++j)</span><br><span class="line">			&#123;</span><br><span class="line">				solve(board, i, j, word);</span><br><span class="line">				<span class="keyword">if</span> (result) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
 
   </section>
 
@@ -1341,7 +1363,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">45</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
