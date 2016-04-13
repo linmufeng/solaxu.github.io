@@ -51,31 +51,34 @@
 
 
 
-<meta name="description" content="LeetCode: Subsets II
+<meta name="description" content="Candy
+这个题目在HackerRank上面也有，链接在 这里
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
+There are N children standing in a line. Each child is assigned a rating value.
+You are giving candies to these children subjected to the following requirements:
+
+Eac">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Subsets II">
-<meta property="og:url" content="http://yoursite.com/2016/03/06/Subsets-II/index.html">
+<meta property="og:title" content="Candy">
+<meta property="og:url" content="http://yoursite.com/2016/04/13/Candy/index.html">
 <meta property="og:site_name" content="CrystalMaidenRampage">
-<meta property="og:description" content="LeetCode: Subsets II
+<meta property="og:description" content="Candy
+这个题目在HackerRank上面也有，链接在 这里
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
-<meta property="og:updated_time" content="2016-03-06T13:57:53.634Z">
+There are N children standing in a line. Each child is assigned a rating value.
+You are giving candies to these children subjected to the following requirements:
+
+Eac">
+<meta property="og:updated_time" content="2016-04-13T13:22:02.512Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Subsets II">
-<meta name="twitter:description" content="LeetCode: Subsets II
+<meta name="twitter:title" content="Candy">
+<meta name="twitter:description" content="Candy
+这个题目在HackerRank上面也有，链接在 这里
 
-Given a collection of integers that might contain duplicates, nums, return all possible subsets.
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must">
+There are N children standing in a line. Each child is assigned a rating value.
+You are giving candies to these children subjected to the following requirements:
+
+Eac">
 
 
 
@@ -87,7 +90,7 @@ The solution set must">
   };
 </script>
 
-  <title> Subsets II | CrystalMaidenRampage </title>
+  <title> Candy | CrystalMaidenRampage </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -217,7 +220,7 @@ The solution set must">
             
             
               
-                Subsets II
+                Candy
               
             
           </h1>
@@ -226,8 +229,8 @@ The solution set must">
         <div class="post-meta">
           <span class="post-time">
             發表於
-            <time itemprop="dateCreated" datetime="2016-03-06T21:48:15+08:00" content="2016-03-06">
-              2016-03-06
+            <time itemprop="dateCreated" datetime="2016-04-13T21:16:52+08:00" content="2016-04-13">
+              2016-04-13
             </time>
           </span>
 
@@ -265,18 +268,20 @@ The solution set must">
       
 
       
-        <span itemprop="articleBody"><h1 id="LeetCode_3A_Subsets_II"><a href="#LeetCode_3A_Subsets_II" class="headerlink" title="LeetCode: Subsets II"></a><strong>LeetCode: Subsets II</strong></h1><hr>
+        <span itemprop="articleBody"><hr>
+<h1 id="Candy"><a href="#Candy" class="headerlink" title="Candy"></a><strong>Candy</strong></h1><hr>
+<p>这个题目在HackerRank上面也有，链接在 <a href="https://www.hackerrank.com/challenges/candies?h_r=next-challenge&amp;h_v=zen" target="_blank" rel="external"><strong>这里</strong></a></p>
 <blockquote>
-<p>Given a collection of integers that might contain duplicates, nums, return all possible subsets.</p>
-<p>Note:</p>
-<p>Elements in a subset must be in non-descending order.</p>
-<p>The solution set must not contain duplicate subsets.</p>
-<p>For example,</p>
-<p>If nums = [1,2,2], a solution is:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>],</span><br><span class="line">  [<span class="number">2</span>,<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>There are N children standing in a line. Each child is assigned a rating value.</p>
+<p>You are giving candies to these children subjected to the following requirements:</p>
+<ul>
+<li>Each child must have at least one candy.</li>
+<li>Children with a higher rating get more candies than their neighbors.</li>
+</ul>
+<p>What is the minimum candies you must give?</p>
 </blockquote>
-<p>从一个集合生成它的子集，要求所有子集元素非递减排序，不能有重复的子集。</p>
-<p>使用增量法生成子集（增量法是一个回溯算法），在此过程中判断集合是否重复。</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; result;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isVectorEqual</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; l,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; r)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (l.size() != r.size())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; l.size(); ++i)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (l[i] != r[i])</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 增量生成子集</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">subsets</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> begin, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; v)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = begin; i &lt; nums.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            v.push_back(nums[i]);</span><br><span class="line">            <span class="keyword">bool</span> exist = <span class="literal">false</span>;</span><br><span class="line">            <span class="comment">// 判断是否有重复的</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span> ; j &lt; result.size(); ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (isVectorEqual(result[j],v))</span><br><span class="line">                &#123;</span><br><span class="line">                    exist = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!exist)</span><br><span class="line">            &#123;</span><br><span class="line">                result.push_back(v);</span><br><span class="line">            &#125;</span><br><span class="line">            subsets(nums,i+<span class="number">1</span>,v);</span><br><span class="line">        &#125;</span><br><span class="line">        v.pop_back(); <span class="comment">// 回溯</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; subsetsWithDup(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        sort(nums.begin(),nums.end());<span class="comment">// 不排序是无法得到正确输出的</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; prefix;</span><br><span class="line">        result.push_back(prefix);<span class="comment">// 空集显然放在首位</span></span><br><span class="line">        subsets(nums,<span class="number">0</span>,prefix);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>AC代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">candy</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; ratings)</span> </span>&#123;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; candies(ratings.size(), <span class="number">0</span>);</span><br><span class="line">		candies[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">bool</span> less = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; ratings.size(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (ratings[i] &gt; ratings[i - <span class="number">1</span>])</span><br><span class="line">			&#123;</span><br><span class="line">				candies[i] = candies[i - <span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (ratings[i] &lt; ratings[i - <span class="number">1</span>])</span><br><span class="line">			&#123;</span><br><span class="line">				flag = i - <span class="number">1</span>;</span><br><span class="line">				<span class="keyword">while</span> (i &lt; ratings.size() &amp;&amp; ratings[i] &lt; ratings[i - <span class="number">1</span>]) ++i;</span><br><span class="line">				--i;</span><br><span class="line">				<span class="keyword">int</span> diff = i - flag; <span class="comment">// 判断后面有多少个比flag位置小的数</span></span><br><span class="line">				<span class="keyword">if</span> (diff &gt;= candies[flag])</span><br><span class="line">				&#123;</span><br><span class="line">				  <span class="comment">// 重新调整分配的糖果</span></span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">int</span> k = flag; k &lt;= i; ++k)</span><br><span class="line">					&#123;</span><br><span class="line">						candies[k] = diff+<span class="number">1</span>;</span><br><span class="line">						--diff;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">int</span> k = flag + <span class="number">1</span>; k &lt;= i; ++k)</span><br><span class="line">					&#123;</span><br><span class="line">						candies[k] = diff;</span><br><span class="line">						--diff;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				candies[i] = <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ratings.size(); ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			sum += candies[i];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> sum;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -294,17 +299,13 @@ The solution set must">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/06/Add-Two-Numbers/" rel="next" title="Add Two Numbers">
-                <i class="fa fa-chevron-left"></i> Add Two Numbers
+              <a href="/2016/04/07/Font-Size/" rel="next" title="Font Size">
+                <i class="fa fa-chevron-left"></i> Font Size
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/07/Spiral-Matrix/" rel="prev" title="Spiral Matrix">
-                Spiral Matrix <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -418,7 +419,7 @@ The solution set must">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeetCode_3A_Subsets_II"><span class="nav-number">1.</span> <span class="nav-text">LeetCode: Subsets II</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Candy"><span class="nav-number">1.</span> <span class="nav-text">Candy</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
