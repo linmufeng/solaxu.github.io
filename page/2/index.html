@@ -210,6 +210,117 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/22/Courses-Schedule-II/" itemprop="url">
+                  Courses Schedule II
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-03-22T15:14:33+08:00" content="2016-03-22">
+              2016-03-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/OJs/" itemprop="url" rel="index">
+                    <span itemprop="name">OJs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="Courses_Schedule"><a href="#Courses_Schedule" class="headerlink" title="Courses Schedule"></a><strong>Courses Schedule</strong></h1><hr>
+<blockquote>
+<p>There are a total of n courses you have to take, labeled from 0 to n - 1.</p>
+<p>Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]</p>
+<p>Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.</p>
+<p>There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.</p>
+<p>For example:<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>, <span class="string">[[1,0]]</span></span><br></pre></td></tr></table></figure></p>
+<p>There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1]<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span>, [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">0</span>],[<span class="number">3</span>,<span class="number">1</span>],[<span class="number">3</span>,<span class="number">2</span>]]</span><br></pre></td></tr></table></figure></p>
+<p>There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].</p>
+</blockquote>
+<p>拓扑排序。流程和 <a href="http://solaxu.github.io/2016/03/09/Course-Schedule/" target="_blank" rel="external">Courses Schedule</a>一样。但有两个需要注意的地方：</p>
+<ul>
+<li>pair<int,int>是边，如果没有边的话，那么所有的节点都是单独的，因此应当按照编号输出所有节点；</int,int></li>
+<li>如果没有可行的选课方案，那么最后的最后的选课的队列长度一定不等于课程数目，从而能可以判定无解，清空选课队列并输出。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; findOrder(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt;&amp; prerequisites) &#123;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; order;</span><br><span class="line">		<span class="keyword">if</span> (numCourses == <span class="number">0</span>) <span class="keyword">return</span> order;</span><br><span class="line">		<span class="keyword">int</span> reqs = prerequisites.size();</span><br><span class="line">		<span class="keyword">if</span> (reqs == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">		    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i)</span><br><span class="line">		    &#123;</span><br><span class="line">		        order.push_back(i);</span><br><span class="line">		    &#125;</span><br><span class="line">		    <span class="keyword">return</span> order;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; inDegrees(numCourses, <span class="number">0</span>);</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; graphic(numCourses, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> p : prerequisites)</span><br><span class="line">		&#123;</span><br><span class="line">			graphic[p.second].push_back(p.first);</span><br><span class="line">			inDegrees[p.first]++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (inDegrees[i] == <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				q.push(i);</span><br><span class="line">				order.push_back(i);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (!q.empty())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> f = q.front();</span><br><span class="line">			q.pop();</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">auto</span> i = <span class="number">0</span>; i &lt; graphic[f].size(); ++i)</span><br><span class="line">			&#123;</span><br><span class="line">				inDegrees[graphic[f][i]]--;</span><br><span class="line">				<span class="keyword">if</span> (inDegrees[graphic[f][i]] == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					q.push(graphic[f][i]);</span><br><span class="line">					order.push_back(graphic[f][i]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (order.size() != numCourses) order.clear();</span><br><span class="line">		<span class="keyword">return</span> order;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/22/Number-of-Island/" itemprop="url">
                   Number of Island
                 </a>
@@ -1186,119 +1297,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/09/九宫/" itemprop="url">
-                  九宫
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            發表於
-            <time itemprop="dateCreated" datetime="2016-03-09T22:07:25+08:00" content="2016-03-09">
-              2016-03-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分類於
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/OJs/" itemprop="url" rel="index">
-                    <span itemprop="name">OJs</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="HiHoCoder_3A__u4E5D_u5BAB"><a href="#HiHoCoder_3A__u4E5D_u5BAB" class="headerlink" title="HiHoCoder: 九宫"></a><strong>HiHoCoder: 九宫</strong></h1><hr>
-<p>From：<a href="http://hihocoder.com/contest/hihointerview3" target="_blank" rel="external">[Offer收割]编程练习赛1</a></p>
-<blockquote>
-<p>描述<br>小Hi最近在教邻居家的小朋友小学奥数，而最近正好讲述到了三阶幻方这个部分，三阶幻方指的是将1~9不重复的填入一个3*3的矩阵当中，使得每一行、每一列和每一条对角线的和都是相同的。</p>
-<p>三阶幻方又被称作九宫格，在小学奥数里有一句非常有名的口诀：“二四为肩，六八为足，左三右七，戴九履一，五居其中”，通过这样的一句口诀就能够非常完美的构造出一个九宫格来。</p>
-<p><img src="http://media.hihocoder.com//problem_images/20160305/14571898843687.png" alt="九宫"></p>
-<p>有意思的是，所有的三阶幻方，都可以通过这样一个九宫格进行若干镜像和旋转操作之后得到。现在小Hi准备将一个三阶幻方（不一定是上图中的那个）中的一些数组抹掉，交给邻居家的小朋友来进行还原，并且希望她能够判断出究竟是不是只有一组解。</p>
-<p>而你呢，也被小Hi交付了同样的任务，但是不同的是，你需要写一个程序~</p>
-<p>输入<br>输入仅包含单组测试数据。</p>
-<p>每组测试数据为一个3*3的矩阵，其中为0的部分表示被小Hi抹去的部分。</p>
-<p>对于100%的数据，满足给出的矩阵至少能还原出一组可行的三阶幻方。</p>
-<p>输出<br>如果仅能还原出一组可行的三阶幻方，则将其输出，否则输出“Too Many”（不包含引号）。</p>
-<p>样例输入<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span> <span class="number">7</span> <span class="number">2</span></span><br><span class="line"><span class="number">0</span> <span class="number">5</span> <span class="number">0</span></span><br><span class="line"><span class="number">0</span> <span class="number">3</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
-<p>样例输出<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6</span> <span class="number">7</span> <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">5</span> <span class="number">9</span></span><br><span class="line"><span class="number">8</span> <span class="number">3</span> <span class="number">4</span></span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>使用回溯法进行求解。</p>
-<p>还是做题少了，不够敏锐。知道用回溯的话写代码还好，一旦想偏就怎么也拉不回来了……</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> Nine[<span class="number">9</span>];</span><br><span class="line"><span class="keyword">int</span> a, b, c;</span><br><span class="line"><span class="keyword">int</span>* addr = Nine;</span><br><span class="line"><span class="keyword">int</span> nums = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> o2nine[<span class="number">10</span>] = &#123; <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> present[<span class="number">9</span>];</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> index(r,c) ((r) * (<span class="number">3</span>)+(c))</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">	r = Nine[index(<span class="number">0</span>, <span class="number">0</span>)] + Nine[index(<span class="number">0</span>, <span class="number">1</span>)] + Nine[index(<span class="number">0</span>, <span class="number">2</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>; r = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	r = Nine[index(<span class="number">1</span>, <span class="number">0</span>)] + Nine[index(<span class="number">1</span>, <span class="number">1</span>)] + Nine[index(<span class="number">1</span>, <span class="number">2</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>; r = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	r = Nine[index(<span class="number">2</span>, <span class="number">0</span>)] + Nine[index(<span class="number">2</span>, <span class="number">1</span>)] + Nine[index(<span class="number">2</span>, <span class="number">2</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>; r = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	r = Nine[index(<span class="number">0</span>, <span class="number">0</span>)] + Nine[index(<span class="number">1</span>, <span class="number">0</span>)] + Nine[index(<span class="number">2</span>, <span class="number">0</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>; r = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	r = Nine[index(<span class="number">0</span>, <span class="number">1</span>)] + Nine[index(<span class="number">1</span>, <span class="number">1</span>)] + Nine[index(<span class="number">2</span>, <span class="number">1</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>; r = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	r = Nine[index(<span class="number">0</span>, <span class="number">2</span>)] + Nine[index(<span class="number">1</span>, <span class="number">2</span>)] + Nine[index(<span class="number">2</span>, <span class="number">2</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>; r = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	r = Nine[index(<span class="number">0</span>, <span class="number">0</span>)] + Nine[index(<span class="number">1</span>, <span class="number">1</span>)] + Nine[index(<span class="number">2</span>, <span class="number">2</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>; r = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	r = Nine[index(<span class="number">0</span>, <span class="number">2</span>)] + Nine[index(<span class="number">1</span>, <span class="number">1</span>)] + Nine[index(<span class="number">2</span>, <span class="number">0</span>)];</span><br><span class="line">	<span class="keyword">if</span> (r &gt; <span class="number">15</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> x)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">bool</span> allZero = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (o2nine[i] != <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			allZero = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (allZero)</span><br><span class="line">	&#123;</span><br><span class="line">		++nums;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			present[i] = Nine[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (Nine[x] == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (o2nine[i] != <span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				Nine[x] = i;</span><br><span class="line">				o2nine[i] = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">if</span> (check())</span><br><span class="line">				&#123;</span><br><span class="line">					cal(x+<span class="number">1</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				Nine[x] = <span class="number">0</span>;</span><br><span class="line">				o2nine[i] = i;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		cal(x+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">		addr[<span class="number">0</span>] = a;</span><br><span class="line">		addr[<span class="number">1</span>] = b;</span><br><span class="line">		addr[<span class="number">2</span>] = c;</span><br><span class="line">		addr += <span class="number">3</span>;</span><br><span class="line">		o2nine[a] = <span class="number">0</span>;</span><br><span class="line">		o2nine[b] = <span class="number">0</span>;</span><br><span class="line">		o2nine[c] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	Nine[index(<span class="number">1</span>, <span class="number">1</span>)] = <span class="number">5</span>;</span><br><span class="line">	o2nine[<span class="number">5</span>] = <span class="number">0</span>;</span><br><span class="line">	cal(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (nums == <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">3</span>; ++j)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">cout</span> &lt;&lt; present[index(i, j)] &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"Too Many"</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1345,7 +1343,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
