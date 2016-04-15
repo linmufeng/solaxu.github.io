@@ -66,7 +66,7 @@ Given n non-negative integers representing an elevation map where the width of e
 For example,
 Given [0,1,0,2,">
 <meta property="og:image" content="http://www.leetcode.com/wp-content/uploads/2012/08/rainwatertrap.png">
-<meta property="og:updated_time" content="2016-04-15T09:17:32.684Z">
+<meta property="og:updated_time" content="2016-04-15T09:21:33.752Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Trapping Rain Water">
 <meta name="twitter:description" content="Trapping Rain Water
@@ -143,7 +143,7 @@ Given [0,1,0,2,">
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            首頁
+            Домой
           </a>
         </li>
       
@@ -153,7 +153,7 @@ Given [0,1,0,2,">
             
               <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
             
-            分類
+            Категории
           </a>
         </li>
       
@@ -163,7 +163,7 @@ Given [0,1,0,2,">
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            歸檔
+            Архив
           </a>
         </li>
       
@@ -173,7 +173,7 @@ Given [0,1,0,2,">
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            標籤
+            Тэги
           </a>
         </li>
       
@@ -223,7 +223,7 @@ Given [0,1,0,2,">
 
         <div class="post-meta">
           <span class="post-time">
-            發表於
+            отправлено
             <time itemprop="dateCreated" datetime="2016-04-15T17:10:04+08:00" content="2016-04-15">
               2016-04-15
             </time>
@@ -231,7 +231,7 @@ Given [0,1,0,2,">
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp; 分類於
+              &nbsp; | &nbsp; в
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/OJs/" itemprop="url" rel="index">
@@ -275,7 +275,7 @@ Given [0,1,0,2,">
 <p>求当前位置的左右列中最小的那个，减去该列的值就得到该列可以积存的雨水量。</p>
 <p>注释代码是一个O(n^2)的解法：计算每一行可以积存的雨水量。</p>
 <p>AC代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">trap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; height)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">if</span> (height.size() == <span class="number">0</span>)</span><br><span class="line">	        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">		<span class="comment">/* A TLE Solution</span><br><span class="line">		int MAX = 0;</span><br><span class="line">		for (int i = 0; i &lt; height.size(); ++i) &#123;</span><br><span class="line">		    if (height[i] &gt; MAX) MAX = height[i];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		queue&lt;int&gt; q;</span><br><span class="line">		for (int i = 0; i &lt; MAX; ++i) &#123;</span><br><span class="line">    		while(q.size()) q.pop();</span><br><span class="line">    		for (int j = 0; j &lt; height.size(); ++j) &#123;</span><br><span class="line">        		if (height[j] &gt;= i) q.push(j);</span><br><span class="line">            		if (q.size() == 2) &#123;</span><br><span class="line">                		int s = q.front();</span><br><span class="line">                		int e = q.back();</span><br><span class="line">                		sum += (e - s - 1);</span><br><span class="line">                		q.pop();</span><br><span class="line">        		&#125;</span><br><span class="line">    		&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// AC Solution</span></span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left(height.size(),<span class="number">0</span>);</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right(height.size(), <span class="number">0</span>);</span><br><span class="line">		left[<span class="number">0</span>] = height[<span class="number">0</span>];</span><br><span class="line">		right[height.size() - <span class="number">1</span>] = height[height.size() - <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; height.size(); ++i) &#123;</span><br><span class="line">			<span class="keyword">if</span> (height[i] &lt; left[i - <span class="number">1</span>])</span><br><span class="line">				left[i] = left[i - <span class="number">1</span>];</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				left[i] = height[i];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = height.size() - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">			<span class="keyword">if</span> (height[i] &lt; right[i + <span class="number">1</span>])</span><br><span class="line">				right[i] = right[i + <span class="number">1</span>];</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				right[i] = height[i];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; height.size(); ++i) &#123;</span><br><span class="line">			sum += ((left[i] &gt; right[i] ? right[i] : left[i]) - height[i]);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> sum;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">trap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; height)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">if</span> (height.size() == <span class="number">0</span>)</span><br><span class="line">	        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">		<span class="comment">/* A TLE Solution</span><br><span class="line">		int MAX = 0;</span><br><span class="line">		for (int i = 0; i &lt; height.size(); ++i) &#123;</span><br><span class="line">		    if (height[i] &gt; MAX) MAX = height[i];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		queue&lt;int&gt; q;</span><br><span class="line">		for (int i = 0; i &lt; MAX; ++i) &#123;</span><br><span class="line">			while(q.size()) q.pop();</span><br><span class="line">			for (int j = 0; j &lt; height.size(); ++j) &#123;</span><br><span class="line">				if (height[j] &gt;= i) q.push(j);</span><br><span class="line">				if (q.size() == 2) &#123;</span><br><span class="line">				  int s = q.front();</span><br><span class="line">				  int e = q.back();</span><br><span class="line">				  sum += (e - s - 1);</span><br><span class="line">				  q.pop();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// AC Solution</span></span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; left(height.size(),<span class="number">0</span>);</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right(height.size(), <span class="number">0</span>);</span><br><span class="line">		left[<span class="number">0</span>] = height[<span class="number">0</span>];</span><br><span class="line">		right[height.size() - <span class="number">1</span>] = height[height.size() - <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; height.size(); ++i) &#123;</span><br><span class="line">			<span class="keyword">if</span> (height[i] &lt; left[i - <span class="number">1</span>])</span><br><span class="line">				left[i] = left[i - <span class="number">1</span>];</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				left[i] = height[i];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = height.size() - <span class="number">2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">			<span class="keyword">if</span> (height[i] &lt; right[i + <span class="number">1</span>])</span><br><span class="line">				right[i] = right[i + <span class="number">1</span>];</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				right[i] = height[i];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; height.size(); ++i) &#123;</span><br><span class="line">			sum += ((left[i] &gt; right[i] ? right[i] : left[i]) - height[i]);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> sum;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -350,10 +350,10 @@ Given [0,1,0,2,">
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
+            Содержание
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
+            Обзор
           </li>
         </ul>
       
@@ -368,21 +368,21 @@ Given [0,1,0,2,">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">49</span>
-              <span class="site-state-item-name">文章</span>
+              <span class="site-state-item-name">записи</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">分類</span>
+              <span class="site-state-item-name">категории</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">31</span>
-              <span class="site-state-item-name">標籤</span>
+              <span class="site-state-item-name">тэги</span>
               </a>
           </div>
 
@@ -442,11 +442,11 @@ Given [0,1,0,2,">
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主題 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT
   </a>
