@@ -1,0 +1,803 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CCG&TCG," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="前
+这篇文章是由Lackey CCG的一篇关于CCG Design的文章渣翻过来的，原文链接点击：这里，需要翻墙。
+最近有了自己的想法，对Game Design有了兴趣，就以此渣翻作为开始吧。
+不知道作为一只不入流的程序有了这种想法会不会影响以后找工作啊……
+
+随想这一块在翻译的过程中就开始慢慢加了。
+其实游戏本身是哪种形式的并没有太大的关系，本质上都是差不多的。
+即便是差别很大的PVP和PVE，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CCG Design Study 01">
+<meta property="og:url" content="http://yoursite.com/2016/05/29/CCG-Design-01/index.html">
+<meta property="og:site_name" content="CrystalMaidenRampage">
+<meta property="og:description" content="前
+这篇文章是由Lackey CCG的一篇关于CCG Design的文章渣翻过来的，原文链接点击：这里，需要翻墙。
+最近有了自己的想法，对Game Design有了兴趣，就以此渣翻作为开始吧。
+不知道作为一只不入流的程序有了这种想法会不会影响以后找工作啊……
+
+随想这一块在翻译的过程中就开始慢慢加了。
+其实游戏本身是哪种形式的并没有太大的关系，本质上都是差不多的。
+即便是差别很大的PVP和PVE，">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/006lhMttgw1f4dq88obldj305u08cta5.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/006lhMttgw1f4dq898466j305u08c3zv.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttgw1f4dq8a3v86j305u08cabf.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/006lhMttgw1f4dtw9ovu7j305k07sglt.jpg">
+<meta property="og:updated_time" content="2016-06-05T06:22:54.690Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CCG Design Study 01">
+<meta name="twitter:description" content="前
+这篇文章是由Lackey CCG的一篇关于CCG Design的文章渣翻过来的，原文链接点击：这里，需要翻墙。
+最近有了自己的想法，对Game Design有了兴趣，就以此渣翻作为开始吧。
+不知道作为一只不入流的程序有了这种想法会不会影响以后找工作啊……
+
+随想这一块在翻译的过程中就开始慢慢加了。
+其实游戏本身是哪种形式的并没有太大的关系，本质上都是差不多的。
+即便是差别很大的PVP和PVE，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'always',
+    motion: true
+  };
+</script>
+
+  <title> CCG Design Study 01 | CrystalMaidenRampage </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CrystalMaidenRampage</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Email-Me:solaxu@outlook.com</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CCG Design Study 01
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            發表於
+            <time itemprop="dateCreated" datetime="2016-05-29T14:46:01+08:00" content="2016-05-29">
+              2016-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分類於
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Game-Design/" itemprop="url" rel="index">
+                    <span itemprop="name">Game Design</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><hr>
+<h1 id="u524D"><a href="#u524D" class="headerlink" title="前"></a><strong>前</strong></h1><hr>
+<p>这篇文章是由Lackey CCG的一篇关于CCG Design的文章渣翻过来的，原文链接点击：<a href="http://lackeyccg.com/ccgdesign.html" target="_blank" rel="external">这里</a>，需要翻墙。</p>
+<p>最近有了自己的想法，对Game Design有了兴趣，就以此渣翻作为开始吧。</p>
+<p>不知道作为一只不入流的程序有了这种想法会不会影响以后找工作啊……</p>
+<hr>
+<h1 id="u968F_u60F3"><a href="#u968F_u60F3" class="headerlink" title="随想"></a><strong>随想</strong></h1><p>这一块在翻译的过程中就开始慢慢加了。</p>
+<p>其实游戏本身是哪种形式的并没有太大的关系，本质上都是差不多的。</p>
+<p>即便是差别很大的PVP和PVE，无非一个是与人打交道，一个是与物打交道。工作中不是也分为与人打交道的工作和与事物打交道的工作么，获取喜悦的方式不同，但是获得的快乐度对于没个体本身是没有什么差别的。就像有人喜欢FPS，有人偏好SLG，还有人热衷RPG一样。</p>
+<p>画面党果然还是很有分量的。</p>
+<p>游戏中的角色应当具有高辨识度。比如Dota2的英雄设计中有一条就是只通过剪影就能识别是哪一位英雄。</p>
+<p>在翻译”A game should be fun whether you win or lose”这段的时候让我想起来Dota/LOL的一场完整的职业比赛（含BP），以及当前烫手的皇室战争。之前跟老大们闲聊的时候谈了皇室战争能否成为真正和炉石一样的竞技游戏，然后普遍结论是当前这个版本可能性不大……话说鹅厂要收购Supercell，是不是想借皇室磕炉石啊？</p>
+<p>“Avoid mechanics that encourage tedious busywork or memorization”，比如需要不停刷怪升级和I Wanna那种的“背板”。</p>
+<p>在程序设计之外看到了K.I.S.S.法则。</p>
+<p>最大的两点感受：</p>
+<ul>
+<li><p>之前看英文资料绝大部分都是技术文档跟说明，术语使用都很精确且有对应中文词汇，即便是Paper也是差不多这样。这次换成与文化/亚文化相关的东西就比较见拙了，不少东西即便能读懂，想要达意地翻出来还是很难的。积累不够，还是要多学习。</p>
+</li>
+<li><p>虽然是介绍CCG的设计，但是还是能够从中学习到一些基本的游戏设计原则的。以后在游戏设计的学习过程中应当将看到的东西与自己曾经玩过的游戏结合起来理解。</p>
+</li>
+</ul>
+<hr>
+<h1 id="CCG_Design__u6E23_u7FFB"><a href="#CCG_Design__u6E23_u7FFB" class="headerlink" title="CCG Design 渣翻"></a><strong>CCG Design 渣翻</strong></h1><hr>
+<h2 id="A_CCG_with_the_best_gameplay_mechanics_will_fall_flat_if_no_one_cares_about_playing_it"><a href="#A_CCG_with_the_best_gameplay_mechanics_will_fall_flat_if_no_one_cares_about_playing_it" class="headerlink" title="A CCG with the best gameplay mechanics will fall flat if no one cares about playing it"></a><strong>A CCG with the best gameplay mechanics will fall flat if no one cares about playing it</strong></h2><p>一款CCG即便拥有最好的游戏机制，如果没有人对其感兴趣，那么它也只是一款失败之作。</p>
+<p>设计一款CCG的工作就是在使它变得有趣和容易理解之间做出恰到好处的平衡，需要使得游戏足够新颖，易于上手并且有足够的策略空间。无论是选择什么样的题材（奇幻类、科幻类、政略类或者其他完全不同的类型），其本质都在于要使得玩家能够沉浸其中，也就是代入感——当一位法师玩家向他的敌人释放雷电术的时候，他并非只是想到自己在处理掉一个威胁，他可能会在想：“我召唤出了一道牛逼的闪电击中了那个傻样的混球。” 当然实际情况并非是指让人这样“呆瓜”般地去玩游戏，但是这种想象会使得游戏过程变得更有趣味。</p>
+<p>肯定没人想去玩一款叫做“叠衣服”的卡牌游戏。（意指游戏设计比较乏味）</p>
+<h2 id="You_need_to_establish_a_creative_atmosphere_2C_one_players_will_care_about_and_have_fun_in"><a href="#You_need_to_establish_a_creative_atmosphere_2C_one_players_will_care_about_and_have_fun_in" class="headerlink" title="You need to establish a creative atmosphere, one players will care about and have fun in"></a><strong>You need to establish a creative atmosphere, one players will care about and have fun in</strong></h2><p>应当去营造一种能够让玩家感受得到，并且能够在其中得到乐趣的充满创造力的氛围。</p>
+<p>一个比较简单的方法是利用已有的IP来制作一款CCG，例如星球大战、指环王、魔兽、口袋妖怪、太空堡垒卡拉狄加（这是一部军事科幻电视剧）或者其他——当然这些IPs各自都已经至少拥有一款属于自己的CCG了。各种受欢迎的影视剧、动漫、游戏或者某个系列的书籍都可以拿来作为一款CCG的主题背景。如果采用这种方式制作一款CCG，那么无论是题材的吸引力、还是美术设计、甚至包括游戏本身的设计都可以跟随原型IP的主旨进行制作从而更快地完成游戏；但其缺憾在于需要得到这些IPs的授权，不然就得将游戏作为同人游戏发布了。</p>
+<p>另外一个方式就是自己另开炉灶单干了——万智牌（Magic: the Gathering）就是这么做的。万智牌原创了一个世界观，为其添加了一系列故事并定义了相应的美术风格。但万智牌本身也属于奇幻题材，因此并非是重新制作了轮子。由于万智牌瞄准的是“当玩家们不玩龙与地下城（D&amp;D，Dungeons &amp; Dragons）的时候”，因此它所包含的奇幻类元素大量吸收了已有的经验。而D&amp;D本身就在很大程度上继承了J.R.R Tolkien小说中的设定，因此也并不是白手起家。所以，如果打算采用这种方式来开始制作CCG，作者们也不需要从无到有自己搞一套出来——比如可以根据007系列电影来做一款关于特工的游戏。</p>
+<p>另外可用的题材就是历史了，制作人们可以选择制作一款基于当前或者历史时间的CCG，比如做一些关于维京、埃及、罗马、日本幕府之类的CCG。但需要记住的是玩家希望能够有一些奇幻有趣的东西，因此当设计一款关于维京人的游戏时不要忘了加入一些北欧诸神、魔法元素以及其他一些属于“人外”的角色、时间和能力。</p>
+<p>无论采用哪种方法，制作人都需要确保能够自己能够清晰地定义自己所创造的世界，确保人们愿意花上一段时间来了解它并喜欢上它。这可能是制作一个CCG最重要的事情了。</p>
+<h2 id="A_very_important_part_about_making_the_game_interesting_is_the_artwork"><a href="#A_very_important_part_about_making_the_game_interesting_is_the_artwork" class="headerlink" title="A very important part about making the game interesting is the artwork"></a><strong>A very important part about making the game interesting is the artwork</strong></h2><p>使游戏有趣的一个十分重要的部分就是游戏的美术风格。</p>
+<p>尽量将卡片上的图做的更大，尽量把卡片的模板做的更酷——毕竟一图胜千言。毕竟，玩家第一眼看到的是卡面，至少我自己对于卡面比较挫的游戏是兴趣缺缺。卡面是游戏留给玩家的第一印象，如果卡面不能吸引玩家，那就不能够指望太多。</p>
+<p>卡面设计应当是形象化的，应当让玩家看到卡面之后能够立刻与卡牌代表的内容联系起来。（也就是说卡面应当具有辨识度）</p>
+<p>卡面可以自己画，也可以使用一些免费的素材，甚至是用照片也行，当然也可以联系一些画师来帮忙。</p>
+<h2 id="A_game_should_be_fun_whether_you_win_or_lose"><a href="#A_game_should_be_fun_whether_you_win_or_lose" class="headerlink" title="A game should be fun whether you win or lose"></a><strong>A game should be fun whether you win or lose</strong></h2><p>无论输赢，游戏的过程必须是有趣的。</p>
+<p>谨记不能让CCG在“布局”或者“中盘”中就能让玩家轻易推断出他最后是否能赢，除非游戏已经进行到了“终盘”或者游戏本来就设计为一个消耗碎片时间的短时间内就能打完。</p>
+<p>（因为没有玩过Decipher的CCGs，因此后文对于Decipher的游戏的描述可能与原文有出入）</p>
+<p>在Decipher的Lord of the Rings CCG中，玩家需要尽快到达目标点。如果一个玩家获得了得当的指引，那么其他玩家将会很难赶上他——这对于那些处于劣势的玩家是很无趣的。一个游戏不仅要建立起稳定良好的竞争机制，也需要一些卡牌来增加游戏的变数。但是这些用来增加变数的卡牌可能会使得玩家觉得这是个“靠人品”的游戏，因此在设计此类卡牌的时候必须非常小心。</p>
+<h2 id="Avoid_mechanics_that_encourage_tedious_busywork_or_memorization"><a href="#Avoid_mechanics_that_encourage_tedious_busywork_or_memorization" class="headerlink" title="Avoid mechanics that encourage tedious busywork or memorization"></a><strong>Avoid mechanics that encourage tedious busywork or memorization</strong></h2><p>尽量避免需要玩家进行重动作和“背板”的设计。</p>
+<p>Decipher的Star Wars和Wars采用了一个失败的设计：玩家需要将卡片从一个牌堆移动到另一个，然后再到第三个，然后再到第四个牌堆的堆底。这样就会有玩家来记忆牌堆中包含了哪些卡以及卡片在牌堆中的顺序。而除非你记忆力超群（Rain Man），不然你不会记得那些卡牌的。谨记不要去鼓励玩家为了取得一些优势而去做这些无趣的事情。</p>
+<h2 id="Don_u2019t_be_different_for_the_sake_of_being_different"><a href="#Don_u2019t_be_different_for_the_sake_of_being_different" class="headerlink" title="Don’t be different for the sake of being different"></a><strong>Don’t be different for the sake of being different</strong></h2><p>不要为了不同而不同。</p>
+<p>如果一个设计已经被证明比另一个更好，那么请采用好的那个，即使是它已经被其他游戏采用过。如果几个设计不相伯仲，那么可以在他们中选择一个。CCGs已经出现了这么长时间，当前已经有不少的亮眼设计了，请不要去重复造轮子。研究其他CCGs可以帮助设计者理解它们的长处和弱点，从而帮助完成自己的设计。</p>
+<p>由于缺乏设计上的前瞻性，一款已完成的CCG可能会存在一些“顽疾”：比如万智牌中的“卡地”（Mana Screw，指的是玩家当前桌面上卡牌的资源点数不够从而该回合什么都不能做）。而后面的World of Warcraft CCG则考虑到了这个问题在设计阶段就避免了“卡地”。</p>
+<h2 id="Use_the_lowest_common_demonator"><a href="#Use_the_lowest_common_demonator" class="headerlink" title="Use the lowest common demonator"></a><strong>Use the lowest common demonator</strong></h2><p>数值设计尽量低一些。</p>
+<p>有的游戏将卡牌数值翻倍，比如10、100甚至是1000，比如游戏王（YuGiOh）。游戏中的卡牌可能具有500点的攻击值，游戏中没有数值低于100的卡，因此他们可以尝试将数值除以100来简化——为了迎合用户而增大数值是一个不好的设计。Wizard的Star Wars也是这样，他们将卡牌的速度值扩大了10倍。</p>
+<h3 id="Card_restrictions_create_variety"><a href="#Card_restrictions_create_variety" class="headerlink" title="Card restrictions create variety"></a><strong>Card restrictions create variety</strong></h3><p>卡牌搭配带来多样性。</p>
+<p>在游戏设计中一个很重要的就是限制卡牌之间的搭配。如果每一张卡牌都可以随意使用，那么玩家很快就会总结出来“最佳牌组”并一直使用它们。卡牌之间的搭配可以带来不同的牌组构建，从而带来不同的策略。为数众多的CCG已经采用了许多不同方式来将这一部分纳入它们的设计之中。</p>
+<ul>
+<li><p>使用资源来进行限制：万智牌通过不同的颜色来划分卡牌，每一种颜色的卡牌都有不同的特点。为了能够使用特定颜色的卡牌，玩家需要与其相对应的资源。通过这种手段可以组成不同的牌组，但是随着颜色种类的增多，对资源的适当管理就就变得越来越难了。</p>
+</li>
+<li><p>使用分类来限制：WoW利用分类（参考炉石中的职业）来对卡组搭配做出限制。当玩家选择一个门类的时候，只有属于该门类的卡牌以及中立卡牌可以使用。WoW还通过派系来加强限制：在构建之前牌组之前，玩家可以选择加入联盟或者部落，并且只有中立阵营卡牌以及所选的阵营卡牌。通过这两种限制，玩家可以有部落德鲁伊卡组，联盟德鲁伊卡组，联盟游侠卡组等等不同的组合。</p>
+</li>
+<li><p>通过效益来限制：Decipher的Lord of the Rings CCG允许玩家选择以不同的卡牌，但是同阵营的卡牌配组会有增益加成。</p>
+</li>
+<li><p>通过处罚来限制：这与上面的方式类似，除非是有一些特使的惩罚方式。Warlords CCG允许玩家选择不同阵营的卡牌，但是不同阵营的卡牌在行动的时候需要额外耗费行动力。</p>
+</li>
+</ul>
+<p>（接下来这两段组织不好语言来翻了……）</p>
+<p>不同分组的卡牌之间应当有明确的区分度。</p>
+<p>为了使选择变得有意义，必须让玩家在得到一些东西的时候失去另一些。</p>
+<h2 id="Correlation_of_Mechanics_to_Flavor"><a href="#Correlation_of_Mechanics_to_Flavor" class="headerlink" title="Correlation of Mechanics to Flavor"></a><strong>Correlation of Mechanics to Flavor</strong></h2><p>说明与设计。</p>
+<p>当设计师们为卡牌增加筹码，或者绘制卡牌，或者采用某一项设计的时候，都在告诉玩家这款游戏本身的背景。如果玩家真正沉浸在游戏中，他们会去推断在当前的设计下将会发生什么。也就是说，不必把一切都说明。</p>
+<p>考虑下面三张卡牌：</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/006lhMttgw1f4dq88obldj305u08cta5.jpg" alt="01"><img src="http://ww3.sinaimg.cn/mw690/006lhMttgw1f4dq898466j305u08c3zv.jpg" alt="02"><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1f4dq8a3v86j305u08cabf.jpg" alt="03"></p>
+<p>左边的卡牌试图将游戏文本混进卡牌的说明中，但这将会干扰玩家对游戏文本的理解。对于中间的那张卡片，它虽然没有花费那么多的文字来描述卡牌的内容，但玩家依旧可以得到足够了信息来了解这张牌，卡牌的内容被牌面设计以及玩家的想象力补充了——它很好地说明了设计与卡牌背景之间的关系。而右边的卡牌在上一张牌的基础上添加了一个用以说明该卡牌能力属性的的标签。虽然这使得卡牌变得复杂了一点，但一样可以使玩家很快明确牌的内容。建议在设计上尽量避免左边的设计，采用中间以及右边的设计。</p>
+<h3 id="Representing__u201CDamage_u201D"><a href="#Representing__u201CDamage_u201D" class="headerlink" title="Representing “Damage”"></a><strong>Representing “Damage”</strong></h3><p>许多的CCGs包含角色卡用来代表人物、怪物、军队、载具甚至是建筑物。当这些角色受到伤害的时候，有三种常用的设计来对起进行表述。</p>
+<p>（接下来就是完全的渣翻了……表示很多桌游术语都搞不清楚）</p>
+<ul>
+<li><p>筹码：这是最为直观的表示方式了：使用表示伤害的筹码并将其放置在牌面上。这种方式的好处在于它可以随着游戏一直进行下去并且对玩家很直观，同时还可以根据游戏的设计来很容易的移除伤害。但这个设计会使得桌面上的筹码越来越多从而影响到游戏的进行。同时，由于其他需要使用到筹码进行计数的机制的存在，如何管理筹码将会变得困难起来。</p>
+</li>
+<li><p>每回合结束的时候进行伤害结算：万智牌没有使用基于筹码的伤害计算。如果一个角色在一个回合中受到了超量的伤害，那么该角色就会死亡，否则角色将会存活。角色可以在每个回合中受到治疗（三国杀的死亡结算机制）。从这个设计上来说，玩家可以很容易明确角色受到了多少伤害而不需要筹码的帮助。玩应该是有趣的，而不是一件需要记忆的苦差事。</p>
+</li>
+<li><p>翻转卡牌：另外一种表示方式是转动卡牌，通过转动的角度来表示它收到的伤害（比如旋转卡牌90 180 270度等）。</p>
+</li>
+<li><p>口袋妖怪采用的方法：将卡牌放置到不同的伤害区域或者取回手里。</p>
+</li>
+</ul>
+<p>最后需要说明的就是对于描述伤害的“短语”的选择。如果游戏中只有人物和怪物，那么可以考虑使用”wound”；但如果只有载具，那么采用“wound”就不合适了。同样，对于一个生物单位，“die”很不错，但对于建筑物或者僵尸来说“destroy”更好。如果游戏中只有一类单位，那么可以使用更加特定的词语，但如果不是这样，那么就需要考虑比较泛化的说法了。</p>
+<h2 id="Randomness"><a href="#Randomness" class="headerlink" title="Randomness"></a><strong>Randomness</strong></h2><p>游戏中的随机性。</p>
+<p>下面是过度随机导致的五五开——一张无意义的卡牌。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/006lhMttgw1f4dtw9ovu7j305k07sglt.jpg" alt="flip"></p>
+<p>对于CCGs来说随机是一个很重要的因素（Dota2中的河道神符、各种游戏的暴击、随机物品）。即便玩家正在输掉一场游戏，游戏的随机性可能会使得场面发生逆转。同样，对于优势玩家，随机性也可能使得他们输掉游戏。</p>
+<p>随机性可以帮助不怎么熟练的玩家赢得胜利，，即便是高玩拿到了绝佳卡组也依旧有可能输掉游戏。对于一个新手玩家，如果他知道自己不太可能会赢得老玩家的话，那么他就很有可能放弃这个游戏。因此随机性确保了不同段位的玩家都可以赢的游戏。</p>
+<p>但是当不确定性太多的时候，玩家就会抱怨这是一个“看脸”的游戏。如果一个拥有垃圾卡组的新手玩家可以和老手五五开，并且赢了，那么这场胜利也是没有意义的。</p>
+<p>因此，设计CCG的时候应当引入适当的随机性，不要过量。</p>
+<h3 id="Methods_of_winning_and_losing"><a href="#Methods_of_winning_and_losing" class="headerlink" title="Methods of winning and losing"></a><strong>Methods of winning and losing</strong></h3><p>赢与输。</p>
+<p>在CCGs中有多种方式来判定玩家在一场游戏中的输赢情况。这里建议选择一种作为主要的判定方式，辅以其他次级判定来防止出现判定死锁的情况。当然，多种判定方式也意味着玩家可以采用多种牌组。下面是几种典型的做法。</p>
+<ul>
+<li><p>增加或者减少某些特定的值。万智牌就是这么做的：玩家的20点生命值归零的时候被判定输掉游戏；而WoW则与其相反。需要注意的是，这些值是直接影响到游戏速度的。这里建议将其范围设定在10~30。这样数值的每一次变化都是有意义且不会使得游戏过程变得过于冗长。这个策略的一个变种是使用多个值：例如玩家必须获取10点能量和10点影响力才会获得胜利。</p>
+</li>
+<li><p>刺杀。这指的是杀掉指定目标的方式（当然这个方目标常是玩家）。Warlords以及Lord of the Rings使用的就是这个方式。这种设计不仅要求玩家考虑到进攻，还需要考虑到防守，并且会带来非同一般的沉迷。它和前面提到的靠达到特定值的方式之间的不同之处是：这种设计能够给玩家一个明确的达到胜利的条件。</p>
+</li>
+<li><p>确立足够的优势。在Wizard的Star Wars设计了三个星域。在每一个回合结束的时候，如果玩家被判定占领了其中的2个或2个以上，则玩家获得胜利。</p>
+</li>
+<li><p>生存模式。杀掉所有的敌人（狼人杀？）。这种设计综合了特定值与压倒性优势两种方案。</p>
+</li>
+<li><p>手牌。当手牌数量为0的时候判定玩家输掉游戏，这通常作为次级判定，特别是当玩家之间的胜负关系出现了死锁的情况。</p>
+</li>
+<li><p>圣裁。卡牌中包含一些“如果…那么玩家就赢得此局”。这种牌应该谨慎设计，本质上说这是一种类似于随机事件影响过于强大的情况。</p>
+</li>
+</ul>
+<h3 id="Resources_2C_governing_the_power_level_of_cards"><a href="#Resources_2C_governing_the_power_level_of_cards" class="headerlink" title="Resources, governing the power level of cards"></a><strong>Resources, governing the power level of cards</strong></h3><p>资源。</p>
+<p>利用资源的目的在于限制手牌中强力牌面同时被打出的次数。强力的卡牌会比那那些比较弱的卡牌消耗更大的资源。</p>
+<p>详略。</p>
+<h2 id="Power_creep_2C_the_death_of_your_CCG"><a href="#Power_creep_2C_the_death_of_your_CCG" class="headerlink" title="Power creep, the death of your CCG"></a><strong>Power creep, the death of your CCG</strong></h2><p>一个持续时间长久，不断推出新卡包的游戏会因为Power creep而快速死掉。</p>
+<p>Power creep指的是新出的卡牌过于强力的情况。随着游戏不断更新，情况会变得越来越糟。较为贪婪以及短视的设计者通常会提高新卡的能力值来帮助新玩家更快地赶上老玩家，但这对游戏的长久发展并没有什么太大的好处。对老玩家来说，他们手中的牌都是花了很长时间与心血集起来的，如果新玩家很容易就能得到与之匹敌的卡组，那么这就意味着对老玩家说“你的努力一文不值”，并且对于卡组的搭配策略也会产生不利的影响。新加入的卡应当给基于原有的数值系统而非新的。而如果真的放出了此类卡牌，那么久必须对其作出足够的限制来减少它对游戏平衡性的影响。</p>
+<h2 id="Complexity_uFF1AK-I-S-S"><a href="#Complexity_uFF1AK-I-S-S" class="headerlink" title="Complexity：K.I.S.S."></a><strong>Complexity：K.I.S.S.</strong></h2><p>复杂度。尽量简化游戏核心系统。</p>
+<p>尽量不要往游戏里面塞进太多的东西。在Decipher的Star War中，玩家可以在太空中战斗，可以在陆地上战斗，可以占领控制点并且在它们之间移动，可以进行光剑搏击……等其他活动。好处是，这些东西确实还原了星战的氛围，而坏处是游戏变得过于复杂而难于上手。尽量不要把游戏设计得复杂，除非设计的是一款面向重度核心向玩家的游戏。在刚接触游戏时，每个人都是新人，不要让复杂的设计赶走宝贵的玩家。</p>
+<p>谨记，设计游戏的时候首先考虑的是玩家，而不是设计师本人。“When you design a CCG, remember that you are creating it for other people and not for you. Make it easy to learn and challenging to master.”</p>
+<p>同样，卡面设计也尽量简单，不要有太多复杂的东西。 A lot to read, a lot to forget, and a lot to keep track of。卡面简单并不意味着这张卡就无足轻重。新手设计们很容易就会看重那些繁琐的描述文字，从而将卡面设计的复杂难记。</p>
+<p>（关于卡面字体的叙述不再详述）字体除了匹配游戏主题之外，应尽量易于识别。</p>
+<h2 id="Different_Card_Designs_for_different_types_of_cards"><a href="#Different_Card_Designs_for_different_types_of_cards" class="headerlink" title="Different Card Designs for different types of cards"></a><strong>Different Card Designs for different types of cards</strong></h2><p>这部分由于个人缺乏相关背景，虽然能够大致明白是在说什么东西，但是找不到合适的对应中文表达出来，还是直接看原文比较好一些。</p>
+<h2 id="Writing_a_tutorial_for_your_game"><a href="#Writing_a_tutorial_for_your_game" class="headerlink" title="Writing a tutorial for your game"></a><strong>Writing a tutorial for your game</strong></h2><p>新手引导。</p>
+<p>一个好的新手引导是很重要的——如果玩家不知道整个游戏是在说什么，那就很难让他们继续下去。建议学习一下万智牌的做法（万智牌的教程可以在<a href="http://www.wizards.com/magic/rules/MagicRulebook_10E_EN.pdf" target="_blank" rel="external">这里</a>下载到）。当然视频教程更好，毕竟并不是人人都喜欢去看那些长篇大论的文字叙述。可以先展示卡牌，并指出它们之间的不同点。使用图表来说明游戏的目标、卡组的组牌规则。关键词索引是一个很重要的部分（就像字典那样）。</p>
+<p>尽可能用图片说明代替文字。</p>
+<p>（完）</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CCG-TCG/" rel="tag">#CCG&TCG</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/15/Trapping-Rain-Water/" rel="next" title="Trapping Rain Water">
+                <i class="fa fa-chevron-left"></i> Trapping Rain Water
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/avatar.jpg" alt="SsCM" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">SsCM</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Nothing, EVERYTHING</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u524D"><span class="nav-number">1.</span> <span class="nav-text">前</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u968F_u60F3"><span class="nav-number">2.</span> <span class="nav-text">随想</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CCG_Design__u6E23_u7FFB"><span class="nav-number">3.</span> <span class="nav-text">CCG Design 渣翻</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#A_CCG_with_the_best_gameplay_mechanics_will_fall_flat_if_no_one_cares_about_playing_it"><span class="nav-number">3.1.</span> <span class="nav-text">A CCG with the best gameplay mechanics will fall flat if no one cares about playing it</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#You_need_to_establish_a_creative_atmosphere_2C_one_players_will_care_about_and_have_fun_in"><span class="nav-number">3.2.</span> <span class="nav-text">You need to establish a creative atmosphere, one players will care about and have fun in</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A_very_important_part_about_making_the_game_interesting_is_the_artwork"><span class="nav-number">3.3.</span> <span class="nav-text">A very important part about making the game interesting is the artwork</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A_game_should_be_fun_whether_you_win_or_lose"><span class="nav-number">3.4.</span> <span class="nav-text">A game should be fun whether you win or lose</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Avoid_mechanics_that_encourage_tedious_busywork_or_memorization"><span class="nav-number">3.5.</span> <span class="nav-text">Avoid mechanics that encourage tedious busywork or memorization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Don_u2019t_be_different_for_the_sake_of_being_different"><span class="nav-number">3.6.</span> <span class="nav-text">Don’t be different for the sake of being different</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Use_the_lowest_common_demonator"><span class="nav-number">3.7.</span> <span class="nav-text">Use the lowest common demonator</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Card_restrictions_create_variety"><span class="nav-number">3.7.1.</span> <span class="nav-text">Card restrictions create variety</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Correlation_of_Mechanics_to_Flavor"><span class="nav-number">3.8.</span> <span class="nav-text">Correlation of Mechanics to Flavor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Representing__u201CDamage_u201D"><span class="nav-number">3.8.1.</span> <span class="nav-text">Representing “Damage”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Randomness"><span class="nav-number">3.9.</span> <span class="nav-text">Randomness</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods_of_winning_and_losing"><span class="nav-number">3.9.1.</span> <span class="nav-text">Methods of winning and losing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resources_2C_governing_the_power_level_of_cards"><span class="nav-number">3.9.2.</span> <span class="nav-text">Resources, governing the power level of cards</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Power_creep_2C_the_death_of_your_CCG"><span class="nav-number">3.10.</span> <span class="nav-text">Power creep, the death of your CCG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Complexity_uFF1AK-I-S-S"><span class="nav-number">3.11.</span> <span class="nav-text">Complexity：K.I.S.S.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Different_Card_Designs_for_different_types_of_cards"><span class="nav-number">3.12.</span> <span class="nav-text">Different Card Designs for different types of cards</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Writing_a_tutorial_for_your_game"><span class="nav-number">3.13.</span> <span class="nav-text">Writing a tutorial for your game</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SsCM</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+  
+
+</body>
+</html>
